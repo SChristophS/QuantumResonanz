@@ -604,38 +604,39 @@ class AudioService {
 
     // 2. Segmente in umgedrehter Reihenfolge verketten, mit Crossfades
     final ordered = segments.reversed.toList();
-    final result = <double>[];
+    final baseResult = <double>[];
     final crossfadeSamples =
         (_sampleRate * 0.03).floor(); // ~30 ms Crossfade pro Übergang
 
-    // Für mehr Länge und Tiefe das Muster mehrfach wiederholen (mindestens 3x).
-    const repetitions = 3;
-    for (var r = 0; r < repetitions; r++) {
-      for (var si = 0; si < ordered.length; si++) {
-        final seg = ordered[si].syntheticSamples;
-        if (seg.isEmpty) continue;
+    // Segmente einmal verketten (ohne Wiederholung)
+    for (var si = 0; si < ordered.length; si++) {
+      final seg = ordered[si].syntheticSamples;
+      if (seg.isEmpty) continue;
 
-        if (result.isEmpty) {
-          result.addAll(seg);
-        } else {
-          final prevLen = result.length;
-          final cf = min(crossfadeSamples, min(prevLen, seg.length));
+      if (baseResult.isEmpty) {
+        baseResult.addAll(seg);
+      } else {
+        final prevLen = baseResult.length;
+        final cf = min(crossfadeSamples, min(prevLen, seg.length));
 
-          for (var i = 0; i < cf; i++) {
-            final t = i / (cf - 1).clamp(1, cf);
-            final a = result[prevLen - cf + i];
-            final b = seg[i];
-            result[prevLen - cf + i] = (a * (1 - t) + b * t).clamp(-1.0, 1.0);
-          }
+        for (var i = 0; i < cf; i++) {
+          final t = i / (cf - 1).clamp(1, cf);
+          final a = baseResult[prevLen - cf + i];
+          final b = seg[i];
+          baseResult[prevLen - cf + i] = (a * (1 - t) + b * t).clamp(-1.0, 1.0);
+        }
 
-          if (cf < seg.length) {
-            result.addAll(seg.sublist(cf));
-          }
+        if (cf < seg.length) {
+          baseResult.addAll(seg.sublist(cf));
         }
       }
     }
 
-    // 3. Raumklang / Echo hinzufügen und gesamte Welle normalisieren
+    // 3. Stretch the base waveform to exactly 1 minute using granular synthesis
+    const targetDurationSeconds = 60.0;
+    final result = _stretchToDuration(baseResult, targetDurationSeconds);
+
+    // 4. Raumklang / Echo hinzufügen und gesamte Welle normalisieren
     final withRoom = _applyEcho(result);
 
     double maxAmp = 0.0;
@@ -746,6 +747,136 @@ class AudioService {
     }
 
     return output;
+  }
+
+  /// Stretches audio to a target duration using granular synthesis.
+  /// This creates a smooth, healing sound by using overlapping grains with
+  /// smooth windowing and crossfades.
+  List<double> _stretchToDuration(List<double> input, double targetDurationSeconds) {
+    if (input.isEmpty) return input;
+    
+    final inputDuration = input.length / _sampleRate;
+    final stretchRatio = targetDurationSeconds / inputDuration;
+    
+    // If the input is already longer than target, we still stretch it slightly
+    // to ensure exactly 60 seconds
+    final targetSamples = (targetDurationSeconds * _sampleRate).round();
+    
+    // Granular synthesis parameters for smooth, healing sound
+    // Grain size: ~100-200ms for smooth transitions
+    final grainSizeSamples = (_sampleRate * 0.15).round(); // 150ms grains
+    // Overlap: 50% for smooth crossfades
+    final hopSizeSamples = (grainSizeSamples * 0.5).round();
+    // Input hop: how much to advance in source audio
+    final inputHopSamples = (hopSizeSamples / stretchRatio).round().clamp(1, input.length);
+    
+    final output = List<double>.filled(targetSamples, 0.0);
+    final window = _createHannWindow(grainSizeSamples);
+    
+    var inputPos = 0.0;
+    var outputPos = 0;
+    
+    // Add subtle random variations for organic feel
+    final randomPhase = _random.nextDouble() * 2 * pi;
+    
+    while (outputPos < targetSamples) {
+      final inputPosInt = inputPos.round().clamp(0, input.length - 1);
+      final grainEnd = min(inputPosInt + grainSizeSamples, input.length);
+      final actualGrainSize = grainEnd - inputPosInt;
+      
+      if (actualGrainSize <= 0) break;
+      
+      // Extract grain from input
+      final grain = input.sublist(inputPosInt, grainEnd);
+      
+      // Apply windowing to grain
+      final windowedGrain = <double>[];
+      for (var i = 0; i < grain.length; i++) {
+        final windowValue = i < window.length ? window[i] : 1.0;
+        windowedGrain.add(grain[i] * windowValue);
+      }
+      
+      // Add subtle pitch variation for more organic sound (very gentle)
+      final pitchVariation = 1.0 + 0.01 * sin(2 * pi * 0.1 * (outputPos / _sampleRate) + randomPhase);
+      
+      // Place grain in output with crossfade
+      for (var i = 0; i < windowedGrain.length && outputPos + i < targetSamples; i++) {
+        final outputIndex = outputPos + i;
+        if (outputIndex >= 0 && outputIndex < output.length) {
+          // Apply gentle pitch variation through slight time-stretching of grain
+          final sourceIndex = (i / pitchVariation).round().clamp(0, windowedGrain.length - 1);
+          final value = windowedGrain[sourceIndex];
+          
+          // Crossfade with existing content
+          final crossfadeStart = min(hopSizeSamples, output.length - outputIndex);
+          final crossfadeEnd = min(grainSizeSamples, output.length - outputIndex);
+          double fade = 1.0;
+          
+          if (i < crossfadeStart) {
+            // Fade in
+            fade = i / crossfadeStart;
+          } else if (i >= crossfadeEnd - crossfadeStart) {
+            // Fade out
+            final fadeOutPos = i - (crossfadeEnd - crossfadeStart);
+            fade = 1.0 - (fadeOutPos / crossfadeStart);
+          }
+          
+          output[outputIndex] = (output[outputIndex] + value * fade).clamp(-1.0, 1.0);
+        }
+      }
+      
+      // Advance positions
+      inputPos += inputHopSamples;
+      outputPos += hopSizeSamples;
+      
+      // If we've consumed all input, loop back smoothly with slight variation
+      if (inputPos >= input.length - grainSizeSamples) {
+        // Wrap around with slight random offset for organic variation
+        final wrapOffset = _random.nextDouble() * 0.05 * input.length;
+        inputPos = wrapOffset.clamp(0.0, (input.length - grainSizeSamples).toDouble());
+      }
+    }
+    
+    // Ensure we have exactly targetSamples by padding or trimming if needed
+    if (output.length != targetSamples) {
+      if (output.length < targetSamples) {
+        // Pad with silence or fade out
+        final padding = targetSamples - output.length;
+        for (var i = 0; i < padding; i++) {
+          final fadeOut = 1.0 - (i / padding);
+          final lastValue = output.isNotEmpty ? output.last : 0.0;
+          output.add(lastValue * fadeOut);
+        }
+      } else {
+        // Trim to exact length
+        output.removeRange(targetSamples, output.length);
+      }
+    }
+    
+    // Normalize to prevent clipping
+    double maxAmp = 0.0;
+    for (final s in output) {
+      final a = s.abs();
+      if (a > maxAmp) maxAmp = a;
+    }
+    if (maxAmp > 0.9) {
+      final normFactor = 0.9 / maxAmp;
+      for (var i = 0; i < output.length; i++) {
+        output[i] = (output[i] * normFactor).clamp(-1.0, 1.0);
+      }
+    }
+    
+    return output;
+  }
+
+  /// Creates a Hann window for smooth grain transitions.
+  List<double> _createHannWindow(int size) {
+    final window = List<double>.filled(size, 0.0);
+    for (var i = 0; i < size; i++) {
+      final t = i / (size - 1);
+      window[i] = 0.5 * (1 - cos(2 * pi * t));
+    }
+    return window;
   }
 
   /// Spielt eine finale Wellenform ab, indem sie temporär als WAV-Datei
