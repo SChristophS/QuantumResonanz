@@ -1,0 +1,37 @@
+# Allgemeine Betriebssystem-Dateien
+.DS_Store
+Thumbs.db
+
+# Dart / Flutter
+.dart_tool/
+.packages
+pubspec.lock
+
+# Build-Artefakte
+build/
+
+# IntelliJ / Android Studio / VS Code
+.idea/
+.vscode/
+*.iml
+
+# Flutter-spezifische Dateien
+flutter_export_environment.sh
+
+# Android
+android/.gradle/
+android/local.properties
+android/app/google-services.json
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/ephemeral/
+
+# Sonstiges
+*.log
+
+
