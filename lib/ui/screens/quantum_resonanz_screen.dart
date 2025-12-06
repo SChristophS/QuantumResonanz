@@ -979,112 +979,119 @@ class _SynthesizingPanelState extends State<_SynthesizingPanel>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final controller = context.watch<QuantumResonanzController>();
-    final segments = controller.segments;
 
-    if (segments.isEmpty) {
-      return Padding(
-        key: const ValueKey('synthesizing_fallback'),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Resonanzprofil wird erzeugt…',
-              style: theme.textTheme.headlineMedium,
-            ),
-            const SizedBox(height: 12),
-            Text(
-              'Mehrere Mikro-Segmente werden zu einem kohärenten Resonanzmuster verschmolzen.',
-              style: theme.textTheme.titleMedium,
-            ),
-            const Spacer(),
-            const Center(child: CircularProgressIndicator()),
-            const Spacer(),
-          ],
-        ),
-      );
-    }
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, _) {
+        final controller = context.watch<QuantumResonanzController>();
+        final segments = controller.segments;
 
-    final t = _controller.value.clamp(0.0, 1.0);
-    final segmentCount = segments.length;
-    final slot = 1.0 / segmentCount;
-    final currentIndex =
-        (t / slot).floor().clamp(0, segmentCount - 1);
-    final localT = ((t - currentIndex * slot) / slot).clamp(0.0, 1.0);
-
-    // Kombinierte synthetische Wellenform für die untere Anzeige
-    final combined = <double>[];
-    for (final seg in segments) {
-      final source = seg.syntheticSamples.isNotEmpty
-          ? seg.syntheticSamples
-          : seg.samples;
-      combined.addAll(source);
-    }
-
-    return Padding(
-      key: const ValueKey('synthesizing'),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Resonanzprofil wird erzeugt…',
-            style: theme.textTheme.headlineMedium,
-          ),
-          const SizedBox(height: 12),
-          Text(
-            'Die aufgezeichneten Mikro-Segmente werden in reine Schwingungen umgewandelt und zu einem Gesamtprofil verschmolzen.',
-            style: theme.textTheme.titleMedium,
-          ),
-          const SizedBox(height: 24),
-          // Oberes Panel: aktuelles Originalsegment mit Scan-Linie
-          SizedBox(
-            height: 120,
-            child: Stack(
+        if (segments.isEmpty) {
+          return Padding(
+            key: const ValueKey('synthesizing_fallback'),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                QuantumWaveform(
-                  samples: segments[currentIndex].originalSamples.isNotEmpty
-                      ? segments[currentIndex].originalSamples
-                      : segments[currentIndex].samples,
-                  color: const Color(0xFFB968FF),
-                  isMini: false,
+                Text(
+                  'Resonanzprofil wird erzeugt…',
+                  style: theme.textTheme.headlineMedium,
                 ),
-                Positioned.fill(
-                  child: CustomPaint(
-                    painter: _SegmentScanPainter(progress: localT),
-                  ),
+                const SizedBox(height: 12),
+                Text(
+                  'Mehrere Mikro-Segmente werden zu einem kohärenten Resonanzmuster verschmolzen.',
+                  style: theme.textTheme.titleMedium,
                 ),
+                const Spacer(),
+                const Center(child: CircularProgressIndicator()),
+                const Spacer(),
               ],
             ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'Aufbauendes Resonanzmuster',
-            style: theme.textTheme.titleMedium,
-          ),
-          const SizedBox(height: 8),
-          if (combined.isNotEmpty)
-            ClipRect(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                widthFactor: t,
-                child: QuantumWaveform(
-                  samples: combined,
-                  color: const Color(0xFF29E0FF),
-                  isMini: false,
+          );
+        }
+
+        final t = _controller.value.clamp(0.0, 1.0);
+        final segmentCount = segments.length;
+        final slot = 1.0 / segmentCount;
+        final currentIndex =
+            (t / slot).floor().clamp(0, segmentCount - 1);
+        final localT = ((t - currentIndex * slot) / slot).clamp(0.0, 1.0);
+
+        // Kombinierte synthetische Wellenform für die untere Anzeige
+        final combined = <double>[];
+        for (final seg in segments) {
+          final source = seg.syntheticSamples.isNotEmpty
+              ? seg.syntheticSamples
+              : seg.samples;
+          combined.addAll(source);
+        }
+
+        return Padding(
+          key: const ValueKey('synthesizing'),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Resonanzprofil wird erzeugt…',
+                style: theme.textTheme.headlineMedium,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'Die aufgezeichneten Mikro-Segmente werden in reine Schwingungen umgewandelt und zu einem Gesamtprofil verschmolzen.',
+                style: theme.textTheme.titleMedium,
+              ),
+              const SizedBox(height: 24),
+              // Oberes Panel: aktuelles Originalsegment mit Scan-Linie
+              SizedBox(
+                height: 120,
+                child: Stack(
+                  children: [
+                    QuantumWaveform(
+                      samples:
+                          segments[currentIndex].originalSamples.isNotEmpty
+                              ? segments[currentIndex].originalSamples
+                              : segments[currentIndex].samples,
+                      color: const Color(0xFFB968FF),
+                      isMini: false,
+                    ),
+                    Positioned.fill(
+                      child: CustomPaint(
+                        painter: _SegmentScanPainter(progress: localT),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          const SizedBox(height: 12),
-          const _ProcessLabel(text: 'Analysiere Mikro-Impulse…'),
-          const SizedBox(height: 4),
-          const _ProcessLabel(text: 'Synchronisiere Phasen…'),
-          const SizedBox(height: 4),
-          const _ProcessLabel(text: 'Erzeuge Resonanzprofil…'),
-          const SizedBox(height: 16),
-        ],
-      ),
+              const SizedBox(height: 16),
+              Text(
+                'Aufbauendes Resonanzmuster',
+                style: theme.textTheme.titleMedium,
+              ),
+              const SizedBox(height: 8),
+              if (combined.isNotEmpty)
+                ClipRect(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    widthFactor: t,
+                    child: QuantumWaveform(
+                      samples: combined,
+                      color: const Color(0xFF29E0FF),
+                      isMini: false,
+                    ),
+                  ),
+                ),
+              const SizedBox(height: 12),
+              const _ProcessLabel(text: 'Analysiere Mikro-Impulse…'),
+              const SizedBox(height: 4),
+              const _ProcessLabel(text: 'Synchronisiere Phasen…'),
+              const SizedBox(height: 4),
+              const _ProcessLabel(text: 'Erzeuge Resonanzprofil…'),
+              const SizedBox(height: 16),
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -1174,12 +1181,12 @@ class _ResultPanel extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Dein Resonanzmuster',
+            'Dein Countersignal',
             style: theme.textTheme.headlineMedium,
           ),
           const SizedBox(height: 8),
           Text(
-            'Lege Kopfhörer an, um dein persönliches Resonanzprofil zu hören.',
+            'Spiele das Countersignal ab, um negative Energien in deinem Raum zu neutralisieren.',
             style: theme.textTheme.titleMedium,
           ),
           const SizedBox(height: 16),
