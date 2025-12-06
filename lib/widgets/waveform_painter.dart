@@ -62,27 +62,40 @@ class WaveformPainter extends CustomPainter {
     final path = Path();
     final glowPath = Path();
 
+    // Sammle alle Punkte zuerst, um die tatsächliche Anzahl zu kennen
+    final points = <Offset>[];
     int pointIndex = 0;
     for (var i = 0; i < samples.length; i += step) {
-      final t = pointIndex / max(1, targetPoints - 1);
-      final x = t * availableWidth;
-
       final raw = samples[i];
       final amp = raw.abs().clamp(0.0, 1.0);
 
       final maxHeight = isMini ? size.height * 0.6 : size.height * 0.8;
       final y = centerY - (amp * maxHeight / 2);
 
-      if (pointIndex == 0) {
+      points.add(Offset(0, y)); // x wird später berechnet
+      pointIndex++;
+      if (pointIndex >= targetPoints) break;
+    }
+
+    // Wenn keine Punkte vorhanden, nichts zeichnen
+    if (points.isEmpty) {
+      return;
+    }
+
+    // Verteile Punkte gleichmäßig über die gesamte Breite
+    final numPoints = points.length;
+    for (var i = 0; i < numPoints; i++) {
+      final t = i / max(1, numPoints - 1);
+      final x = t * availableWidth;
+      final y = points[i].dy;
+
+      if (i == 0) {
         path.moveTo(x, y);
         glowPath.moveTo(x, y);
       } else {
         path.lineTo(x, y);
         glowPath.lineTo(x, y);
       }
-
-      pointIndex++;
-      if (pointIndex >= targetPoints) break;
     }
 
     // Glow / weiche Außenkontur

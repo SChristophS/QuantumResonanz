@@ -304,7 +304,7 @@ class _IdlePanel extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             'QuantumResonanz lauscht 10 Sekunden in die energetische Essenz deines Raumes. '
-            'Durch tiefenmeditative Analyse der Raumenergien werden Störschwingungen identifiziert und in ein harmonisierendes Heilfrequenzmuster transformiert. '
+            'Durch tiefenmeditative Analyse der Raumenergien werden Störschwingungen identifiziert und in ein harmonisierendes Resonanzmuster transformiert. '
             'Deine energetischen Daten bleiben vollständig geschützt und lokal auf deinem Gerät.',
             style: theme.textTheme.bodyMedium,
           ),
@@ -317,7 +317,7 @@ class _IdlePanel extends StatelessWidget {
           const _IdleBullet(
             title: 'Energetische Raumaufnahme (10 Sekunden)',
             body:
-                'Während dieser heiligen Stille erfassen wir die unsichtbaren Schwingungen deines Raumes. '
+                'Während dieser tiefen Stille erfassen wir die unsichtbaren Schwingungen deines Raumes. '
                 'Sprache oder laute Störungen unterbrechen die Verbindung zur feinstofflichen Ebene – bitte halte vollkommene Stille.',
           ),
           const SizedBox(height: 6),
@@ -325,7 +325,7 @@ class _IdlePanel extends StatelessWidget {
             title: 'Dekodierung der Energieschwingungen',
             body:
                 'Jede Frequenz wird als einzigartige energetische Signatur erkannt und analysiert. '
-                'Blockaden und Disharmonien werden identifiziert und in ein kohärentes Heilungsresonanzfeld transformiert.',
+                'Blockaden und Disharmonien werden identifiziert und in ein kohärentes Resonanzfeld transformiert.',
           ),
           const SizedBox(height: 6),
           const _IdleBullet(
@@ -677,10 +677,12 @@ class _TooLoudPanel extends StatelessWidget {
                 color: Colors.redAccent.shade200,
               ),
               const SizedBox(width: 8),
-              Text(
-                'Energetische Verbindung unterbrochen',
-                style: theme.textTheme.headlineMedium?.copyWith(
-                  color: Colors.redAccent.shade200,
+              Expanded(
+                child: Text(
+                  'Energetische Verbindung unterbrochen',
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    color: Colors.redAccent.shade200,
+                  ),
                 ),
               ),
             ],
@@ -1056,7 +1058,7 @@ class _SegmentsPanel extends StatelessWidget {
           Center(
               child: ElevatedButton(
               onPressed: () => controller.startSynthesis(),
-              child: const Text('Heilfrequenz generieren'),
+              child: const Text('Resonanzfrequenz generieren'),
             ),
           ),
           const SizedBox(height: 20),
@@ -1111,12 +1113,12 @@ class _SynthesizingPanelState extends State<_SynthesizingPanel>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Dein Heilfrequenzprofil entsteht…',
+                    'Dein Resonanzprofil entsteht…',
                     style: theme.textTheme.headlineMedium,
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Durch alchemistische Transformation werden alle Energiesignaturen zu einem harmonisierenden Heilungsresonanzmuster verschmolzen.',
+                    'Durch alchemistische Transformation werden alle Energiesignaturen zu einem harmonisierenden Resonanzmuster verschmolzen.',
                     style: theme.textTheme.titleMedium,
                   ),
                   const SizedBox(height: 32),
@@ -1152,12 +1154,12 @@ class _SynthesizingPanelState extends State<_SynthesizingPanel>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
               Text(
-                'Dein Heilfrequenzprofil entsteht…',
+                'Dein Resonanzprofil entsteht…',
                 style: theme.textTheme.headlineMedium,
               ),
               const SizedBox(height: 12),
               Text(
-                'Jede erkannte Energiesignatur wird in reine Heilfrequenzen transformiert und zu deinem einzigartigen Harmonisierungssignal verschmolzen.',
+                'Jede erkannte Energiesignatur wird in reine Resonanzfrequenzen transformiert und zu deinem einzigartigen Harmonisierungssignal verschmolzen.',
                 style: theme.textTheme.titleMedium,
               ),
               const SizedBox(height: 24),
@@ -1205,7 +1207,7 @@ class _SynthesizingPanelState extends State<_SynthesizingPanel>
               const SizedBox(height: 4),
               const _ProcessLabel(text: 'Schwingungen harmonisieren…'),
               const SizedBox(height: 4),
-              const _ProcessLabel(text: 'Heilfrequenzmanifestation…'),
+              const _ProcessLabel(text: 'Resonanzmanifestation…'),
               const SizedBox(height: 16),
             ],
             ),
@@ -1380,7 +1382,7 @@ class _ResultPanel extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Dein Heilfrequenzsignal',
+              'Dein Resonanzsignal',
               style: theme.textTheme.headlineMedium,
             ),
             const SizedBox(height: 8),
@@ -1512,7 +1514,7 @@ class _CounterSignalButton extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             const Text(
-              'Heilfrequenz aktivieren',
+              'Resonanzfrequenz aktivieren',
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w700,

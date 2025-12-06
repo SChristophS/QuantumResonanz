@@ -230,7 +230,7 @@ class _EmptyState extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 40),
             child: Text(
-              'Führe einen energetischen Scan durch und bewahre dein persönliches Heilfrequenzprofil für die Harmonisierung deiner Räume.',
+              'Führe einen energetischen Scan durch und bewahre dein persönliches Resonanzprofil für die Harmonisierung deiner Räume.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF9AA1C5),
@@ -338,7 +338,7 @@ class _RoomCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        isPlaying ? 'Harmonisierung pausieren' : 'Heilfrequenz aktivieren',
+                        isPlaying ? 'Harmonisierung pausieren' : 'Resonanzfrequenz aktivieren',
                         style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,

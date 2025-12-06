@@ -582,7 +582,7 @@ class AudioService {
     final freqHz = baseFrequency.round();
 
     return '$segLabel: $energyText, $freqText. '
-        'Heilfrequenz bei ca. $freqHz Hz, $movementText.';
+        'Resonanzfrequenz bei ca. $freqHz Hz, $movementText.';
   }
 
   /// Erzeugt aus 3–5 Segmenten eine finale Wellenform:
@@ -750,7 +750,7 @@ class AudioService {
   }
 
   /// Stretches audio to a target duration using granular synthesis.
-  /// This creates a smooth, healing sound by using overlapping grains with
+  /// This creates a smooth, harmonious sound by using overlapping grains with
   /// smooth windowing and crossfades.
   List<double> _stretchToDuration(List<double> input, double targetDurationSeconds) {
     if (input.isEmpty) return input;
@@ -762,7 +762,7 @@ class AudioService {
     // to ensure exactly 60 seconds
     final targetSamples = (targetDurationSeconds * _sampleRate).round();
     
-    // Granular synthesis parameters for smooth, healing sound
+    // Granular synthesis parameters for smooth, harmonious sound
     // Grain size: ~100-200ms for smooth transitions
     final grainSizeSamples = (_sampleRate * 0.15).round(); // 150ms grains
     // Overlap: 50% for smooth crossfades
