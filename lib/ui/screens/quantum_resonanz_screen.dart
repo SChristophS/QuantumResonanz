@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../state/app_state.dart';
 import '../../widgets/waveform_widget.dart';
+import 'saved_rooms_screen.dart';
 
 class QuantumResonanzScreen extends StatelessWidget {
   const QuantumResonanzScreen({super.key});
@@ -31,19 +32,30 @@ class QuantumResonanzScreen extends StatelessWidget {
               ),
             ),
             child: SafeArea(
-              child: Column(
+              minimum: const EdgeInsets.only(top: 8),
+              child: Stack(
                 children: [
-                  _HeaderImage(state: state),
-                  const SizedBox(height: 12),
-                  Expanded(
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 400),
-                      switchInCurve: Curves.easeOutCubic,
-                      switchOutCurve: Curves.easeInCubic,
-                      child: _buildContentForState(
-                        context,
-                        controller,
-                        theme,
+                  // Header image as background overlay
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: 260,
+                    child: _HeaderImage(state: state),
+                  ),
+                  // Content overlaying the image
+                  Positioned.fill(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 200),
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 400),
+                        switchInCurve: Curves.easeOutCubic,
+                        switchOutCurve: Curves.easeInCubic,
+                        child: _buildContentForState(
+                          context,
+                          controller,
+                          theme,
+                        ),
                       ),
                     ),
                   ),
@@ -53,6 +65,84 @@ class QuantumResonanzScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  void _showSaveRoomDialog(
+    BuildContext context,
+    QuantumResonanzController controller,
+  ) {
+    final textController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xFF111427),
+        title: const Text(
+          'Raum speichern',
+          style: TextStyle(color: Colors.white),
+        ),
+        content: Form(
+          key: formKey,
+          child: TextFormField(
+            controller: textController,
+            autofocus: true,
+            style: const TextStyle(color: Colors.white),
+            decoration: const InputDecoration(
+              labelText: 'Raumname',
+              labelStyle: TextStyle(color: Color(0xFFB0B5D0)),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFF29E0FF)),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFF29E0FF)),
+              ),
+            ),
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'Bitte gib einen Namen ein';
+              }
+              return null;
+            },
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Abbrechen', style: TextStyle(color: Color(0xFFB0B5D0))),
+          ),
+          TextButton(
+            onPressed: () async {
+              if (formKey.currentState!.validate()) {
+                final name = textController.text.trim();
+                final savedRoom = await controller.saveCurrentRoom(name);
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                  if (savedRoom != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('"$name" wurde gespeichert'),
+                        backgroundColor: const Color(0xFF29E0FF),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Fehler beim Speichern'),
+                        backgroundColor: Colors.redAccent,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                }
+              }
+            },
+            child: const Text('Speichern', style: TextStyle(color: Color(0xFF29E0FF))),
+          ),
+        ],
+      ),
     );
   }
 
@@ -194,9 +284,10 @@ class _IdlePanel extends StatelessWidget {
     return Padding(
       key: const ValueKey('idle'),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           Text(
             'QuantumResonanz',
             style: theme.textTheme.headlineMedium,
@@ -239,7 +330,7 @@ class _IdlePanel extends StatelessWidget {
                 'Aus den Segmenten entsteht ein geglättetes Resonanzmuster. '
                 'Daraus wird ein „Counter Signal“ generiert, das dein Rauschprofil akustisch widerspiegelt.',
           ),
-          const Spacer(),
+          const SizedBox(height: 32),
           Center(
             child: ElevatedButton(
               onPressed: () => controller.startScan(),
@@ -247,7 +338,27 @@ class _IdlePanel extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
+          Center(
+            child: OutlinedButton.icon(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const SavedRoomsScreen(),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.folder_special),
+              label: const Text('Gespeicherte Räume'),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: const Color(0xFF29E0FF),
+                side: const BorderSide(color: Color(0xFF29E0FF)),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
         ],
+        ),
       ),
     );
   }
@@ -990,22 +1101,24 @@ class _SynthesizingPanelState extends State<_SynthesizingPanel>
           return Padding(
             key: const ValueKey('synthesizing_fallback'),
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Resonanzprofil wird erzeugt…',
-                  style: theme.textTheme.headlineMedium,
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  'Mehrere Mikro-Segmente werden zu einem kohärenten Resonanzmuster verschmolzen.',
-                  style: theme.textTheme.titleMedium,
-                ),
-                const Spacer(),
-                const Center(child: CircularProgressIndicator()),
-                const Spacer(),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Resonanzprofil wird erzeugt…',
+                    style: theme.textTheme.headlineMedium,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Mehrere Mikro-Segmente werden zu einem kohärenten Resonanzmuster verschmolzen.',
+                    style: theme.textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 32),
+                  const Center(child: CircularProgressIndicator()),
+                  const SizedBox(height: 32),
+                ],
+              ),
             ),
           );
         }
@@ -1029,9 +1142,10 @@ class _SynthesizingPanelState extends State<_SynthesizingPanel>
         return Padding(
           key: const ValueKey('synthesizing'),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
               Text(
                 'Resonanzprofil wird erzeugt…',
                 style: theme.textTheme.headlineMedium,
@@ -1089,6 +1203,7 @@ class _SynthesizingPanelState extends State<_SynthesizingPanel>
               const _ProcessLabel(text: 'Erzeuge Resonanzprofil…'),
               const SizedBox(height: 16),
             ],
+            ),
           ),
         );
       },
@@ -1169,6 +1284,84 @@ class _ResultPanel extends StatelessWidget {
 
   final QuantumResonanzController controller;
 
+  void _showSaveRoomDialog(
+    BuildContext context,
+    QuantumResonanzController controller,
+  ) {
+    final textController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xFF111427),
+        title: const Text(
+          'Raum speichern',
+          style: TextStyle(color: Colors.white),
+        ),
+        content: Form(
+          key: formKey,
+          child: TextFormField(
+            controller: textController,
+            autofocus: true,
+            style: const TextStyle(color: Colors.white),
+            decoration: const InputDecoration(
+              labelText: 'Raumname',
+              labelStyle: TextStyle(color: Color(0xFFB0B5D0)),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFF29E0FF)),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFF29E0FF)),
+              ),
+            ),
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'Bitte gib einen Namen ein';
+              }
+              return null;
+            },
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Abbrechen', style: TextStyle(color: Color(0xFFB0B5D0))),
+          ),
+          TextButton(
+            onPressed: () async {
+              if (formKey.currentState!.validate()) {
+                final name = textController.text.trim();
+                final savedRoom = await controller.saveCurrentRoom(name);
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                  if (savedRoom != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('"$name" wurde gespeichert'),
+                        backgroundColor: const Color(0xFF29E0FF),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Fehler beim Speichern'),
+                        backgroundColor: Colors.redAccent,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                }
+              }
+            },
+            child: const Text('Speichern', style: TextStyle(color: Color(0xFF29E0FF))),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -1177,77 +1370,94 @@ class _ResultPanel extends StatelessWidget {
     return Padding(
       key: const ValueKey('result'),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Dein Countersignal',
-            style: theme.textTheme.headlineMedium,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Spiele das Countersignal ab, um negative Energien in deinem Raum zu neutralisieren.',
-            style: theme.textTheme.titleMedium,
-          ),
-          const SizedBox(height: 16),
-          if (controller.segments.isNotEmpty)
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Dein Countersignal',
+              style: theme.textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Spiele das Countersignal ab, um negative Energien in deinem Raum zu neutralisieren.',
+              style: theme.textTheme.titleMedium,
+            ),
+            const SizedBox(height: 16),
+            if (controller.segments.isNotEmpty)
+              SizedBox(
+                height: 80,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: controller.segments.length,
+                  itemBuilder: (context, index) {
+                    final seg = controller.segments[index];
+                    return Container(
+                      width: 140,
+                      margin: EdgeInsets.only(
+                        right: index == controller.segments.length - 1 ? 0 : 12,
+                      ),
+                      child: QuantumWaveform(
+                        samples: seg.syntheticSamples.isNotEmpty
+                            ? seg.syntheticSamples
+                            : seg.samples,
+                        color: const Color(0xFFB968FF),
+                        isMini: true,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            if (controller.segments.isNotEmpty) const SizedBox(height: 12),
+            Center(
+              child: _CounterSignalButton(controller: controller),
+            ),
+            const SizedBox(height: 16),
+            RepaintBoundary(
+              child: QuantumWaveform(
+                samples: waveform.isEmpty ? const [0.0, 0.0, 0.0, 0.0] : waveform,
+                color: const Color(0xFF29E0FF),
+                isMini: false,
+                progress: controller.playbackProgress,
+              ),
+            ),
+            const SizedBox(height: 12),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(999),
+              child: LinearProgressIndicator(
+                value: controller.playbackProgress,
+                minHeight: 6,
+                backgroundColor: Colors.white12,
+                valueColor: const AlwaysStoppedAnimation<Color>(
+                  Color(0xFFB968FF),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
             SizedBox(
-              height: 80,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: controller.segments.length,
-                itemBuilder: (context, index) {
-                  final seg = controller.segments[index];
-                  return Container(
-                    width: 140,
-                    margin: EdgeInsets.only(
-                      right: index == controller.segments.length - 1 ? 0 : 12,
-                    ),
-                    child: QuantumWaveform(
-                      samples: seg.syntheticSamples.isNotEmpty
-                          ? seg.syntheticSamples
-                          : seg.samples,
-                      color: const Color(0xFFB968FF),
-                      isMini: true,
-                    ),
-                  );
-                },
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () => _showSaveRoomDialog(context, controller),
+                icon: const Icon(Icons.save),
+                label: const Text('Als Raum speichern'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF29E0FF),
+                  foregroundColor: Colors.black,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
               ),
             ),
-          if (controller.segments.isNotEmpty) const SizedBox(height: 12),
-          Center(
-            child: _CounterSignalButton(controller: controller),
-          ),
-          const SizedBox(height: 16),
-          QuantumWaveform(
-            samples: waveform.isEmpty ? const [0.0, 0.0, 0.0, 0.0] : waveform,
-            color: const Color(0xFF29E0FF),
-            isMini: false,
-            progress: controller.playbackProgress,
-          ),
-          const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(999),
-            child: LinearProgressIndicator(
-              value: controller.playbackProgress,
-              minHeight: 6,
-              backgroundColor: Colors.white12,
-              valueColor: const AlwaysStoppedAnimation<Color>(
-                Color(0xFFB968FF),
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => controller.resetToIdle(),
+                child: const Text('Nochmal scannen'),
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          const Spacer(),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () => controller.resetToIdle(),
-              child: const Text('Nochmal scannen'),
-            ),
-          ),
-          const SizedBox(height: 20),
-        ],
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }

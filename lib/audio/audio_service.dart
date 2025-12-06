@@ -68,12 +68,26 @@ class AudioService {
   final Random _random = Random();
 
   void _initPlayerStreams() {
+    DateTime? _lastUpdateTime;
+    double? _lastProgress;
+    
     _positionSub = _player.positionStream.listen((position) {
       if (_totalDuration.inMilliseconds <= 0) return;
       final ratio =
           position.inMilliseconds / _totalDuration.inMilliseconds.toDouble();
       final clamped = ratio.clamp(0.0, 1.0);
-      _onPlaybackProgress?.call(clamped);
+      
+      // Throttle updates to max 20 times per second (every 50ms) to reduce rebuilds
+      final now = DateTime.now();
+      final shouldUpdate = _lastUpdateTime == null ||
+          now.difference(_lastUpdateTime!).inMilliseconds >= 50 ||
+          (clamped - (_lastProgress ?? 0.0)).abs() > 0.01; // Also update if progress changed significantly
+      
+      if (shouldUpdate) {
+        _lastUpdateTime = now;
+        _lastProgress = clamped;
+        _onPlaybackProgress?.call(clamped);
+      }
     });
 
     _playerStateSub = _player.playerStateStream.listen((state) {
@@ -482,8 +496,8 @@ class AudioService {
   }) {
     if (original.length < 2) {
       return {
-        'baseFrequency': 220.0,
-        'modulationFrequency': 3.0,
+        'baseFrequency': 440.0, // A4 - angenehmer Referenzton
+        'modulationFrequency': 2.5,
         'movementIndex': 0.3,
         'durationSeconds': 1.0,
       };
@@ -503,18 +517,18 @@ class AudioService {
     final zeroCrossRate = zeroCrossings / original.length;
     final avgAbsDiff = sumAbsDiff / (original.length - 1);
 
-    // Grundfrequenz: 140–900 Hz, gekoppelt an Zero-Crossings
+    // Grundfrequenz: 200–2000 Hz (angenehmer Hörbereich), gekoppelt an Zero-Crossings
     final baseFrequency =
-        (140.0 + zeroCrossRate * 4000.0 * (0.5 + freqMix * 0.5))
-            .clamp(140.0, 900.0);
+        (200.0 + zeroCrossRate * 1800.0 * (0.5 + freqMix * 0.5))
+            .clamp(200.0, 2000.0);
 
     // Bewegung / Dynamik: 0–1, aus mittlerer Differenz
     final movementIndex =
         (avgAbsDiff * 20.0).clamp(0.0, 1.0); // 20 ist reine Heuristik
 
-    // Modulationsfrequenz (Vibrato): 1–7 Hz
+    // Modulationsfrequenz (Vibrato): 1.5–5 Hz (sanfter für angenehmes Hören)
     final modulationFrequency =
-        (1.0 + movementIndex * 6.0).clamp(1.0, 7.0);
+        (1.5 + movementIndex * 3.5).clamp(1.5, 5.0);
 
     // Dauer: aus Segmentlänge, aber begrenzt auf 0,8–2,0 Sekunden
     final durationSeconds =
@@ -630,7 +644,8 @@ class AudioService {
       if (a > maxAmp) maxAmp = a;
     }
     final normalized = <double>[];
-    final normFactor = maxAmp > 0 ? (0.85 / maxAmp) : 1.0;
+    // Reduzierte Max-Amplitude (0.5 statt 0.85) für angenehmere Lautstärke
+    final normFactor = maxAmp > 0 ? (0.5 / maxAmp) : 1.0;
     for (final s in withRoom) {
       normalized.add((s * normFactor).clamp(-1.0, 1.0));
     }
@@ -648,7 +663,9 @@ class AudioService {
             .toDouble();
 
     final totalSamples = max(1, (durationSeconds * _sampleRate).round());
-    final baseFreq = segment.baseFrequency <= 0 ? 220.0 : segment.baseFrequency;
+    // Standard-Frequenz im angenehmen Bereich (A4 = 440 Hz)
+    final baseFreq = (segment.baseFrequency <= 0 ? 440.0 : segment.baseFrequency)
+        .clamp(200.0, 2000.0);
     final modFreq = segment.modulationFrequency <= 0
         ? 3.0
         : segment.modulationFrequency;
@@ -661,14 +678,15 @@ class AudioService {
       final t = n / _sampleRate;
       final pos = n / (totalSamples - 1).clamp(1, totalSamples);
 
-      // Pitch-Sweep um die Grundfrequenz herum
-      final sweep = 1.0 + 0.15 * movement * sin(2 * pi * modFreq * t);
-      final f0 = baseFreq * sweep;
+      // Sanfter Pitch-Sweep um die Grundfrequenz herum (reduziert für angenehmeren Klang)
+      final sweep = 1.0 + 0.08 * movement * sin(2 * pi * modFreq * t);
+      final f0 = (baseFreq * sweep).clamp(200.0, 2000.0);
 
       final phase = 2 * pi * f0 * t;
+      // Sanftere Obertöne für angenehmeren Klang
       final s1 = sin(phase);
-      final s2 = 0.35 * sin(2 * phase);
-      final s3 = 0.2 * sin(3 * phase + 0.3);
+      final s2 = 0.25 * sin(2 * phase); // Reduziert von 0.35
+      final s3 = 0.12 * sin(3 * phase + 0.3); // Reduziert von 0.2
       var value = s1 + s2 + s3;
 
       // Einfache ADSR-Hüllkurve
@@ -681,11 +699,18 @@ class AudioService {
         env = 1.0;
       }
 
-      // Leichte zusätzliche Pulsation über movementIndex
+      // Sanftere Pulsation über movementIndex
       final pulse =
-          1.0 + 0.1 * movement * sin(2 * pi * (0.25 + movement) * t);
+          1.0 + 0.05 * movement * sin(2 * pi * (0.25 + movement) * t);
 
       value *= env * pulse * targetEnergy;
+      
+      // Tiefpassfilter: Dämpfe sehr hohe Frequenzen für angenehmeren Klang
+      // (Einfacher Moving-Average-Filter)
+      if (n > 0) {
+        value = value * 0.7 + samples[n - 1] * 0.3;
+      }
+      
       samples[n] = value.clamp(-1.0, 1.0);
     }
 
@@ -696,9 +721,9 @@ class AudioService {
     if (input.isEmpty) return input;
     final output = List<double>.from(input);
 
-    // Mehrere kurze Echo-Linien für einen einfachen Raumklang
+    // Sanftere Echo-Linien für angenehmeren Raumklang
     final delaysMs = <double>[40, 80, 120];
-    final decays = <double>[0.4, 0.25, 0.15];
+    final decays = <double>[0.25, 0.15, 0.1]; // Reduziert für sanfteren Klang
 
     for (var d = 0; d < delaysMs.length; d++) {
       final delaySamples =
@@ -715,7 +740,8 @@ class AudioService {
     final lfoFreq = 0.25 + _random.nextDouble() * 0.15; // ~0.25–0.4 Hz
     for (var n = 0; n < output.length; n++) {
       final t = n / _sampleRate;
-      final lfo = 1.0 + 0.08 * sin(2 * pi * lfoFreq * t);
+      // Sanftere Modulation für angenehmeren Klang
+      final lfo = 1.0 + 0.04 * sin(2 * pi * lfoFreq * t);
       output[n] = (output[n] * lfo).clamp(-1.0, 1.0);
     }
 

@@ -28,6 +28,12 @@ dependencies:
   # Dateisystem-Helfer (z.B. für temporäre WAV-Dateien)
   path_provider: ^2.1.4
 
+  # Persistenz für gespeicherte Räume
+  shared_preferences: ^2.2.2
+
+  # Eindeutige IDs
+  uuid: ^4.3.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

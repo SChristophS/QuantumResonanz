@@ -1,10 +1,15 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:uuid/uuid.dart';
 
 import '../audio/audio_service.dart';
 import '../models/audio_segment.dart';
+import '../models/saved_room.dart';
+import '../services/room_storage_service.dart';
 
 /// Alle möglichen Zustände der QuantumResonanz-App.
 enum QuantumState {
@@ -24,9 +29,12 @@ class QuantumResonanzController extends ChangeNotifier {
       onRecordingTooLoud: _handleRecordingTooLoud,
       onRecordingFinished: _handleRecordingFinished,
     );
+    _storageService = RoomStorageService();
+    _loadSavedRooms();
   }
 
   late final AudioService _audioService;
+  late final RoomStorageService _storageService;
 
   QuantumState _state = QuantumState.idle;
   QuantumState get state => _state;
@@ -59,9 +67,25 @@ class QuantumResonanzController extends ChangeNotifier {
   double _playbackProgress = 0.0; // 0.0 – 1.0
   double get playbackProgress => _playbackProgress;
 
+  // Gespeicherte Räume
+  List<SavedRoom> _savedRooms = [];
+  List<SavedRoom> get savedRooms => _savedRooms;
+
+  // Playback für gespeicherte Räume
+  final AudioPlayer _savedRoomPlayer = AudioPlayer();
+  String? _currentlyPlayingRoomId;
+  String? get currentlyPlayingRoomId => _currentlyPlayingRoomId;
+  double _savedRoomPlaybackProgress = 0.0;
+  double get savedRoomPlaybackProgress => _savedRoomPlaybackProgress;
+  bool _isPlayingSavedRoom = false;
+  bool get isPlayingSavedRoom => _isPlayingSavedRoom;
+  DateTime? _lastSavedRoomProgressUpdate;
+  StreamSubscription<Duration>? _savedRoomPositionSub;
+
   Timer? _analyzingTimer;
 
   final Random _random = Random();
+  final Uuid _uuid = const Uuid();
 
   void _setState(QuantumState newState) {
     _state = newState;
@@ -209,6 +233,153 @@ class QuantumResonanzController extends ChangeNotifier {
     _playbackProgress = 0.0;
 
     _setState(QuantumState.idle);
+  }
+
+  /// Lädt alle gespeicherten Räume
+  Future<void> _loadSavedRooms() async {
+    try {
+      _savedRooms = await _storageService.loadAllRooms();
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Fehler beim Laden der gespeicherten Räume: $e');
+    }
+  }
+
+  /// Speichert das aktuelle Resultat als Raum
+  Future<SavedRoom?> saveCurrentRoom(String name) async {
+    if (_finalWaveform.isEmpty) return null;
+
+    try {
+      final room = SavedRoom(
+        id: _uuid.v4(),
+        name: name,
+        waveformPath: '', // Wird vom StorageService gesetzt
+        createdAt: DateTime.now(),
+      );
+
+      final savedRoom = await _storageService.saveRoom(room, _finalWaveform);
+      await _loadSavedRooms();
+      return savedRoom;
+    } catch (e) {
+      debugPrint('Fehler beim Speichern des Raums: $e');
+      return null;
+    }
+  }
+
+  /// Löscht einen gespeicherten Raum
+  Future<void> deleteSavedRoom(String id) async {
+    try {
+      await _storageService.deleteRoom(id);
+      if (_currentlyPlayingRoomId == id) {
+        await _savedRoomPlayer.stop();
+        _savedRoomPositionSub?.cancel();
+        _savedRoomPositionSub = null;
+        _currentlyPlayingRoomId = null;
+        _isPlayingSavedRoom = false;
+        _savedRoomPlaybackProgress = 0.0;
+      }
+      await _loadSavedRooms();
+    } catch (e) {
+      debugPrint('Fehler beim Löschen des Raums: $e');
+    }
+  }
+
+  /// Aktualisiert den Namen eines gespeicherten Raums
+  Future<void> updateSavedRoomName(String id, String newName) async {
+    try {
+      await _storageService.updateRoomName(id, newName);
+      await _loadSavedRooms();
+    } catch (e) {
+      debugPrint('Fehler beim Aktualisieren des Raumnamens: $e');
+    }
+  }
+
+  /// Spielt einen gespeicherten Raum ab
+  Future<void> playSavedRoom(SavedRoom room) async {
+    try {
+      // Wenn bereits ein anderer Raum spielt, diesen stoppen
+      if (_currentlyPlayingRoomId != null && _currentlyPlayingRoomId != room.id) {
+        await _savedRoomPlayer.stop();
+        _savedRoomPositionSub?.cancel();
+        _savedRoomPositionSub = null;
+      }
+
+      // Wenn derselbe Raum bereits spielt, pausieren
+      if (_currentlyPlayingRoomId == room.id && _isPlayingSavedRoom) {
+        await _savedRoomPlayer.pause();
+        _isPlayingSavedRoom = false;
+        notifyListeners();
+        return;
+      }
+
+      // Neuen Raum abspielen
+      _currentlyPlayingRoomId = room.id;
+      _isPlayingSavedRoom = true;
+      notifyListeners();
+
+      final file = File(room.waveformPath);
+      if (!await file.exists()) {
+        debugPrint('WAV-Datei nicht gefunden: ${room.waveformPath}');
+        _isPlayingSavedRoom = false;
+        _currentlyPlayingRoomId = null;
+        notifyListeners();
+        return;
+      }
+
+      await _savedRoomPlayer.setFilePath(room.waveformPath);
+      
+      // Position-Stream abonnieren (mit Throttling)
+      _savedRoomPositionSub?.cancel();
+      _savedRoomPositionSub = _savedRoomPlayer.positionStream.listen((position) {
+        final duration = _savedRoomPlayer.duration;
+        if (duration != null && duration.inMilliseconds > 0) {
+          final progress = position.inMilliseconds / duration.inMilliseconds;
+          
+          // Throttle updates to max 20 times per second (every 50ms)
+          final now = DateTime.now();
+          final shouldUpdate = _lastSavedRoomProgressUpdate == null ||
+              now.difference(_lastSavedRoomProgressUpdate!).inMilliseconds >= 50 ||
+              (progress - _savedRoomPlaybackProgress).abs() > 0.01;
+          
+          if (shouldUpdate) {
+            _lastSavedRoomProgressUpdate = now;
+            _savedRoomPlaybackProgress = progress;
+            notifyListeners();
+          }
+        }
+      });
+
+      // Player-State-Stream abonnieren
+      _savedRoomPlayer.playerStateStream.listen((state) {
+        if (state.processingState == ProcessingState.completed) {
+          _isPlayingSavedRoom = false;
+          _savedRoomPlaybackProgress = 1.0;
+          notifyListeners();
+        }
+      });
+
+      await _savedRoomPlayer.play();
+    } catch (e) {
+      debugPrint('Fehler beim Abspielen des gespeicherten Raums: $e');
+      _isPlayingSavedRoom = false;
+      _currentlyPlayingRoomId = null;
+      notifyListeners();
+    }
+  }
+
+  /// Pausiert die Wiedergabe eines gespeicherten Raums
+  Future<void> pauseSavedRoom() async {
+    await _savedRoomPlayer.pause();
+    _isPlayingSavedRoom = false;
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _analyzingTimer?.cancel();
+    _savedRoomPositionSub?.cancel();
+    _savedRoomPlayer.dispose();
+    super.dispose();
   }
 }
 
