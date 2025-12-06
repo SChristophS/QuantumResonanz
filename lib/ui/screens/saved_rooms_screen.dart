@@ -88,7 +88,7 @@ class SavedRoomsScreen extends StatelessWidget {
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xFF111427),
         title: const Text(
-          'Raum umbenennen',
+          'Energieraum umbenennen',
           style: TextStyle(color: Colors.white),
         ),
         content: TextField(
@@ -109,7 +109,7 @@ class SavedRoomsScreen extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Abbrechen', style: TextStyle(color: Color(0xFFB0B5D0))),
+            child: const Text('Zurück', style: TextStyle(color: Color(0xFFB0B5D0))),
           ),
           TextButton(
             onPressed: () {
@@ -119,7 +119,7 @@ class SavedRoomsScreen extends StatelessWidget {
                 Navigator.of(context).pop();
               }
             },
-            child: const Text('Speichern', style: TextStyle(color: Color(0xFF29E0FF))),
+            child: const Text('Archivieren', style: TextStyle(color: Color(0xFF29E0FF))),
           ),
         ],
       ),
@@ -136,17 +136,17 @@ class SavedRoomsScreen extends StatelessWidget {
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xFF111427),
         title: const Text(
-          'Raum löschen',
+          'Energieraum löschen',
           style: TextStyle(color: Colors.white),
         ),
         content: Text(
-          'Möchtest du "${room.name}" wirklich löschen?',
+          'Möchtest du das energetische Archiv "${room.name}" wirklich aus dem Speicher entfernen?',
           style: const TextStyle(color: Color(0xFFB0B5D0)),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Abbrechen', style: TextStyle(color: Color(0xFFB0B5D0))),
+            child: const Text('Zurück', style: TextStyle(color: Color(0xFFB0B5D0))),
           ),
           TextButton(
             onPressed: () {
@@ -154,7 +154,7 @@ class SavedRoomsScreen extends StatelessWidget {
               Navigator.of(context).pop();
             },
             child: const Text(
-              'Löschen',
+              'Entfernen',
               style: TextStyle(color: Colors.redAccent),
             ),
           ),
@@ -178,7 +178,7 @@ class _Header extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           const Text(
-            'Gespeicherte Räume',
+            'Energetische Archive',
             style: TextStyle(
               color: Colors.white,
               fontSize: 24,
@@ -205,7 +205,7 @@ class _EmptyState extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           const Text(
-            'Noch keine Räume gespeichert',
+            'Noch keine Energieräume archiviert',
             style: TextStyle(
               color: Color(0xFFB0B5D0),
               fontSize: 18,
@@ -215,7 +215,7 @@ class _EmptyState extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 40),
             child: Text(
-              'Führe einen Scan durch und speichere das Ergebnis als Raum.',
+              'Führe einen energetischen Scan durch und bewahre dein persönliches Heilfrequenzprofil für die Harmonisierung deiner Räume.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF9AA1C5),
@@ -323,7 +323,7 @@ class _RoomCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        isPlaying ? 'Pausieren' : 'Abspielen',
+                        isPlaying ? 'Harmonisierung pausieren' : 'Heilfrequenz aktivieren',
                         style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
@@ -369,7 +369,7 @@ class _RoomCard extends StatelessWidget {
           children: [
             ListTile(
               leading: const Icon(Icons.edit, color: Color(0xFF29E0FF)),
-              title: const Text('Umbenennen', style: TextStyle(color: Colors.white)),
+              title: const Text('Namen ändern', style: TextStyle(color: Colors.white)),
               onTap: () {
                 Navigator.of(context).pop();
                 onRename();
@@ -377,7 +377,7 @@ class _RoomCard extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.delete, color: Colors.redAccent),
-              title: const Text('Löschen', style: TextStyle(color: Colors.redAccent)),
+              title: const Text('Aus Archiv entfernen', style: TextStyle(color: Colors.redAccent)),
               onTap: () {
                 Navigator.of(context).pop();
                 onDelete();

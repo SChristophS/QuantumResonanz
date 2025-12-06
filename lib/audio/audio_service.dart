@@ -550,39 +550,39 @@ class AudioService {
     required double baseFrequency,
     required double movementIndex,
   }) {
-    final segLabel = 'Segment ${index + 1} von $segmentCount';
+    final segLabel = 'Energiesignatur ${index + 1} von $segmentCount';
 
     String energyText;
     if (energy < 0.6) {
-      energyText = 'sanfte Grundschwingung mit stabiler Energieverteilung';
+      energyText = 'sanfte Grundschwingung der Raumenergie, harmonisch fließend';
     } else if (energy < 0.8) {
-      energyText = 'deutlich ausgeprägte Mikroimpulse im Resonanzfeld';
+      energyText = 'lebendige feinstoffliche Impulse im energetischen Resonanzfeld';
     } else {
-      energyText = 'konzentrierte Energiewolke mit hoher Dichte';
+      energyText = 'hochkonzentrierte Energiedichte mit transformierender Kraft';
     }
 
     String freqText;
     if (freqMix < 0.5) {
-      freqText = 'dominanter Fokus im tieferen Frequenzband';
+      freqText = 'verwurzelt in den erdenden Tiefenfrequenzen des Chakrensystems';
     } else if (freqMix < 0.8) {
-      freqText = 'breit verteiltes Frequenzspektrum mit mittlerem Schwerpunkt';
+      freqText = 'ausgewogene Schwingung durch alle feinstofflichen Ebenen';
     } else {
-      freqText = 'stark betonte Hochfrequenz-Mikrostrukturen';
+      freqText = 'erhabene Hochfrequenzenergien, die zur spirituellen Öffnung führen';
     }
 
     String movementText;
     if (movementIndex < 0.3) {
-      movementText = 'weitgehend gleichmäßig und ruhig oszillierend';
+      movementText = 'meditativ gleichmäßig, beruhigend für die Aura';
     } else if (movementIndex < 0.7) {
-      movementText = 'mit leicht fragmentierter, aber kohärenter Bewegung';
+      movementText = 'sanft pulsierend, Blockaden auflösend mit harmonischer Kohärenz';
     } else {
-      movementText = 'hochdynamisch mit stark wechselnden Mikrooszillationen';
+      movementText = 'dynamisch transformierend, intensive Reinigung der Energiestrukturen';
     }
 
     final freqHz = baseFrequency.round();
 
     return '$segLabel: $energyText, $freqText. '
-        'Zentralfrequenz ca. $freqHz Hz, $movementText.';
+        'Heilfrequenz bei ca. $freqHz Hz, $movementText.';
   }
 
   /// Erzeugt aus 3–5 Segmenten eine finale Wellenform:

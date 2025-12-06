@@ -80,7 +80,7 @@ class QuantumResonanzScreen extends StatelessWidget {
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xFF111427),
         title: const Text(
-          'Raum speichern',
+          'Energieraum archivieren',
           style: TextStyle(color: Colors.white),
         ),
         content: Form(
@@ -90,7 +90,7 @@ class QuantumResonanzScreen extends StatelessWidget {
             autofocus: true,
             style: const TextStyle(color: Colors.white),
             decoration: const InputDecoration(
-              labelText: 'Raumname',
+              labelText: 'Name des Energieraumes',
               labelStyle: TextStyle(color: Color(0xFFB0B5D0)),
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Color(0xFF29E0FF)),
@@ -101,7 +101,7 @@ class QuantumResonanzScreen extends StatelessWidget {
             ),
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'Bitte gib einen Namen ein';
+                return 'Bitte gib diesem Energieraum einen Namen';
               }
               return null;
             },
@@ -110,7 +110,7 @@ class QuantumResonanzScreen extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Abbrechen', style: TextStyle(color: Color(0xFFB0B5D0))),
+            child: const Text('Zurück', style: TextStyle(color: Color(0xFFB0B5D0))),
           ),
           TextButton(
             onPressed: () async {
@@ -122,7 +122,7 @@ class QuantumResonanzScreen extends StatelessWidget {
                   if (savedRoom != null) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('"$name" wurde gespeichert'),
+                        content: Text('Energieraum "$name" wurde erfolgreich archiviert'),
                         backgroundColor: const Color(0xFF29E0FF),
                         duration: const Duration(seconds: 2),
                       ),
@@ -130,7 +130,7 @@ class QuantumResonanzScreen extends StatelessWidget {
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Fehler beim Speichern'),
+                        content: Text('Die energetische Archivierung konnte nicht abgeschlossen werden'),
                         backgroundColor: Colors.redAccent,
                         duration: Duration(seconds: 2),
                       ),
@@ -139,7 +139,7 @@ class QuantumResonanzScreen extends StatelessWidget {
                 }
               }
             },
-            child: const Text('Speichern', style: TextStyle(color: Color(0xFF29E0FF))),
+            child: const Text('Archivieren', style: TextStyle(color: Color(0xFF29E0FF))),
           ),
         ],
       ),
@@ -255,7 +255,7 @@ class _HeaderImage extends StatelessWidget {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        'Ultra-präzise Stille-Analyse',
+                        'Energetische Raumharmonisierung',
                         style: TextStyle(
                           color: Color(0xFFB0B5D0),
                           fontSize: 14,
@@ -294,34 +294,34 @@ class _IdlePanel extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Scanne die Stille im Raum und berechne ein individuelles Quanten-Resonanzprofil deines Umfelds.',
+            'Erfasse die feinstofflichen Schwingungen deines Raumes und erschaffe dein persönliches energetisches Resonanzprofil für ganzheitliche Harmonisierung.',
             style: theme.textTheme.titleMedium,
           ),
           const SizedBox(height: 16),
           Text(
-            'QuantumResonanz analysiert 10 Sekunden lang den nahezu lautlosen Hintergrund deines Raumes, '
-            'filtert Mikro-Rauschanteile und konstruiert daraus ein synthetisches Resonanzmuster. '
-            'Alle Berechnungen laufen vollständig lokal auf deinem Gerät.',
+            'QuantumResonanz lauscht 10 Sekunden in die energetische Essenz deines Raumes. '
+            'Durch tiefenmeditative Analyse der Raumenergien werden Störschwingungen identifiziert und in ein harmonisierendes Heilfrequenzmuster transformiert. '
+            'Deine energetischen Daten bleiben vollständig geschützt und lokal auf deinem Gerät.',
             style: theme.textTheme.bodyMedium,
           ),
           const SizedBox(height: 16),
           Text(
-            'Ablauf der Messung:',
+            'Der Weg zur energetischen Harmonisierung:',
             style: theme.textTheme.titleMedium,
           ),
           const SizedBox(height: 8),
           const _IdleBullet(
-            title: 'Stille-Scan (10 Sekunden)',
+            title: 'Energetische Raumaufnahme (10 Sekunden)',
             body:
-                'Das Mikrofon erfasst dein Raumrauschen mit hoher zeitlicher Auflösung. '
-                'Sprechgeräusche oder deutliche Störungen brechen den Vorgang ab.',
+                'Während dieser heiligen Stille erfassen wir die unsichtbaren Schwingungen deines Raumes. '
+                'Sprache oder laute Störungen unterbrechen die Verbindung zur feinstofflichen Ebene – bitte halte vollkommene Stille.',
           ),
           const SizedBox(height: 6),
           const _IdleBullet(
-            title: 'Analyse der Mikro-Resonanzen',
+            title: 'Dekodierung der Energieschwingungen',
             body:
-                'Das Rohsignal wird in mehrere Mikro-Segmente zerlegt, bezüglich Energie und Frequenzmix bewertet '
-                'und zu einem konsistenten Resonanzfeld verdichtet.',
+                'Jede Frequenz wird als einzigartige energetische Signatur erkannt und analysiert. '
+                'Blockaden und Disharmonien werden identifiziert und in ein kohärentes Heilungsresonanzfeld transformiert.',
           ),
           const SizedBox(height: 6),
           const _IdleBullet(
@@ -332,9 +332,9 @@ class _IdlePanel extends StatelessWidget {
           ),
           const SizedBox(height: 32),
           Center(
-            child: ElevatedButton(
+              child: ElevatedButton(
               onPressed: () => controller.startScan(),
-              child: const Text('Scan starten'),
+              child: const Text('Energetischen Scan beginnen'),
             ),
           ),
           const SizedBox(height: 24),
@@ -348,7 +348,7 @@ class _IdlePanel extends StatelessWidget {
                 );
               },
               icon: const Icon(Icons.folder_special),
-              label: const Text('Gespeicherte Räume'),
+              label: const Text('Energetische Archive'),
               style: OutlinedButton.styleFrom(
                 foregroundColor: const Color(0xFF29E0FF),
                 side: const BorderSide(color: Color(0xFF29E0FF)),
@@ -428,12 +428,12 @@ class _RecordingPanel extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Scan läuft…',
+            'Energetische Erfassung läuft…',
             style: theme.textTheme.headlineMedium,
           ),
           const SizedBox(height: 8),
           Text(
-            'Bitte jetzt 10 Sekunden vollkommen still sein.',
+            'Versenke dich in vollkommene Stille und öffne dich für die feinstofflichen Schwingungen deines Raumes.',
             style: theme.textTheme.titleMedium,
           ),
           const SizedBox(height: 24),
@@ -463,14 +463,14 @@ class _RecordingPanel extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           Text(
-            'Live-Pegel',
+            'Energetische Schwingungsintensität',
             style: theme.textTheme.titleMedium,
           ),
           const SizedBox(height: 8),
           _SymmetricLevelMeter(samples: controller.liveAmplitudes),
           const Spacer(),
           const Text(
-            'Tipp: Lege das Gerät auf eine stabile Unterlage und vermeide jede Bewegung.',
+            'Für optimale Verbindung: Platziere das Gerät ruhig und zentriere dich innerlich. Jede Bewegung stört die feine energetische Verbindung.',
             style: TextStyle(
               fontSize: 12,
               color: Color(0xFF9AA1C5),
@@ -601,13 +601,13 @@ class _CalibratingPanel extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Kalibrierung der Umgebungsstille',
+            'Energetische Basis-Kalibrierung',
             style: theme.textTheme.headlineMedium,
           ),
           const SizedBox(height: 8),
           Text(
-            'Bitte halte den Raum für einen kurzen Moment möglichst ruhig. '
-            'QuantumResonanz misst dein individuelles Rauschprofil, um den Scan optimal einzustellen.',
+            'In dieser Phase verbinden wir uns mit den Grundschwingungen deines Raumes. '
+            'Halte einen Moment inne, damit wir dein individuelles energetisches Feld optimal erfassen können.',
             style: theme.textTheme.titleMedium,
           ),
           const SizedBox(height: 24),
@@ -624,7 +624,7 @@ class _CalibratingPanel extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Live-Pegel während der Kalibrierung',
+            'Energetische Grundschwingungen',
             style: theme.textTheme.titleMedium,
           ),
           const SizedBox(height: 8),
@@ -637,8 +637,8 @@ class _CalibratingPanel extends StatelessWidget {
           ),
           const Spacer(),
           const Text(
-            'Hinweis: Diese Kalibrierung wird nur selten benötigt. '
-            'Sie hilft, die Empfindlichkeit exakt auf deine Raumumgebung abzustimmen.',
+            'Diese energetische Einstimmung erfolgt nur bei Bedarf. '
+            'Sie gewährleistet eine präzise Verbindung zu den einzigartigen Schwingungen deines persönlichen Raumes.',
             style: TextStyle(
               fontSize: 12,
               color: Color(0xFF9AA1C5),
@@ -674,7 +674,7 @@ class _TooLoudPanel extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                'Scan abgebrochen',
+                'Energetische Verbindung unterbrochen',
                 style: theme.textTheme.headlineMedium?.copyWith(
                   color: Colors.redAccent.shade200,
                 ),
@@ -683,12 +683,13 @@ class _TooLoudPanel extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            'Es war zu laut während des Scans. Bitte versuche es erneut und bleibe 10 Sekunden ganz still.',
+            'Die energetische Verbindung wurde durch disharmonische Schwingungen gestört. '
+            'Bitte versuche es erneut und erlaube dem Raum, in vollkommener meditativer Stille zu schwingen.',
             style: theme.textTheme.bodyMedium,
           ),
           const SizedBox(height: 24),
           const Text(
-            'Detektierte Lautheitsspitze (symbolisch):',
+            'Erkannte energetische Disharmonie:',
             style: TextStyle(
               fontSize: 14,
               color: Color(0xFFB0B5D0),
@@ -702,9 +703,9 @@ class _TooLoudPanel extends StatelessWidget {
           ),
           const Spacer(),
           Center(
-            child: ElevatedButton(
+              child: ElevatedButton(
               onPressed: () => controller.resetToIdle(),
-              child: const Text('Erneut versuchen'),
+              child: const Text('Energetischen Neubeginn'),
             ),
           ),
           const SizedBox(height: 24),
@@ -762,12 +763,12 @@ class _AnalyzingPanelBodyState extends State<_AnalyzingPanelBody> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Analyse der Quantenschwingungen…',
+            'Tiefenanalyse der Energieschwingungen…',
             style: theme.textTheme.headlineMedium,
           ),
           const SizedBox(height: 12),
           Text(
-            'Mikro-Resonanzen werden extrahiert…',
+            'Die feinstofflichen Frequenzen werden aus der energetischen Matrix extrahiert…',
             style: theme.textTheme.titleMedium,
           ),
           const SizedBox(height: 24),
@@ -778,15 +779,15 @@ class _AnalyzingPanelBodyState extends State<_AnalyzingPanelBody> {
             runSpacing: 8,
             children: [
               _StatusChip(
-                label: 'Rauschpegel kalibrieren',
+                label: 'Energetische Basis kalibrieren',
                 isActive: _currentStep == 0,
               ),
               _StatusChip(
-                label: 'Resonanzfeld messen',
+                label: 'Resonanzfeld ausloten',
                 isActive: _currentStep == 1,
               ),
               _StatusChip(
-                label: 'Mikrostrukturen erkennen',
+                label: 'Feinstoffliche Blockaden identifizieren',
                 isActive: _currentStep == 2,
               ),
             ],
@@ -940,12 +941,12 @@ class _SegmentsPanel extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Extrahierte Mikro-Segmente',
+            'Erkannte Energiesignaturen',
             style: theme.textTheme.headlineMedium,
           ),
           const SizedBox(height: 8),
           Text(
-            'Aus deiner 10-Sekunden-Stille wurden ${segments.length} Mikro-Resonanzsegmente isoliert.',
+            'Aus der meditativen Stille deines Raumes wurden ${segments.length} einzigartige energetische Resonanzmuster erkannt und decodiert.',
             style: theme.textTheme.titleMedium,
           ),
           const SizedBox(height: 16),
@@ -974,7 +975,7 @@ class _SegmentsPanel extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            'Segment ${index + 1}',
+                            'Energiesignatur ${index + 1}',
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -983,7 +984,7 @@ class _SegmentsPanel extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            'Energie: ${energie.toStringAsFixed(2)}',
+                            'Schwingungsintensität: ${energie.toStringAsFixed(2)}',
                             style: const TextStyle(
                               fontSize: 12,
                               color: Color(0xFFB0B5D0),
@@ -1010,7 +1011,7 @@ class _SegmentsPanel extends StatelessWidget {
                       Row(
                         children: [
                           const Text(
-                            'Frequenzmix',
+                            'Harmonisierungsgrad',
                             style: TextStyle(
                               fontSize: 12,
                               color: Color(0xFF9AA1C5),
@@ -1049,9 +1050,9 @@ class _SegmentsPanel extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Center(
-            child: ElevatedButton(
+              child: ElevatedButton(
               onPressed: () => controller.startSynthesis(),
-              child: const Text('Resonanzmuster berechnen'),
+              child: const Text('Heilfrequenz generieren'),
             ),
           ),
           const SizedBox(height: 20),
@@ -1106,12 +1107,12 @@ class _SynthesizingPanelState extends State<_SynthesizingPanel>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Resonanzprofil wird erzeugt…',
+                    'Dein Heilfrequenzprofil entsteht…',
                     style: theme.textTheme.headlineMedium,
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Mehrere Mikro-Segmente werden zu einem kohärenten Resonanzmuster verschmolzen.',
+                    'Durch alchemistische Transformation werden alle Energiesignaturen zu einem harmonisierenden Heilungsresonanzmuster verschmolzen.',
                     style: theme.textTheme.titleMedium,
                   ),
                   const SizedBox(height: 32),
@@ -1147,12 +1148,12 @@ class _SynthesizingPanelState extends State<_SynthesizingPanel>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
               Text(
-                'Resonanzprofil wird erzeugt…',
+                'Dein Heilfrequenzprofil entsteht…',
                 style: theme.textTheme.headlineMedium,
               ),
               const SizedBox(height: 12),
               Text(
-                'Die aufgezeichneten Mikro-Segmente werden in reine Schwingungen umgewandelt und zu einem Gesamtprofil verschmolzen.',
+                'Jede erkannte Energiesignatur wird in reine Heilfrequenzen transformiert und zu deinem einzigartigen Harmonisierungssignal verschmolzen.',
                 style: theme.textTheme.titleMedium,
               ),
               const SizedBox(height: 24),
@@ -1179,7 +1180,7 @@ class _SynthesizingPanelState extends State<_SynthesizingPanel>
               ),
               const SizedBox(height: 16),
               Text(
-                'Aufbauendes Resonanzmuster',
+                'Entstehendes Harmonisierungssignal',
                 style: theme.textTheme.titleMedium,
               ),
               const SizedBox(height: 8),
@@ -1196,11 +1197,11 @@ class _SynthesizingPanelState extends State<_SynthesizingPanel>
                   ),
                 ),
               const SizedBox(height: 12),
-              const _ProcessLabel(text: 'Analysiere Mikro-Impulse…'),
+              const _ProcessLabel(text: 'Energetische Impulse decodieren…'),
               const SizedBox(height: 4),
-              const _ProcessLabel(text: 'Synchronisiere Phasen…'),
+              const _ProcessLabel(text: 'Schwingungen harmonisieren…'),
               const SizedBox(height: 4),
-              const _ProcessLabel(text: 'Erzeuge Resonanzprofil…'),
+              const _ProcessLabel(text: 'Heilfrequenzmanifestation…'),
               const SizedBox(height: 16),
             ],
             ),
@@ -1296,7 +1297,7 @@ class _ResultPanel extends StatelessWidget {
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xFF111427),
         title: const Text(
-          'Raum speichern',
+          'Energieraum archivieren',
           style: TextStyle(color: Colors.white),
         ),
         content: Form(
@@ -1306,7 +1307,7 @@ class _ResultPanel extends StatelessWidget {
             autofocus: true,
             style: const TextStyle(color: Colors.white),
             decoration: const InputDecoration(
-              labelText: 'Raumname',
+              labelText: 'Name des Energieraumes',
               labelStyle: TextStyle(color: Color(0xFFB0B5D0)),
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Color(0xFF29E0FF)),
@@ -1317,7 +1318,7 @@ class _ResultPanel extends StatelessWidget {
             ),
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'Bitte gib einen Namen ein';
+                return 'Bitte gib diesem Energieraum einen Namen';
               }
               return null;
             },
@@ -1326,7 +1327,7 @@ class _ResultPanel extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Abbrechen', style: TextStyle(color: Color(0xFFB0B5D0))),
+            child: const Text('Zurück', style: TextStyle(color: Color(0xFFB0B5D0))),
           ),
           TextButton(
             onPressed: () async {
@@ -1338,7 +1339,7 @@ class _ResultPanel extends StatelessWidget {
                   if (savedRoom != null) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('"$name" wurde gespeichert'),
+                        content: Text('Energieraum "$name" wurde erfolgreich archiviert'),
                         backgroundColor: const Color(0xFF29E0FF),
                         duration: const Duration(seconds: 2),
                       ),
@@ -1346,7 +1347,7 @@ class _ResultPanel extends StatelessWidget {
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Fehler beim Speichern'),
+                        content: Text('Die energetische Archivierung konnte nicht abgeschlossen werden'),
                         backgroundColor: Colors.redAccent,
                         duration: Duration(seconds: 2),
                       ),
@@ -1355,7 +1356,7 @@ class _ResultPanel extends StatelessWidget {
                 }
               }
             },
-            child: const Text('Speichern', style: TextStyle(color: Color(0xFF29E0FF))),
+            child: const Text('Archivieren', style: TextStyle(color: Color(0xFF29E0FF))),
           ),
         ],
       ),
@@ -1375,12 +1376,12 @@ class _ResultPanel extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Dein Countersignal',
+              'Dein Heilfrequenzsignal',
               style: theme.textTheme.headlineMedium,
             ),
             const SizedBox(height: 8),
             Text(
-              'Spiele das Countersignal ab, um negative Energien in deinem Raum zu neutralisieren.',
+              'Spiele dieses harmonisierende Signal ab, um disharmonische Energien zu transformieren, Blockaden zu lösen und deine Raumenergie in vollkommene Balance zu bringen.',
               style: theme.textTheme.titleMedium,
             ),
             const SizedBox(height: 16),
@@ -1439,7 +1440,7 @@ class _ResultPanel extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () => _showSaveRoomDialog(context, controller),
                 icon: const Icon(Icons.save),
-                label: const Text('Als Raum speichern'),
+                label: const Text('Energieraum archivieren'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF29E0FF),
                   foregroundColor: Colors.black,
@@ -1452,7 +1453,7 @@ class _ResultPanel extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () => controller.resetToIdle(),
-                child: const Text('Nochmal scannen'),
+                child: const Text('Neue Harmonisierung'),
               ),
             ),
             const SizedBox(height: 20),
@@ -1507,7 +1508,7 @@ class _CounterSignalButton extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             const Text(
-              'Counter Signal abspielen',
+              'Heilfrequenz aktivieren',
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w700,

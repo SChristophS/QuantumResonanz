@@ -241,7 +241,7 @@ class QuantumResonanzController extends ChangeNotifier {
       _savedRooms = await _storageService.loadAllRooms();
       notifyListeners();
     } catch (e) {
-      debugPrint('Fehler beim Laden der gespeicherten Räume: $e');
+      debugPrint('Fehler beim Laden der energetischen Archive: $e');
     }
   }
 
@@ -280,7 +280,7 @@ class QuantumResonanzController extends ChangeNotifier {
       }
       await _loadSavedRooms();
     } catch (e) {
-      debugPrint('Fehler beim Löschen des Raums: $e');
+      debugPrint('Fehler beim Entfernen des Energieraumes: $e');
     }
   }
 
@@ -290,7 +290,7 @@ class QuantumResonanzController extends ChangeNotifier {
       await _storageService.updateRoomName(id, newName);
       await _loadSavedRooms();
     } catch (e) {
-      debugPrint('Fehler beim Aktualisieren des Raumnamens: $e');
+      debugPrint('Fehler beim Aktualisieren des Energieraumnamens: $e');
     }
   }
 
