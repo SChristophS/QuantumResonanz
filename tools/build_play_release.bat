@@ -16,8 +16,11 @@ if /I "%1"=="-clean" (
 echo flutter pub get ...
 flutter pub get
 
-echo flutter build appbundle --release ...
-flutter build appbundle --release
+echo Creating debug info directory...
+if not exist "build\debug-info" mkdir "build\debug-info"
+
+echo flutter build appbundle --release --obfuscate --split-debug-info=build/debug-info ...
+flutter build appbundle --release --obfuscate --split-debug-info=build/debug-info
 
 echo.
 echo Fertig. Das App-Bundle findest du hier:

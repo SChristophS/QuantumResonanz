@@ -222,7 +222,13 @@ function Build-ApkRelease {
     Write-Host ""
     Write-Host "=== Building Release APK ===" -ForegroundColor Cyan
     Ensure-Keystore
-    flutter build apk --release
+    
+    $debugInfoDir = Join-Path $repoRoot "build/debug-info"
+    if (-not (Test-Path $debugInfoDir)) {
+        New-Item -Path $debugInfoDir -ItemType Directory -Force | Out-Null
+    }
+    
+    flutter build apk --release --obfuscate --split-debug-info=$debugInfoDir
     
     if ($LASTEXITCODE -ne 0) {
         throw "APK release build failed"
@@ -237,6 +243,7 @@ function Build-ApkRelease {
     $dest = Join-Path $destDir "QuantumResonanz-release-$($VersionInfo.Name)-build$($VersionInfo.Build).apk"
     Copy-Item $src $dest -Force
     Write-Success "Release APK: $dest"
+    Write-Info "Debug info saved to: $debugInfoDir"
     return $dest
 }
 
@@ -246,7 +253,13 @@ function Build-ApkSplit {
     Write-Host ""
     Write-Host "=== Building Split APKs (per ABI) ===" -ForegroundColor Cyan
     Ensure-Keystore
-    flutter build apk --release --split-per-abi
+    
+    $debugInfoDir = Join-Path $repoRoot "build/debug-info"
+    if (-not (Test-Path $debugInfoDir)) {
+        New-Item -Path $debugInfoDir -ItemType Directory -Force | Out-Null
+    }
+    
+    flutter build apk --release --split-per-abi --obfuscate --split-debug-info=$debugInfoDir
     
     if ($LASTEXITCODE -ne 0) {
         throw "Split APK build failed"
@@ -264,6 +277,7 @@ function Build-ApkSplit {
         Copy-Item $apk.FullName $dest -Force
         Write-Success "  $abiName`: $dest"
     }
+    Write-Info "Debug info saved to: $debugInfoDir"
 }
 
 function Build-AppBundle {
@@ -275,7 +289,13 @@ function Build-AppBundle {
     Write-Host ""
     Write-Host "=== Building App Bundle ($VariantLabel) ===" -ForegroundColor Cyan
     Ensure-Keystore
-    flutter build appbundle --release
+    
+    $debugInfoDir = Join-Path $repoRoot "build/debug-info"
+    if (-not (Test-Path $debugInfoDir)) {
+        New-Item -Path $debugInfoDir -ItemType Directory -Force | Out-Null
+    }
+    
+    flutter build appbundle --release --obfuscate --split-debug-info=$debugInfoDir
     
     if ($LASTEXITCODE -ne 0) {
         throw "App bundle build failed"
@@ -290,6 +310,7 @@ function Build-AppBundle {
     $dest = Join-Path $destDir "QuantumResonanz-$VariantLabel-$($VersionInfo.Name)-build$($VersionInfo.Build).aab"
     Copy-Item $src $dest -Force
     Write-Success "App Bundle: $dest"
+    Write-Info "Debug info saved to: $debugInfoDir"
     return $dest
 }
 

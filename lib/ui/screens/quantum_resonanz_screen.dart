@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../state/app_state.dart';
 import '../../widgets/waveform_widget.dart';
 import 'saved_rooms_screen.dart';
+import 'settings_screen.dart';
 
 class QuantumResonanzScreen extends StatelessWidget {
   const QuantumResonanzScreen({super.key});
@@ -58,6 +59,43 @@ class QuantumResonanzScreen extends StatelessWidget {
                             context,
                             controller,
                             theme,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Info button in top-right corner (always visible, on top of everything)
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: SafeArea(
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const SettingsScreen(),
+                              ),
+                            );
+                          },
+                          borderRadius: BorderRadius.circular(24),
+                          child: Container(
+                            width: 48,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF0F1A2E).withValues(alpha: 0.8),
+                              borderRadius: BorderRadius.circular(24),
+                              border: Border.all(
+                                color: const Color(0xFF29E0FF).withValues(alpha: 0.5),
+                                width: 1.5,
+                              ),
+                            ),
+                            child: const Icon(
+                              Icons.info_outline,
+                              color: Color(0xFF29E0FF),
+                              size: 24,
+                            ),
                           ),
                         ),
                       ),

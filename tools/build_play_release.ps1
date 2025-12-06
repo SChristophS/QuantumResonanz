@@ -41,9 +41,15 @@ if ($Clean) {
 Write-Host "flutter pub get ..."
 flutter pub get
 
-# 3) Release-Build als App Bundle (für Play Store empfohlen)
-Write-Host "flutter build appbundle --release ..."
-flutter build appbundle --release
+# 3) Release-Build als App Bundle (für Play Store empfohlen) mit Obfuscation
+Write-Host "Creating debug info directory..."
+$debugInfoDir = Join-Path $repoRoot "build/debug-info"
+if (-not (Test-Path $debugInfoDir)) {
+    New-Item -Path $debugInfoDir -ItemType Directory -Force | Out-Null
+}
+
+Write-Host "flutter build appbundle --release --obfuscate --split-debug-info=$debugInfoDir ..."
+flutter build appbundle --release --obfuscate --split-debug-info=$debugInfoDir
 
 Write-Host ""
 Write-Host "Fertig. Das App-Bundle findest du hier:"

@@ -197,3 +197,4 @@ class RoomStorageService {
     return buffer.toBytes();
   }
 }
+

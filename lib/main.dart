@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'services/language_service.dart';
 import 'state/app_state.dart';
 import 'ui/screens/quantum_resonanz_screen.dart';
 
@@ -13,13 +15,30 @@ class QuantumResonanzApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => QuantumResonanzController(),
-      child: MaterialApp(
-        title: 'QuantumResonanz',
-        debugShowCheckedModeBanner: false,
-        theme: _buildDarkTheme(),
-        home: const QuantumResonanzScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => QuantumResonanzController()),
+        ChangeNotifierProvider(create: (_) => LanguageService()),
+      ],
+      child: Consumer<LanguageService>(
+        builder: (context, languageService, _) {
+          return MaterialApp(
+            title: 'QuantumResonanz',
+            debugShowCheckedModeBanner: false,
+            theme: _buildDarkTheme(),
+            locale: languageService.locale,
+            supportedLocales: const [
+              Locale('de'),
+              Locale('en'),
+            ],
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            home: const QuantumResonanzScreen(),
+          );
+        },
       ),
     );
   }

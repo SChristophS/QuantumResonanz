@@ -22,6 +22,7 @@ flutter_export_environment.sh
 android/.gradle/
 android/local.properties
 android/app/google-services.json
+android/key.properties
 
 # iOS
 ios/Pods/
