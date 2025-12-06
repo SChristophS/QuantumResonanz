@@ -245,6 +245,11 @@ class QuantumResonanzController extends ChangeNotifier {
     }
   }
 
+  /// Öffentliche Methode zum Neuladen der gespeicherten Räume
+  Future<void> reloadSavedRooms() async {
+    await _loadSavedRooms();
+  }
+
   /// Speichert das aktuelle Resultat als Raum
   Future<SavedRoom?> saveCurrentRoom(String name) async {
     if (_finalWaveform.isEmpty) return null;

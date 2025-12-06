@@ -34,6 +34,7 @@ class QuantumResonanzScreen extends StatelessWidget {
             child: SafeArea(
               minimum: const EdgeInsets.only(top: 8),
               child: Stack(
+                clipBehavior: Clip.none,
                 children: [
                   // Header image as background overlay
                   Positioned(
@@ -43,18 +44,21 @@ class QuantumResonanzScreen extends StatelessWidget {
                     height: 260,
                     child: _HeaderImage(state: state),
                   ),
-                  // Content overlaying the image
+                  // Content overlaying the image - must be last to stay on top
                   Positioned.fill(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 200),
-                      child: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 400),
-                        switchInCurve: Curves.easeOutCubic,
-                        switchOutCurve: Curves.easeInCubic,
-                        child: _buildContentForState(
-                          context,
-                          controller,
-                          theme,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 200),
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 400),
+                          switchInCurve: Curves.easeOutCubic,
+                          switchOutCurve: Curves.easeInCubic,
+                          child: _buildContentForState(
+                            context,
+                            controller,
+                            theme,
+                          ),
                         ),
                       ),
                     ),
@@ -214,16 +218,16 @@ class _HeaderImage extends StatelessWidget {
             asset,
             fit: BoxFit.cover,
           ),
-          // Dunkler Verlauf für Lesbarkeit von Text
+          // Leichter Verlauf für Lesbarkeit von Text (reduziert für bessere Sichtbarkeit)
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black54,
+                  Colors.black26,
+                  Color(0x66050712),
                   Color(0xAA050712),
-                  Color(0xFF050712),
                 ],
               ),
             ),

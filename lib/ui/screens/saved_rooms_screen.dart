@@ -4,8 +4,23 @@ import 'package:provider/provider.dart';
 import '../../models/saved_room.dart';
 import '../../state/app_state.dart';
 
-class SavedRoomsScreen extends StatelessWidget {
+class SavedRoomsScreen extends StatefulWidget {
   const SavedRoomsScreen({super.key});
+
+  @override
+  State<SavedRoomsScreen> createState() => _SavedRoomsScreenState();
+}
+
+class _SavedRoomsScreenState extends State<SavedRoomsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Räume beim Öffnen des Screens neu laden
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final controller = context.read<QuantumResonanzController>();
+      controller.reloadSavedRooms();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

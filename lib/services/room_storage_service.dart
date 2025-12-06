@@ -28,17 +28,24 @@ class RoomStorageService {
     final byteData = _buildWaveBytes(waveform);
     await waveformFile.writeAsBytes(byteData, flush: true);
 
+    // Raum mit korrektem waveformPath erstellen
+    final roomWithPath = room.copyWith(waveformPath: waveformFile.path);
+
     // Metadaten in SharedPreferences speichern
     final prefs = await SharedPreferences.getInstance();
     final roomsJson = prefs.getStringList(_roomsKey) ?? [];
     
     // Prüfen ob Raum bereits existiert
     final existingIndex = roomsJson.indexWhere((json) {
-      final roomData = jsonDecode(json) as Map<String, dynamic>;
-      return roomData['id'] == room.id;
+      try {
+        final roomData = jsonDecode(json) as Map<String, dynamic>;
+        return roomData['id'] == room.id;
+      } catch (e) {
+        return false;
+      }
     });
 
-    final roomJson = jsonEncode(room.toJson());
+    final roomJson = jsonEncode(roomWithPath.toJson());
     if (existingIndex >= 0) {
       roomsJson[existingIndex] = roomJson;
     } else {
@@ -47,7 +54,7 @@ class RoomStorageService {
 
     await prefs.setStringList(_roomsKey, roomsJson);
 
-    return room.copyWith(waveformPath: waveformFile.path);
+    return roomWithPath;
   }
 
   /// Lädt alle gespeicherten Räume
