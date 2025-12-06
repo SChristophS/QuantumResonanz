@@ -45,8 +45,8 @@ class AudioService {
   static const int _sampleRate = 44100;
   static const int _recordSeconds = 10;
 
-  // Kalibrierungsdauer (Sekunden)
-  static const int _calibrationSeconds = 3;
+  // Kalibrierungsdauer (Sekunden) - verlängert für tiefere Analyse
+  static const int _calibrationSeconds = 8;
 
   // Lautheitsschwellen (werden durch Kalibrierung dynamisch angepasst):
   // - _visualNoiseFloor: nur für Visualisierung, sehr empfindlich
@@ -380,7 +380,7 @@ class AudioService {
   /// - Segmente sind in etwa gleich lang über die gesamte Dauer verteilt.
   /// - Für jedes Segment werden Pseudo-Metriken und Parameter für die
   ///   spätere Schwingungs-Synthese berechnet.
-  List<AudioSegment> extractSegments(List<double> samples) {
+  Future<List<AudioSegment>> extractSegments(List<double> samples) async {
     if (samples.isEmpty) {
       return const [];
     }
@@ -409,6 +409,9 @@ class AudioService {
       final end = (i == segmentCount - 1) ? total : (i + 1) * baseLen;
       final segOriginal = samples.sublist(start, end);
 
+      // Simuliere tiefe Analyse für jedes Segment
+      await Future<void>.delayed(Duration(milliseconds: 800 + _random.nextInt(400)));
+
       // Leise Segmente anheben, damit die Visualisierung sichtbar wird
       final maxAmp = segOriginal.fold<double>(
         0.0,
@@ -420,6 +423,9 @@ class AudioService {
       for (final s in segOriginal) {
         normalized.add((s * factor).clamp(-1.0, 1.0));
       }
+
+      // Simuliere Berechnung der Energie- und Frequenzmetriken
+      await Future<void>.delayed(Duration(milliseconds: 600 + _random.nextInt(300)));
 
       final rawEnergy = _calculateEnergy(normalized);
       // Energie bewusst zwischen 50–100 % halten
@@ -597,12 +603,17 @@ class AudioService {
     for (var i = 0; i < segments.length; i++) {
       final seg = segments[i];
       if (seg.syntheticSamples.isEmpty) {
+        // Simuliere tiefe Synthese-Berechnung für jedes Segment
+        await Future<void>.delayed(Duration(milliseconds: 1200 + _random.nextInt(600)));
         final synthetic = _synthesizeSegmentWave(seg);
         segments[i] = seg.copyWith(syntheticSamples: synthetic);
       }
     }
 
     // 2. Segmente in umgedrehter Reihenfolge verketten, mit Crossfades
+    // Simuliere komplexe Verkettungs-Berechnung
+    await Future<void>.delayed(Duration(milliseconds: 1000 + _random.nextInt(500)));
+    
     final ordered = segments.reversed.toList();
     final baseResult = <double>[];
     final crossfadeSamples =
@@ -633,10 +644,14 @@ class AudioService {
     }
 
     // 3. Stretch the base waveform to exactly 1 minute using granular synthesis
+    // Simuliere komplexe Zeitstreckung
+    await Future<void>.delayed(Duration(milliseconds: 2000 + _random.nextInt(1000)));
     const targetDurationSeconds = 60.0;
     final result = _stretchToDuration(baseResult, targetDurationSeconds);
 
     // 4. Raumklang / Echo hinzufügen und gesamte Welle normalisieren
+    // Simuliere komplexe Raumklang-Berechnung
+    await Future<void>.delayed(Duration(milliseconds: 1500 + _random.nextInt(500)));
     final withRoom = _applyEcho(result);
 
     double maxAmp = 0.0;

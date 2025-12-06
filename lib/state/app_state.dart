@@ -158,23 +158,24 @@ class QuantumResonanzController extends ChangeNotifier {
     _rawSamples = samples;
     _setState(QuantumState.analyzing);
 
-    // Kunst-Analyse-Phase (5–6 Sekunden), danach Segment-Erzeugung.
+    // Tiefe Analyse-Phase (15–18 Sekunden), danach Segment-Erzeugung.
     _analyzingTimer?.cancel();
     _analyzingTimer = Timer(
-      Duration(milliseconds: 5000 + _random.nextInt(1000)),
-      () {
-        _generateSegmentsFromRaw();
+      Duration(milliseconds: 15000 + _random.nextInt(3000)),
+      () async {
+        await _generateSegmentsFromRaw();
       },
     );
   }
 
-  void _generateSegmentsFromRaw() {
+  Future<void> _generateSegmentsFromRaw() async {
     if (_rawSamples.isEmpty) {
       _segments = [];
       _setState(QuantumState.recordingTooLoud);
       return;
     }
-    _segments = _audioService.extractSegments(_rawSamples);
+    // Simuliere tiefe Datenverarbeitung während der Segmentierung
+    _segments = await _audioService.extractSegments(_rawSamples);
     _setState(QuantumState.showingSegments);
   }
 
@@ -187,7 +188,8 @@ class QuantumResonanzController extends ChangeNotifier {
     notifyListeners();
 
     // Verlängerte visuelle Synthese-Phase, bevor das Resultat angezeigt wird.
-    await Future<void>.delayed(const Duration(milliseconds: 10000));
+    // Simuliere finale tiefe Verarbeitung und Optimierung
+    await Future<void>.delayed(const Duration(milliseconds: 18000));
     _setState(QuantumState.result);
   }
 
