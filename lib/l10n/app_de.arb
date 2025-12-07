@@ -1,0 +1,174 @@
+{
+  "@@locale": "de",
+  "appName": "QuantumResonanz",
+  "appSubtitle": "Energetische Raumharmonisierung",
+  "appDescription": "Erfassen Sie die feinstofflichen Schwingungen Ihres Raumes und erstellen Sie Ihr persönliches energetisches Resonanzprofil für ganzheitliche Harmonisierung.",
+  "appDescriptionLong": "QuantumResonanz lauscht 10 Sekunden lang in die energetische Essenz Ihres Raumes. Durch tiefenmeditative Analyse der Raumenergien werden störende Schwingungen identifiziert und in ein harmonisierendes Resonanzmuster transformiert. Ihre energetischen Daten bleiben vollständig geschützt und lokal auf Ihrem Gerät.",
+  "pathToHarmonization": "Der Weg zur energetischen Harmonisierung:",
+  "roomCaptureTitle": "Energetische Raumerfassung (10 Sekunden)",
+  "roomCaptureBody": "Während dieser tiefen Stille erfassen wir die unsichtbaren Schwingungen Ihres Raumes. Sprache oder laute Störungen unterbrechen die Verbindung zur feinstofflichen Ebene – bitte bewahren Sie vollständige Stille.",
+  "decodingTitle": "Dekodierung von Energieschwingungen",
+  "decodingBody": "Jede Frequenz wird als einzigartige energetische Signatur erkannt und analysiert. Blockaden und Disharmonien werden identifiziert und in ein kohärentes Resonanzfeld transformiert.",
+  "synthesisTitle": "Synthese & Gegensignal",
+  "synthesisBody": "Aus den Segmenten entsteht ein geglättetes Resonanzmuster. Daraus wird ein \"Gegensignal\" generiert, das Ihr Geräuschprofil akustisch widerspiegelt.",
+  "startScan": "Energetischen Scan starten",
+  "savedRooms": "Energetische Archive",
+  "archiveRoom": "Energieraum archivieren",
+  "roomNameLabel": "Name des Energieraums",
+  "roomNameRequired": "Bitte geben Sie diesem Energieraum einen Namen",
+  "back": "Zurück",
+  "archive": "Archivieren",
+  "roomArchivedSuccess": "Energieraum \"{name}\" wurde erfolgreich archiviert",
+  "@roomArchivedSuccess": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "archiveFailed": "Die energetische Archivierung konnte nicht abgeschlossen werden",
+  "recordingInProgress": "Energetische Erfassung läuft…",
+  "recordingInstructions": "Versinken Sie in vollständiger Stille und öffnen Sie sich für die feinstofflichen Schwingungen Ihres Raumes.",
+  "vibrationIntensity": "Energetische Schwingungsintensität",
+  "optimalConnection": "Für optimale Verbindung: Stellen Sie das Gerät ruhig ab und zentrieren Sie sich innerlich. Jede Bewegung stört die feine energetische Verbindung.",
+  "calibrationTitle": "Energetische Basis-Kalibrierung",
+  "calibrationBody": "In dieser Phase verbinden wir uns mit den Grundschwingungen Ihres Raumes. Nehmen Sie sich einen Moment der Pause, damit wir Ihr individuelles energetisches Feld optimal erfassen können.",
+  "baseVibrations": "Energetische Grundschwingungen",
+  "calibrationNote": "Diese energetische Abstimmung erfolgt nur bei Bedarf. Sie gewährleistet eine präzise Verbindung zu den einzigartigen Schwingungen Ihres persönlichen Raumes.",
+  "connectionInterrupted": "Energetische Verbindung unterbrochen",
+  "connectionInterruptedBody": "Die energetische Verbindung wurde durch disharmonische Schwingungen gestört. Bitte versuchen Sie es erneut und lassen Sie den Raum in vollständiger meditativer Stille schwingen.",
+  "detectedDisharmony": "Erkannte energetische Disharmonie:",
+  "energeticRestart": "Energetischer Neubeginn",
+  "deepAnalysis": "Tiefenanalyse der Energieschwingungen…",
+  "frequencyExtraction": "Die feinstofflichen Frequenzen werden aus der energetischen Matrix extrahiert…",
+  "calibrateBasis": "Energetische Basis kalibrieren",
+  "exploreResonance": "Resonanzfeld erkunden",
+  "identifyBlockages": "Feinstoffliche Blockaden identifizieren",
+  "detectedSignatures": "Erkannte Energiesignaturen",
+  "signaturesDetected": "Aus der meditativen Stille Ihres Raumes wurden {count} einzigartige energetische Resonanzmuster erkannt und dekodiert.",
+  "@signaturesDetected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "energySignature": "Energiesignatur {number}",
+  "@energySignature": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "vibrationIntensityValue": "Schwingungsintensität: {value}",
+  "@vibrationIntensityValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "harmonizationLevel": "Harmonisierungsgrad",
+  "generateResonance": "Resonanzfrequenz generieren",
+  "resonanceProfileCreating": "Ihr Resonanzprofil wird erstellt…",
+  "alchemicalTransformation": "Durch alchemistische Transformation werden alle Energiesignaturen zu einem harmonisierenden Resonanzmuster verschmolzen.",
+  "signatureTransformation": "Jede erkannte Energiesignatur wird in reine Resonanzfrequenzen transformiert und zu Ihrem einzigartigen Harmonisierungssignal verschmolzen.",
+  "emergingSignal": "Entstehendes Harmonisierungssignal",
+  "decodeImpulses": "Energetische Impulse dekodieren…",
+  "harmonizeVibrations": "Schwingungen harmonisieren…",
+  "resonanceManifestation": "Resonanzmanifestation…",
+  "yourResonanceSignal": "Ihr Resonanzsignal",
+  "playSignalDescription": "Spielen Sie dieses harmonisierende Signal ab, um disharmonische Energien zu transformieren, Blockaden zu lösen und Ihre Raumenergie in perfekte Balance zu bringen.",
+  "activateResonance": "Resonanzfrequenz aktivieren",
+  "pauseHarmonization": "Harmonisierung pausieren",
+  "newHarmonization": "Neue Harmonisierung",
+  "settings": "Einstellungen",
+  "appInfo": "App-Informationen",
+  "version": "Version",
+  "language": "Sprache",
+  "legalInfo": "Rechtliche Informationen",
+  "legalNotice": "Impressum",
+  "privacyPolicy": "Datenschutzerklärung",
+  "disclaimer": "Haftungsausschluss",
+  "termsOfService": "Allgemeine Geschäftsbedingungen",
+  "copyright": "Urheberrecht",
+  "rightOfWithdrawal": "Widerrufsrecht",
+  "licenses": "Lizenzen",
+  "showOpenSourceLicenses": "Open Source Lizenzen anzeigen",
+  "showOpenSourceLicensesDesc": "Zeigt alle verwendeten Open Source Lizenzen",
+  "error": "Fehler",
+  "legalInfoError": "Die rechtlichen Informationen konnten nicht geöffnet werden.\n\n{error}",
+  "@legalInfoError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "ok": "OK",
+  "renameRoom": "Energieraum umbenennen",
+  "name": "Name",
+  "deleteRoom": "Energieraum löschen",
+  "deleteRoomConfirm": "Möchten Sie das energetische Archiv \"{name}\" wirklich aus dem Speicher entfernen?",
+  "@deleteRoomConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "remove": "Entfernen",
+  "noRoomsArchived": "Noch keine Energieräume archiviert",
+  "noRoomsDescription": "Führen Sie einen energetischen Scan durch und bewahren Sie Ihr persönliches Resonanzprofil zur Harmonisierung Ihrer Räume auf.",
+  "changeName": "Namen ändern",
+  "removeFromArchive": "Aus Archiv entfernen",
+  "loading": "Lädt...",
+  "unknown": "Unbekannt",
+  "couldNotLaunchUrl": "URL konnte nicht geöffnet werden: {error}",
+  "@couldNotLaunchUrl": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "languageDeutsch": "Deutsch",
+  "languageEnglish": "English",
+  "languageChinese": "中文 (简体)",
+  "languageSpanish": "Español",
+  "languageJapanese": "日本語",
+  "languageFrench": "Français",
+  "languagePortuguese": "Português (Brasil)",
+  "languageKorean": "한국어",
+  "languageItalian": "Italiano",
+  "languageRussian": "Русский",
+  "energySignatureOf": "Energiesignatur {index} von {count}",
+  "@energySignatureOf": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "energyTextLow": "sanfte Grundschwingung der Raumenergie, harmonisch fließend",
+  "energyTextMedium": "lebendige feinstoffliche Impulse im energetischen Resonanzfeld",
+  "energyTextHigh": "hochkonzentrierte Energiedichte mit transformierender Kraft",
+  "freqTextLow": "verwurzelt in den erdenden Tiefenfrequenzen des Chakrensystems",
+  "freqTextMedium": "ausgewogene Schwingung durch alle feinstofflichen Ebenen",
+  "freqTextHigh": "erhabene Hochfrequenzenergien, die zur spirituellen Öffnung führen",
+  "movementTextLow": "meditativ gleichmäßig, beruhigend für die Aura",
+  "movementTextMedium": "sanft pulsierend, Blockaden auflösend mit harmonischer Kohärenz",
+  "movementTextHigh": "dynamisch transformierend, intensive Reinigung der Energiestrukturen",
+  "resonanceFrequencyAt": "Resonanzfrequenz bei ca. {freqHz} Hz",
+  "@resonanceFrequencyAt": {
+    "placeholders": {
+      "freqHz": {
+        "type": "int"
+      }
+    }
+  }
+}

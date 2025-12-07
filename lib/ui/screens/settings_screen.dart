@@ -4,6 +4,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../services/language_service.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -14,7 +15,7 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  String _appVersion = 'Loading...';
+  String _appVersion = '';
   String _buildNumber = '';
 
   @override
@@ -31,9 +32,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
         _buildNumber = packageInfo.buildNumber;
       });
     } catch (e) {
-      setState(() {
-        _appVersion = 'Unknown';
-      });
+      if (mounted) {
+        final l10n = AppLocalizations.of(context);
+        setState(() {
+          final errorL10n = AppLocalizations.of(context);
+          _appVersion = errorL10n?.unknown ?? '';
+        });
+      }
     }
   }
 
@@ -56,7 +61,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         try {
           await launchUrl(uri, mode: LaunchMode.platformDefault);
         } catch (e2) {
-          throw Exception('Could not launch URL: ${e2.toString()}');
+          final l10n = AppLocalizations.of(context);
+          final errorMsg = l10n?.couldNotLaunchUrl(e2.toString()) ?? 'Could not launch URL: ${e2.toString()}';
+          throw Exception(errorMsg);
         }
       }
     } catch (e) {
@@ -68,24 +75,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _showErrorDialog(String error) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xFF111427),
-        title: const Text(
-          'Fehler',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          l10n.error,
+          style: const TextStyle(color: Colors.white),
         ),
         content: Text(
-          'Die rechtlichen Informationen konnten nicht geöffnet werden.\n\n$error',
+          l10n.legalInfoError(error),
           style: const TextStyle(color: Color(0xFFB0B5D0)),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text(
-              'OK',
-              style: TextStyle(color: Color(0xFF29E0FF)),
+            child: Text(
+              l10n.ok,
+              style: const TextStyle(color: Color(0xFF29E0FF)),
             ),
           ),
         ],
@@ -97,11 +105,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final languageService = Provider.of<LanguageService>(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: const Color(0xFF050712),
       appBar: AppBar(
-        title: const Text('Einstellungen'),
+        title: Text(l10n.settings),
         backgroundColor: const Color(0xFF0C0F1E),
         foregroundColor: Colors.white,
         elevation: 0,
@@ -123,12 +132,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // App Version
             _buildSection(
               context,
-              'App-Informationen',
+              l10n.appInfo,
               [
                 _buildInfoTile(
                   context,
-                  'Version',
-                  '$_appVersion+$_buildNumber',
+                  l10n.version,
+                  _appVersion.isEmpty 
+                    ? l10n.loading 
+                    : '$_appVersion+$_buildNumber',
                   Icons.info_outline,
                 ),
               ],
@@ -138,7 +149,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // Language Selection
             _buildSection(
               context,
-              'Sprache / Language',
+              l10n.language,
               [
                 _buildLanguageSelector(context, languageService),
               ],
@@ -148,41 +159,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // Legal Links
             _buildSection(
               context,
-              'Rechtliche Informationen / Legal Information',
+              l10n.legalInfo,
               [
                 _buildLegalLink(
                   context,
-                  'Impressum / Legal Notice',
+                  l10n.legalNotice,
                   '#impressum',
                   Icons.description,
                 ),
                 _buildLegalLink(
                   context,
-                  'Datenschutzerklärung / Privacy Policy',
+                  l10n.privacyPolicy,
                   '#datenschutz',
                   Icons.privacy_tip,
                 ),
                 _buildLegalLink(
                   context,
-                  'Haftungsausschluss / Disclaimer',
+                  l10n.disclaimer,
                   '#haftungsausschluss',
                   Icons.warning,
                 ),
                 _buildLegalLink(
                   context,
-                  'Allgemeine Geschäftsbedingungen / Terms of Service',
+                  l10n.termsOfService,
                   '#agb',
                   Icons.gavel,
                 ),
                 _buildLegalLink(
                   context,
-                  'Urheberrecht / Copyright',
+                  l10n.copyright,
                   '#urheberrecht',
                   Icons.copyright,
                 ),
                 _buildLegalLink(
                   context,
-                  'Widerrufsrecht / Right of Withdrawal',
+                  l10n.rightOfWithdrawal,
                   '#widerrufsrecht',
                   Icons.undo,
                 ),
@@ -193,20 +204,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // Licenses
             _buildSection(
               context,
-              'Lizenzen / Licenses',
+              l10n.licenses,
               [
                 ListTile(
                   leading: const Icon(
                     Icons.code,
                     color: Color(0xFF29E0FF),
                   ),
-                  title: const Text(
-                    'Open Source Lizenzen anzeigen',
-                    style: TextStyle(color: Colors.white),
+                  title: Text(
+                    l10n.showOpenSourceLicenses,
+                    style: const TextStyle(color: Colors.white),
                   ),
-                  subtitle: const Text(
-                    'Zeigt alle verwendeten Open Source Lizenzen',
-                    style: TextStyle(color: Color(0xFFB0B5D0)),
+                  subtitle: Text(
+                    l10n.showOpenSourceLicensesDesc,
+                    style: const TextStyle(color: Color(0xFFB0B5D0)),
                   ),
                   trailing: const Icon(
                     Icons.chevron_right,
@@ -215,7 +226,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   onTap: () {
                     showLicensePage(
                       context: context,
-                      applicationName: 'QuantumResonanz',
+                      applicationName: AppLocalizations.of(context)!.appName,
                       applicationVersion: _appVersion,
                       applicationIcon: Image.asset(
                         'assets/images/quantumresonanz_icon_tuningfork.png',
@@ -291,28 +302,61 @@ class _SettingsScreenState extends State<SettingsScreen> {
     BuildContext context,
     LanguageService languageService,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     return ListTile(
       leading: const Icon(
         Icons.language,
         color: Color(0xFF29E0FF),
       ),
-      title: const Text(
-        'Sprache / Language',
-        style: TextStyle(color: Colors.white),
+      title: Text(
+        l10n.language,
+        style: const TextStyle(color: Colors.white),
       ),
       trailing: DropdownButton<Locale>(
         value: languageService.locale,
         underline: Container(),
         dropdownColor: const Color(0xFF111427),
         style: const TextStyle(color: Colors.white),
-        items: const [
+        items: [
           DropdownMenuItem(
-            value: Locale('de'),
-            child: Text('Deutsch'),
+            value: const Locale('de'),
+            child: Text(l10n.languageDeutsch),
           ),
           DropdownMenuItem(
-            value: Locale('en'),
-            child: Text('English'),
+            value: const Locale('en'),
+            child: Text(l10n.languageEnglish),
+          ),
+          DropdownMenuItem(
+            value: const Locale('zh', 'CN'),
+            child: Text(l10n.languageChinese),
+          ),
+          DropdownMenuItem(
+            value: const Locale('es'),
+            child: Text(l10n.languageSpanish),
+          ),
+          DropdownMenuItem(
+            value: const Locale('ja'),
+            child: Text(l10n.languageJapanese),
+          ),
+          DropdownMenuItem(
+            value: const Locale('fr'),
+            child: Text(l10n.languageFrench),
+          ),
+          DropdownMenuItem(
+            value: const Locale('pt', 'BR'),
+            child: Text(l10n.languagePortuguese),
+          ),
+          DropdownMenuItem(
+            value: const Locale('ko'),
+            child: Text(l10n.languageKorean),
+          ),
+          DropdownMenuItem(
+            value: const Locale('it'),
+            child: Text(l10n.languageItalian),
+          ),
+          DropdownMenuItem(
+            value: const Locale('ru'),
+            child: Text(l10n.languageRussian),
           ),
         ],
         onChanged: (Locale? newLocale) {

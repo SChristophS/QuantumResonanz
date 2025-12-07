@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../models/saved_room.dart';
 import '../../state/app_state.dart';
 
@@ -102,16 +103,16 @@ class _SavedRoomsScreenState extends State<SavedRoomsScreen> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xFF111427),
-        title: const Text(
-          'Energieraum umbenennen',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          AppLocalizations.of(context)!.renameRoom,
+          style: const TextStyle(color: Colors.white),
         ),
         content: TextField(
           controller: textController,
           autofocus: true,
           style: const TextStyle(color: Colors.white),
-          decoration: const InputDecoration(
-            labelText: 'Name',
+          decoration: InputDecoration(
+            labelText: AppLocalizations.of(context)!.name,
             labelStyle: TextStyle(color: Color(0xFFB0B5D0)),
             enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Color(0xFF29E0FF)),
@@ -124,7 +125,7 @@ class _SavedRoomsScreenState extends State<SavedRoomsScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Zurück', style: TextStyle(color: Color(0xFFB0B5D0))),
+            child: Text(AppLocalizations.of(context)!.back, style: const TextStyle(color: Color(0xFFB0B5D0))),
           ),
           TextButton(
             onPressed: () {
@@ -134,7 +135,7 @@ class _SavedRoomsScreenState extends State<SavedRoomsScreen> {
                 Navigator.of(context).pop();
               }
             },
-            child: const Text('Archivieren', style: TextStyle(color: Color(0xFF29E0FF))),
+            child: Text(AppLocalizations.of(context)!.changeName, style: const TextStyle(color: Color(0xFF29E0FF))),
           ),
         ],
       ),
@@ -150,27 +151,27 @@ class _SavedRoomsScreenState extends State<SavedRoomsScreen> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xFF111427),
-        title: const Text(
-          'Energieraum löschen',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          AppLocalizations.of(context)!.deleteRoom,
+          style: const TextStyle(color: Colors.white),
         ),
         content: Text(
-          'Möchtest du das energetische Archiv "${room.name}" wirklich aus dem Speicher entfernen?',
+          AppLocalizations.of(context)!.deleteRoomConfirm(room.name),
           style: const TextStyle(color: Color(0xFFB0B5D0)),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Zurück', style: TextStyle(color: Color(0xFFB0B5D0))),
+            child: Text(AppLocalizations.of(context)!.back, style: const TextStyle(color: Color(0xFFB0B5D0))),
           ),
           TextButton(
             onPressed: () {
               controller.deleteSavedRoom(room.id);
               Navigator.of(context).pop();
             },
-            child: const Text(
-              'Entfernen',
-              style: TextStyle(color: Colors.redAccent),
+            child: Text(
+              AppLocalizations.of(context)!.remove,
+              style: const TextStyle(color: Colors.redAccent),
             ),
           ),
         ],
@@ -192,9 +193,9 @@ class _Header extends StatelessWidget {
             size: 28,
           ),
           const SizedBox(width: 12),
-          const Text(
-            'Energetische Archive',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.savedRooms,
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 24,
               fontWeight: FontWeight.w700,
@@ -219,20 +220,20 @@ class _EmptyState extends StatelessWidget {
             color: Colors.white.withValues(alpha: 0.3),
           ),
           const SizedBox(height: 24),
-          const Text(
-            'Noch keine Energieräume archiviert',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.noRoomsArchived,
+            style: const TextStyle(
               color: Color(0xFFB0B5D0),
               fontSize: 18,
             ),
           ),
           const SizedBox(height: 8),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
             child: Text(
-              'Führe einen energetischen Scan durch und bewahre dein persönliches Resonanzprofil für die Harmonisierung deiner Räume.',
+              AppLocalizations.of(context)!.noRoomsDescription,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFF9AA1C5),
                 fontSize: 14,
               ),
@@ -338,7 +339,7 @@ class _RoomCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        isPlaying ? 'Harmonisierung pausieren' : 'Resonanzfrequenz aktivieren',
+                        isPlaying ? AppLocalizations.of(context)!.pauseHarmonization : AppLocalizations.of(context)!.activateResonance,
                         style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
@@ -384,7 +385,7 @@ class _RoomCard extends StatelessWidget {
           children: [
             ListTile(
               leading: const Icon(Icons.edit, color: Color(0xFF29E0FF)),
-              title: const Text('Namen ändern', style: TextStyle(color: Colors.white)),
+              title: Text(AppLocalizations.of(context)!.changeName, style: const TextStyle(color: Colors.white)),
               onTap: () {
                 Navigator.of(context).pop();
                 onRename();
@@ -392,7 +393,7 @@ class _RoomCard extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.delete, color: Colors.redAccent),
-              title: const Text('Aus Archiv entfernen', style: TextStyle(color: Colors.redAccent)),
+              title: Text(AppLocalizations.of(context)!.removeFromArchive, style: const TextStyle(color: Colors.redAccent)),
               onTap: () {
                 Navigator.of(context).pop();
                 onDelete();

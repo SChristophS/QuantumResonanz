@@ -7,6 +7,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:uuid/uuid.dart';
 
 import '../audio/audio_service.dart';
+import '../l10n/app_localizations.dart';
 import '../models/audio_segment.dart';
 import '../models/saved_room.dart';
 import '../services/room_storage_service.dart';
@@ -177,6 +178,69 @@ class QuantumResonanzController extends ChangeNotifier {
     // Simuliere tiefe Datenverarbeitung während der Segmentierung
     _segments = await _audioService.extractSegments(_rawSamples);
     _setState(QuantumState.showingSegments);
+  }
+
+  /// Updates segment stories with localized text using the provided AppLocalizations.
+  /// This should be called from the UI layer after segments are generated.
+  void updateSegmentStories(AppLocalizations l10n) {
+    final segmentCount = _segments.length;
+    for (var i = 0; i < _segments.length; i++) {
+      final seg = _segments[i];
+      final story = _buildLocalizedStory(
+        l10n: l10n,
+        index: i,
+        segmentCount: segmentCount,
+        energy: seg.energy,
+        freqMix: seg.frequencyMix,
+        baseFrequency: seg.baseFrequency,
+        movementIndex: seg.movementIndex,
+      );
+      _segments[i] = seg.copyWith(story: story);
+    }
+    notifyListeners();
+  }
+
+  String _buildLocalizedStory({
+    required AppLocalizations l10n,
+    required int index,
+    required int segmentCount,
+    required double energy,
+    required double freqMix,
+    required double baseFrequency,
+    required double movementIndex,
+  }) {
+    final segLabel = l10n.energySignatureOf(index + 1, segmentCount);
+
+    String energyText;
+    if (energy < 0.6) {
+      energyText = l10n.energyTextLow;
+    } else if (energy < 0.8) {
+      energyText = l10n.energyTextMedium;
+    } else {
+      energyText = l10n.energyTextHigh;
+    }
+
+    String freqText;
+    if (freqMix < 0.5) {
+      freqText = l10n.freqTextLow;
+    } else if (freqMix < 0.8) {
+      freqText = l10n.freqTextMedium;
+    } else {
+      freqText = l10n.freqTextHigh;
+    }
+
+    String movementText;
+    if (movementIndex < 0.3) {
+      movementText = l10n.movementTextLow;
+    } else if (movementIndex < 0.7) {
+      movementText = l10n.movementTextMedium;
+    } else {
+      movementText = l10n.movementTextHigh;
+    }
+
+    final freqHz = baseFrequency.round();
+
+    return '$segLabel: $energyText, $freqText. ${l10n.resonanceFrequencyAt(freqHz)}, $movementText.';
   }
 
   /// Startet den Synthese-Prozess und wechselt nach einer kurzen Animation zum Result-Status.

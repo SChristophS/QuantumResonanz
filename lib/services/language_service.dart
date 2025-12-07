@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LanguageService extends ChangeNotifier {
   static const String _languageKey = 'selected_language';
+  static const String _countryKey = 'selected_country';
   Locale _locale = const Locale('de'); // Default to German
 
   Locale get locale => _locale;
@@ -16,7 +17,10 @@ class LanguageService extends ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       final languageCode = prefs.getString(_languageKey);
       if (languageCode != null) {
-        _locale = Locale(languageCode);
+        final countryCode = prefs.getString(_countryKey);
+        _locale = countryCode != null
+            ? Locale(languageCode, countryCode)
+            : Locale(languageCode);
         notifyListeners();
       }
     } catch (e) {
@@ -33,6 +37,11 @@ class LanguageService extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_languageKey, locale.languageCode);
+      if (locale.countryCode != null) {
+        await prefs.setString(_countryKey, locale.countryCode!);
+      } else {
+        await prefs.remove(_countryKey);
+      }
     } catch (e) {
       debugPrint('Error saving language preference: $e');
     }
@@ -42,5 +51,6 @@ class LanguageService extends ChangeNotifier {
     await setLanguage(Locale(languageCode));
   }
 }
+
 
 

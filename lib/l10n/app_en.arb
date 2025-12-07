@@ -1,0 +1,175 @@
+{
+  "@@locale": "en",
+  "appName": "QuantumResonanz",
+  "appSubtitle": "Energetic Room Harmonization",
+  "appDescription": "Capture the subtle vibrations of your room and create your personal energetic resonance profile for holistic harmonization.",
+  "appDescriptionLong": "QuantumResonanz listens for 10 seconds into the energetic essence of your room. Through deep meditative analysis of room energies, disruptive vibrations are identified and transformed into a harmonizing resonance pattern. Your energetic data remains fully protected and local on your device.",
+  "pathToHarmonization": "The path to energetic harmonization:",
+  "roomCaptureTitle": "Energetic Room Capture (10 seconds)",
+  "roomCaptureBody": "During this deep silence, we capture the invisible vibrations of your room. Speech or loud disturbances interrupt the connection to the subtle level – please maintain complete silence.",
+  "decodingTitle": "Decoding Energy Vibrations",
+  "decodingBody": "Each frequency is recognized and analyzed as a unique energetic signature. Blockages and disharmonies are identified and transformed into a coherent resonance field.",
+  "synthesisTitle": "Synthesis & Counter-Signal",
+  "synthesisBody": "A smoothed resonance pattern emerges from the segments. A \"Counter Signal\" is generated from this, which acoustically reflects your noise profile.",
+  "startScan": "Start Energetic Scan",
+  "savedRooms": "Energetic Archives",
+  "archiveRoom": "Archive Energy Room",
+  "roomNameLabel": "Name of the Energy Room",
+  "roomNameRequired": "Please give this energy room a name",
+  "back": "Back",
+  "archive": "Archive",
+  "roomArchivedSuccess": "Energy room \"{name}\" has been successfully archived",
+  "@roomArchivedSuccess": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "archiveFailed": "The energetic archiving could not be completed",
+  "recordingInProgress": "Energetic capture running…",
+  "recordingInstructions": "Immerse yourself in complete silence and open yourself to the subtle vibrations of your room.",
+  "vibrationIntensity": "Energetic Vibration Intensity",
+  "optimalConnection": "For optimal connection: Place the device quietly and center yourself inwardly. Every movement disturbs the fine energetic connection.",
+  "calibrationTitle": "Energetic Base Calibration",
+  "calibrationBody": "In this phase, we connect with the fundamental vibrations of your room. Take a moment to pause so we can optimally capture your individual energetic field.",
+  "baseVibrations": "Energetic Base Vibrations",
+  "calibrationNote": "This energetic tuning only occurs when needed. It ensures a precise connection to the unique vibrations of your personal room.",
+  "connectionInterrupted": "Energetic Connection Interrupted",
+  "connectionInterruptedBody": "The energetic connection was disturbed by disharmonic vibrations. Please try again and allow the room to vibrate in complete meditative silence.",
+  "detectedDisharmony": "Detected energetic disharmony:",
+  "energeticRestart": "Energetic New Beginning",
+  "deepAnalysis": "Deep Analysis of Energy Vibrations…",
+  "frequencyExtraction": "The subtle frequencies are being extracted from the energetic matrix…",
+  "calibrateBasis": "Calibrate energetic basis",
+  "exploreResonance": "Explore resonance field",
+  "identifyBlockages": "Identify subtle blockages",
+  "detectedSignatures": "Detected Energy Signatures",
+  "signaturesDetected": "From the meditative silence of your room, {count} unique energetic resonance patterns were recognized and decoded.",
+  "@signaturesDetected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "energySignature": "Energy Signature {number}",
+  "@energySignature": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "vibrationIntensityValue": "Vibration Intensity: {value}",
+  "@vibrationIntensityValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "harmonizationLevel": "Harmonization Level",
+  "generateResonance": "Generate Resonance Frequency",
+  "resonanceProfileCreating": "Your resonance profile is being created…",
+  "alchemicalTransformation": "Through alchemical transformation, all energy signatures are merged into a harmonizing resonance pattern.",
+  "signatureTransformation": "Each detected energy signature is transformed into pure resonance frequencies and merged into your unique harmonization signal.",
+  "emergingSignal": "Emerging Harmonization Signal",
+  "decodeImpulses": "Decoding energetic impulses…",
+  "harmonizeVibrations": "Harmonizing vibrations…",
+  "resonanceManifestation": "Resonance manifestation…",
+  "yourResonanceSignal": "Your Resonance Signal",
+  "playSignalDescription": "Play this harmonizing signal to transform disharmonic energies, release blockages, and bring your room energy into perfect balance.",
+  "activateResonance": "Activate Resonance Frequency",
+  "pauseHarmonization": "Pause Harmonization",
+  "newHarmonization": "New Harmonization",
+  "settings": "Settings",
+  "appInfo": "App Information",
+  "version": "Version",
+  "language": "Language",
+  "legalInfo": "Legal Information",
+  "legalNotice": "Legal Notice",
+  "privacyPolicy": "Privacy Policy",
+  "disclaimer": "Disclaimer",
+  "termsOfService": "Terms of Service",
+  "copyright": "Copyright",
+  "rightOfWithdrawal": "Right of Withdrawal",
+  "licenses": "Licenses",
+  "showOpenSourceLicenses": "Show Open Source Licenses",
+  "showOpenSourceLicensesDesc": "Shows all used Open Source licenses",
+  "error": "Error",
+  "legalInfoError": "The legal information could not be opened.\n\n{error}",
+  "@legalInfoError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "ok": "OK",
+  "renameRoom": "Rename Energy Room",
+  "name": "Name",
+  "deleteRoom": "Delete Energy Room",
+  "deleteRoomConfirm": "Do you really want to remove the energetic archive \"{name}\" from storage?",
+  "@deleteRoomConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "remove": "Remove",
+  "noRoomsArchived": "No energy rooms archived yet",
+  "noRoomsDescription": "Perform an energetic scan and preserve your personal resonance profile for harmonizing your rooms.",
+  "changeName": "Change Name",
+  "removeFromArchive": "Remove from Archive",
+  "loading": "Loading...",
+  "unknown": "Unknown",
+  "couldNotLaunchUrl": "Could not launch URL: {error}",
+  "@couldNotLaunchUrl": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "languageDeutsch": "Deutsch",
+  "languageEnglish": "English",
+  "languageChinese": "中文 (简体)",
+  "languageSpanish": "Español",
+  "languageJapanese": "日本語",
+  "languageFrench": "Français",
+  "languagePortuguese": "Português (Brasil)",
+  "languageKorean": "한국어",
+  "languageItalian": "Italiano",
+  "languageRussian": "Русский",
+  "energySignatureOf": "Energy Signature {index} of {count}",
+  "@energySignatureOf": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "energyTextLow": "gentle fundamental vibration of room energy, harmoniously flowing",
+  "energyTextMedium": "lively subtle impulses in the energetic resonance field",
+  "energyTextHigh": "highly concentrated energy density with transformative power",
+  "freqTextLow": "rooted in the grounding deep frequencies of the chakra system",
+  "freqTextMedium": "balanced vibration through all subtle levels",
+  "freqTextHigh": "sublime high-frequency energies leading to spiritual opening",
+  "movementTextLow": "meditatively uniform, calming for the aura",
+  "movementTextMedium": "gently pulsating, dissolving blockages with harmonic coherence",
+  "movementTextHigh": "dynamically transforming, intensive cleansing of energy structures",
+  "resonanceFrequencyAt": "Resonance frequency at approximately {freqHz} Hz",
+  "@resonanceFrequencyAt": {
+    "placeholders": {
+      "freqHz": {
+        "type": "int"
+      }
+    }
+  }
+}
+

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'l10n/app_localizations.dart';
 import 'services/language_service.dart';
 import 'state/app_state.dart';
 import 'ui/screens/quantum_resonanz_screen.dart';
@@ -30,8 +31,17 @@ class QuantumResonanzApp extends StatelessWidget {
             supportedLocales: const [
               Locale('de'),
               Locale('en'),
+              Locale('zh', 'CN'),
+              Locale('es'),
+              Locale('ja'),
+              Locale('fr'),
+              Locale('pt', 'BR'),
+              Locale('ko'),
+              Locale('it'),
+              Locale('ru'),
             ],
             localizationsDelegates: const [
+              AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,

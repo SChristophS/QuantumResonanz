@@ -68,3 +68,4 @@
 # Preserve shared preferences
 -keep class androidx.preference.** { *; }
 
+

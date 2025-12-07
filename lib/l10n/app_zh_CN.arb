@@ -1,0 +1,174 @@
+{
+  "@@locale": "zh_CN",
+  "appName": "QuantumResonanz",
+  "appSubtitle": "能量空间和谐化",
+  "appDescription": "捕捉您空间的微妙振动，创建您的个人能量共振配置文件，实现整体和谐。",
+  "appDescriptionLong": "QuantumResonanz 聆听您空间的能量本质10秒。通过深度冥想分析空间能量，识别干扰振动并将其转化为和谐共振模式。您的能量数据完全受保护并仅存储在您的设备上。",
+  "pathToHarmonization": "能量和谐化之路：",
+  "roomCaptureTitle": "能量空间捕捉（10秒）",
+  "roomCaptureBody": "在这深度静默中，我们捕捉您空间的不可见振动。言语或大声干扰会中断与微妙层面的连接——请保持完全静默。",
+  "decodingTitle": "解码能量振动",
+  "decodingBody": "每个频率都被识别和分析为独特的能量特征。阻塞和不和谐被识别并转化为连贯的共振场。",
+  "synthesisTitle": "合成与反信号",
+  "synthesisBody": "从片段中出现平滑的共振模式。由此生成一个\"反信号\"，它声学地反映您的噪音轮廓。",
+  "startScan": "开始能量扫描",
+  "savedRooms": "能量档案",
+  "archiveRoom": "归档能量空间",
+  "roomNameLabel": "能量空间名称",
+  "roomNameRequired": "请为这个能量空间命名",
+  "back": "返回",
+  "archive": "归档",
+  "roomArchivedSuccess": "能量空间\"{name}\"已成功归档",
+  "@roomArchivedSuccess": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "archiveFailed": "能量归档无法完成",
+  "recordingInProgress": "能量捕捉进行中…",
+  "recordingInstructions": "沉浸在完全静默中，向您空间的微妙振动敞开。",
+  "vibrationIntensity": "能量振动强度",
+  "optimalConnection": "为获得最佳连接：安静放置设备并内在地集中。每个动作都会干扰精细的能量连接。",
+  "calibrationTitle": "能量基础校准",
+  "calibrationBody": "在此阶段，我们与您空间的基本振动连接。请稍作停顿，以便我们能够最佳地捕捉您的个人能量场。",
+  "baseVibrations": "能量基础振动",
+  "calibrationNote": "此能量调谐仅在需要时进行。它确保与您个人空间的独特振动的精确连接。",
+  "connectionInterrupted": "能量连接中断",
+  "connectionInterruptedBody": "能量连接被不和谐振动干扰。请重试，让空间在完全冥想静默中振动。",
+  "detectedDisharmony": "检测到能量不和谐：",
+  "energeticRestart": "能量新开始",
+  "deepAnalysis": "深度分析能量振动…",
+  "frequencyExtraction": "微妙频率正从能量矩阵中提取…",
+  "calibrateBasis": "校准能量基础",
+  "exploreResonance": "探索共振场",
+  "identifyBlockages": "识别微妙阻塞",
+  "detectedSignatures": "检测到的能量特征",
+  "signaturesDetected": "从您空间的冥想静默中，识别并解码了{count}个独特的能量共振模式。",
+  "@signaturesDetected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "energySignature": "能量特征 {number}",
+  "@energySignature": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "vibrationIntensityValue": "振动强度：{value}",
+  "@vibrationIntensityValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "harmonizationLevel": "和谐化水平",
+  "generateResonance": "生成共振频率",
+  "resonanceProfileCreating": "正在创建您的共振配置文件…",
+  "alchemicalTransformation": "通过炼金转化，所有能量特征融合成和谐共振模式。",
+  "signatureTransformation": "每个检测到的能量特征转化为纯共振频率，并融合到您独特的和谐化信号中。",
+  "emergingSignal": "出现的和谐化信号",
+  "decodeImpulses": "解码能量脉冲…",
+  "harmonizeVibrations": "和谐化振动…",
+  "resonanceManifestation": "共振显现…",
+  "yourResonanceSignal": "您的共振信号",
+  "playSignalDescription": "播放此和谐信号以转化不和谐能量，释放阻塞，使您的空间能量达到完美平衡。",
+  "activateResonance": "激活共振频率",
+  "pauseHarmonization": "暂停和谐化",
+  "newHarmonization": "新和谐化",
+  "settings": "设置",
+  "appInfo": "应用信息",
+  "version": "版本",
+  "language": "语言",
+  "legalInfo": "法律信息",
+  "legalNotice": "法律声明",
+  "privacyPolicy": "隐私政策",
+  "disclaimer": "免责声明",
+  "termsOfService": "服务条款",
+  "copyright": "版权",
+  "rightOfWithdrawal": "撤回权",
+  "licenses": "许可证",
+  "showOpenSourceLicenses": "显示开源许可证",
+  "showOpenSourceLicensesDesc": "显示所有使用的开源许可证",
+  "error": "错误",
+  "legalInfoError": "无法打开法律信息。\n\n{error}",
+  "@legalInfoError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "ok": "确定",
+  "renameRoom": "重命名能量空间",
+  "name": "名称",
+  "deleteRoom": "删除能量空间",
+  "deleteRoomConfirm": "您真的要从存储中移除能量档案\"{name}\"吗？",
+  "@deleteRoomConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "remove": "移除",
+  "noRoomsArchived": "尚未归档任何能量空间",
+  "noRoomsDescription": "执行能量扫描并保存您的个人共振配置文件以和谐化您的空间。",
+  "changeName": "更改名称",
+  "removeFromArchive": "从档案中移除",
+  "loading": "加载中...",
+  "unknown": "未知",
+  "couldNotLaunchUrl": "无法打开URL：{error}",
+  "@couldNotLaunchUrl": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "languageDeutsch": "Deutsch",
+  "languageEnglish": "English",
+  "languageChinese": "中文 (简体)",
+  "languageSpanish": "Español",
+  "languageJapanese": "日本語",
+  "languageFrench": "Français",
+  "languagePortuguese": "Português (Brasil)",
+  "languageKorean": "한국어",
+  "languageItalian": "Italiano",
+  "languageRussian": "Русский",
+  "energySignatureOf": "能量特征 {index} / {count}",
+  "@energySignatureOf": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "energyTextLow": "房间能量的温和基础振动，和谐流动",
+  "energyTextMedium": "能量共振场中的活跃微妙脉冲",
+  "energyTextHigh": "高浓度能量密度，具有转化力量",
+  "freqTextLow": "根植于脉轮系统的接地深层频率",
+  "freqTextMedium": "通过所有微妙层面的平衡振动",
+  "freqTextHigh": "崇高的高频能量，通向灵性开启",
+  "movementTextLow": "冥想般均匀，对光环具有镇静作用",
+  "movementTextMedium": "轻柔脉动，以和谐一致性化解阻塞",
+  "movementTextHigh": "动态转化，深入清洁能量结构",
+  "resonanceFrequencyAt": "共振频率约 {freqHz} Hz",
+  "@resonanceFrequencyAt": {
+    "placeholders": {
+      "freqHz": {
+        "type": "int"
+      }
+    }
+  }
+}

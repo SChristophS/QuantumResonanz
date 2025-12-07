@@ -1,0 +1,146 @@
+{
+  "@@locale": "es",
+  "appName": "QuantumResonanz",
+  "appSubtitle": "Armonización Energética del Espacio",
+  "appDescription": "Capture las vibraciones sutiles de su espacio y cree su perfil de resonancia energética personal para una armonización holística.",
+  "appDescriptionLong": "QuantumResonanz escucha durante 10 segundos la esencia energética de su espacio. A través del análisis meditativo profundo de las energías del espacio, se identifican las vibraciones disruptivas y se transforman en un patrón de resonancia armonizador. Sus datos energéticos permanecen completamente protegidos y locales en su dispositivo.",
+  "pathToHarmonization": "El camino hacia la armonización energética:",
+  "roomCaptureTitle": "Captura Energética del Espacio (10 segundos)",
+  "roomCaptureBody": "Durante este silencio profundo, capturamos las vibraciones invisibles de su espacio. El habla o las perturbaciones ruidosas interrumpen la conexión con el nivel sutil: mantenga el silencio completo.",
+  "decodingTitle": "Decodificación de Vibraciones Energéticas",
+  "decodingBody": "Cada frecuencia se reconoce y analiza como una firma energética única. Se identifican bloqueos y desarmonías y se transforman en un campo de resonancia coherente.",
+  "synthesisTitle": "Síntesis y Contraseñal",
+  "synthesisBody": "De los segmentos emerge un patrón de resonancia suavizado. A partir de esto se genera una \"Contraseñal\" que refleja acústicamente su perfil de ruido.",
+  "startScan": "Iniciar Escaneo Energético",
+  "savedRooms": "Archivos Energéticos",
+  "archiveRoom": "Archivar Espacio Energético",
+  "roomNameLabel": "Nombre del Espacio Energético",
+  "roomNameRequired": "Por favor, dé un nombre a este espacio energético",
+  "back": "Atrás",
+  "archive": "Archivar",
+  "roomArchivedSuccess": "El espacio energético \"{name}\" ha sido archivado exitosamente",
+  "@roomArchivedSuccess": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "archiveFailed": "No se pudo completar el archivo energético",
+  "recordingInProgress": "Captura energética en curso…",
+  "recordingInstructions": "Sumérjase en silencio completo y ábrase a las vibraciones sutiles de su espacio.",
+  "vibrationIntensity": "Intensidad de Vibración Energética",
+  "optimalConnection": "Para una conexión óptima: Coloque el dispositivo en silencio y céntrese internamente. Cada movimiento perturba la fina conexión energética.",
+  "calibrationTitle": "Calibración Base Energética",
+  "calibrationBody": "En esta fase, nos conectamos con las vibraciones fundamentales de su espacio. Tómese un momento para pausar para que podamos capturar de manera óptima su campo energético individual.",
+  "baseVibrations": "Vibraciones Base Energéticas",
+  "calibrationNote": "Esta sintonización energética solo ocurre cuando es necesario. Asegura una conexión precisa con las vibraciones únicas de su espacio personal.",
+  "connectionInterrupted": "Conexión Energética Interrumpida",
+  "connectionInterruptedBody": "La conexión energética fue perturbada por vibraciones desarmónicas. Por favor, intente nuevamente y permita que el espacio vibre en silencio meditativo completo.",
+  "detectedDisharmony": "Desarmonía energética detectada:",
+  "energeticRestart": "Nuevo Comienzo Energético",
+  "deepAnalysis": "Análisis Profundo de Vibraciones Energéticas…",
+  "frequencyExtraction": "Las frecuencias sutiles están siendo extraídas de la matriz energética…",
+  "calibrateBasis": "Calibrar base energética",
+  "exploreResonance": "Explorar campo de resonancia",
+  "identifyBlockages": "Identificar bloqueos sutiles",
+  "detectedSignatures": "Firmas Energéticas Detectadas",
+  "signaturesDetected": "Del silencio meditativo de su espacio, se reconocieron y decodificaron {count} patrones de resonancia energética únicos.",
+  "@signaturesDetected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "energySignature": "Firma Energética {number}",
+  "@energySignature": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "vibrationIntensityValue": "Intensidad de Vibración: {value}",
+  "@vibrationIntensityValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "harmonizationLevel": "Nivel de Armonización",
+  "generateResonance": "Generar Frecuencia de Resonancia",
+  "resonanceProfileCreating": "Su perfil de resonancia está siendo creado…",
+  "alchemicalTransformation": "A través de la transformación alquímica, todas las firmas energéticas se fusionan en un patrón de resonancia armonizador.",
+  "signatureTransformation": "Cada firma energética detectada se transforma en frecuencias de resonancia puras y se fusiona en su señal de armonización única.",
+  "emergingSignal": "Señal de Armonización Emergente",
+  "decodeImpulses": "Decodificando impulsos energéticos…",
+  "harmonizeVibrations": "Armonizando vibraciones…",
+  "resonanceManifestation": "Manifestación de resonancia…",
+  "yourResonanceSignal": "Su Señal de Resonancia",
+  "playSignalDescription": "Reproduzca esta señal armonizadora para transformar energías desarmónicas, liberar bloqueos y llevar la energía de su espacio a un equilibrio perfecto.",
+  "activateResonance": "Activar Frecuencia de Resonancia",
+  "pauseHarmonization": "Pausar Armonización",
+  "newHarmonization": "Nueva Armonización",
+  "settings": "Configuración",
+  "appInfo": "Información de la App",
+  "version": "Versión",
+  "language": "Idioma",
+  "legalInfo": "Información Legal",
+  "legalNotice": "Aviso Legal",
+  "privacyPolicy": "Política de Privacidad",
+  "disclaimer": "Descargo de Responsabilidad",
+  "termsOfService": "Términos de Servicio",
+  "copyright": "Derechos de Autor",
+  "rightOfWithdrawal": "Derecho de Retractación",
+  "licenses": "Licencias",
+  "showOpenSourceLicenses": "Mostrar Licencias de Código Abierto",
+  "showOpenSourceLicensesDesc": "Muestra todas las licencias de código abierto utilizadas",
+  "error": "Error",
+  "legalInfoError": "No se pudieron abrir la información legal.\n\n{error}",
+  "@legalInfoError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "ok": "OK",
+  "renameRoom": "Renombrar Espacio Energético",
+  "name": "Nombre",
+  "deleteRoom": "Eliminar Espacio Energético",
+  "deleteRoomConfirm": "¿Realmente desea eliminar el archivo energético \"{name}\" del almacenamiento?",
+  "@deleteRoomConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "remove": "Eliminar",
+  "noRoomsArchived": "Aún no se han archivado espacios energéticos",
+  "noRoomsDescription": "Realice un escaneo energético y preserve su perfil de resonancia personal para armonizar sus espacios.",
+  "changeName": "Cambiar Nombre",
+  "removeFromArchive": "Eliminar del Archivo",
+  "loading": "Cargando...",
+  "unknown": "Desconocido",
+  "couldNotLaunchUrl": "No se pudo abrir la URL: {error}",
+  "@couldNotLaunchUrl": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "languageDeutsch": "Deutsch",
+  "languageEnglish": "English",
+  "languageChinese": "中文 (简体)",
+  "languageSpanish": "Español",
+  "languageJapanese": "日本語",
+  "languageFrench": "Français",
+  "languagePortuguese": "Português (Brasil)",
+  "languageKorean": "한국어",
+  "languageItalian": "Italiano",
+  "languageRussian": "Русский"
+}

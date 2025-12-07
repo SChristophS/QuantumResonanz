@@ -1,0 +1,146 @@
+{
+  "@@locale": "ja",
+  "appName": "QuantumResonanz",
+  "appSubtitle": "エネルギールーム調和",
+  "appDescription": "お部屋の微細な振動を捉え、全体的な調和のための個人的なエネルギーの共鳴プロファイルを作成します。",
+  "appDescriptionLong": "QuantumResonanzは10秒間、お部屋のエネルギーの本質に耳を傾けます。ルームエネルギーの深い瞑想的分析を通じて、破壊的な振動が識別され、調和的な共鳴パターンに変換されます。お客様のエネルギーデータは完全に保護され、デバイス上にローカルに保存されます。",
+  "pathToHarmonization": "エネルギーの調和への道：",
+  "roomCaptureTitle": "エネルギールームキャプチャ（10秒）",
+  "roomCaptureBody": "この深い静寂の中で、お部屋の見えない振動を捉えます。音声や大きな妨害は微細なレベルへの接続を中断します—完全な静寂を保ってください。",
+  "decodingTitle": "エネルギー振動のデコード",
+  "decodingBody": "各周波数は、独自のエネルギーの署名として認識され、分析されます。ブロックと不調和が識別され、一貫した共鳴フィールドに変換されます。",
+  "synthesisTitle": "合成とカウンターシグナル",
+  "synthesisBody": "セグメントから滑らかな共鳴パターンが現れます。これから「カウンターシグナル」が生成され、音響的にノイズプロファイルを反映します。",
+  "startScan": "エネルギースキャンを開始",
+  "savedRooms": "エネルギーアーカイブ",
+  "archiveRoom": "エネルギールームをアーカイブ",
+  "roomNameLabel": "エネルギールームの名前",
+  "roomNameRequired": "このエネルギールームに名前を付けてください",
+  "back": "戻る",
+  "archive": "アーカイブ",
+  "roomArchivedSuccess": "エネルギールーム「{name}」が正常にアーカイブされました",
+  "@roomArchivedSuccess": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "archiveFailed": "エネルギーのアーカイブを完了できませんでした",
+  "recordingInProgress": "エネルギーキャプチャ実行中…",
+  "recordingInstructions": "完全な静寂に浸り、お部屋の微細な振動に開いてください。",
+  "vibrationIntensity": "エネルギー振動強度",
+  "optimalConnection": "最適な接続のために：デバイスを静かに置き、内側に集中してください。すべての動きが微細なエネルギーの接続を妨げます。",
+  "calibrationTitle": "エネルギーベースキャリブレーション",
+  "calibrationBody": "この段階では、お部屋の基本的な振動と接続します。個人的なエネルギーフィールドを最適に捉えるために、少しの間、一時停止してください。",
+  "baseVibrations": "エネルギーベース振動",
+  "calibrationNote": "このエネルギーの調整は、必要な場合にのみ発生します。お客様の個人的なルームの独特な振動への正確な接続を保証します。",
+  "connectionInterrupted": "エネルギーの接続が中断されました",
+  "connectionInterruptedBody": "エネルギーの接続が不調和な振動によって妨害されました。もう一度お試しください。ルームが完全な瞑想的静寂の中で振動することを許可してください。",
+  "detectedDisharmony": "検出されたエネルギーの不調和：",
+  "energeticRestart": "エネルギーの新しい始まり",
+  "deepAnalysis": "エネルギー振動の深い分析…",
+  "frequencyExtraction": "微細な周波数がエネルギーマトリックスから抽出されています…",
+  "calibrateBasis": "エネルギーベースをキャリブレート",
+  "exploreResonance": "共鳴フィールドを探索",
+  "identifyBlockages": "微細なブロックを識別",
+  "detectedSignatures": "検出されたエネルギー署名",
+  "signaturesDetected": "お部屋の瞑想的静寂から、{count}個の独自のエネルギーの共鳴パターンが認識され、デコードされました。",
+  "@signaturesDetected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "energySignature": "エネルギー署名 {number}",
+  "@energySignature": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "vibrationIntensityValue": "振動強度：{value}",
+  "@vibrationIntensityValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "harmonizationLevel": "調和レベル",
+  "generateResonance": "共鳴周波数を生成",
+  "resonanceProfileCreating": "共鳴プロファイルを作成中…",
+  "alchemicalTransformation": "錬金術的変換を通じて、すべてのエネルギー署名が調和的な共鳴パターンに融合されます。",
+  "signatureTransformation": "検出された各エネルギー署名は、純粋な共鳴周波数に変換され、お客様の独自の調和シグナルに融合されます。",
+  "emergingSignal": "出現する調和シグナル",
+  "decodeImpulses": "エネルギーのインパルスをデコード中…",
+  "harmonizeVibrations": "振動を調和中…",
+  "resonanceManifestation": "共鳴の現れ…",
+  "yourResonanceSignal": "お客様の共鳴シグナル",
+  "playSignalDescription": "この調和シグナルを再生して、不調和なエネルギーを変換し、ブロックを解放し、お部屋のエネルギーを完璧なバランスに導きます。",
+  "activateResonance": "共鳴周波数をアクティブ化",
+  "pauseHarmonization": "調和を一時停止",
+  "newHarmonization": "新しい調和",
+  "settings": "設定",
+  "appInfo": "アプリ情報",
+  "version": "バージョン",
+  "language": "言語",
+  "legalInfo": "法的情報",
+  "legalNotice": "法的通知",
+  "privacyPolicy": "プライバシーポリシー",
+  "disclaimer": "免責事項",
+  "termsOfService": "利用規約",
+  "copyright": "著作権",
+  "rightOfWithdrawal": "撤回権",
+  "licenses": "ライセンス",
+  "showOpenSourceLicenses": "オープンソースライセンスを表示",
+  "showOpenSourceLicensesDesc": "使用されているすべてのオープンソースライセンスを表示します",
+  "error": "エラー",
+  "legalInfoError": "法的情報を開くことができませんでした。\n\n{error}",
+  "@legalInfoError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "ok": "OK",
+  "renameRoom": "エネルギールームの名前を変更",
+  "name": "名前",
+  "deleteRoom": "エネルギールームを削除",
+  "deleteRoomConfirm": "エネルギーのアーカイブ「{name}」をストレージから本当に削除しますか？",
+  "@deleteRoomConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "remove": "削除",
+  "noRoomsArchived": "まだエネルギールームがアーカイブされていません",
+  "noRoomsDescription": "エネルギースキャンを実行し、お部屋を調和させるための個人的な共鳴プロファイルを保存してください。",
+  "changeName": "名前を変更",
+  "removeFromArchive": "アーカイブから削除",
+  "loading": "読み込み中...",
+  "unknown": "不明",
+  "couldNotLaunchUrl": "URLを開くことができませんでした：{error}",
+  "@couldNotLaunchUrl": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "languageDeutsch": "Deutsch",
+  "languageEnglish": "English",
+  "languageChinese": "中文 (简体)",
+  "languageSpanish": "Español",
+  "languageJapanese": "日本語",
+  "languageFrench": "Français",
+  "languagePortuguese": "Português (Brasil)",
+  "languageKorean": "한국어",
+  "languageItalian": "Italiano",
+  "languageRussian": "Русский"
+}

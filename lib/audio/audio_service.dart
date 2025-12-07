@@ -380,7 +380,19 @@ class AudioService {
   /// - Segmente sind in etwa gleich lang über die gesamte Dauer verteilt.
   /// - Für jedes Segment werden Pseudo-Metriken und Parameter für die
   ///   spätere Schwingungs-Synthese berechnet.
-  Future<List<AudioSegment>> extractSegments(List<double> samples) async {
+  /// - [storyBuilder] is a function that generates a localized story text
+  ///   for each segment based on its parameters.
+  Future<List<AudioSegment>> extractSegments(
+    List<double> samples, {
+    String Function({
+      required int index,
+      required int segmentCount,
+      required double energy,
+      required double freqMix,
+      required double baseFrequency,
+      required double movementIndex,
+    })? storyBuilder,
+  }) async {
     if (samples.isEmpty) {
       return const [];
     }
@@ -441,14 +453,23 @@ class AudioService {
         freqMix: freqMix,
       );
 
-      final story = _buildSegmentStory(
-        index: i,
-        segmentCount: segmentCount,
-        energy: energy,
-        freqMix: freqMix,
-        baseFrequency: params['baseFrequency']!,
-        movementIndex: params['movementIndex']!,
-      );
+      final story = storyBuilder != null
+          ? storyBuilder(
+              index: i,
+              segmentCount: segmentCount,
+              energy: energy,
+              freqMix: freqMix,
+              baseFrequency: params['baseFrequency']!,
+              movementIndex: params['movementIndex']!,
+            )
+          : _buildSegmentStory(
+              index: i,
+              segmentCount: segmentCount,
+              energy: energy,
+              freqMix: freqMix,
+              baseFrequency: params['baseFrequency']!,
+              movementIndex: params['movementIndex']!,
+            );
 
       segments.add(
         AudioSegment(

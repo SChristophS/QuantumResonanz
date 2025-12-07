@@ -4,6 +4,8 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../l10n/app_localizations.dart';
+import '../../services/language_service.dart';
 import '../../state/app_state.dart';
 import '../../widgets/waveform_widget.dart';
 import 'saved_rooms_screen.dart';
@@ -14,176 +16,21 @@ class QuantumResonanzScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.watch<QuantumResonanzController>();
     final theme = Theme.of(context);
 
-    return Consumer<QuantumResonanzController>(
-      builder: (context, controller, _) {
-        final state = controller.state;
-
-        return Scaffold(
-          body: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xFF07091A),
-                  Color(0xFF050712),
-                ],
-              ),
+    return Scaffold(
+      backgroundColor: const Color(0xFF050712),
+      body: SafeArea(
+        bottom: true,
+        child: Column(
+          children: [
+            _HeaderImage(state: controller.state),
+            Expanded(
+              child: _buildContentForState(context, controller, theme),
             ),
-            child: SafeArea(
-              minimum: const EdgeInsets.only(top: 8),
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  // Header image as background overlay
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: 260,
-                    child: _HeaderImage(state: state),
-                  ),
-                  // Content overlaying the image - must be last to stay on top
-                  Positioned.fill(
-                    child: Material(
-                      color: Colors.transparent,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 200),
-                        child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 400),
-                          switchInCurve: Curves.easeOutCubic,
-                          switchOutCurve: Curves.easeInCubic,
-                          child: _buildContentForState(
-                            context,
-                            controller,
-                            theme,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  // Info button in top-right corner (always visible, on top of everything)
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: SafeArea(
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const SettingsScreen(),
-                              ),
-                            );
-                          },
-                          borderRadius: BorderRadius.circular(24),
-                          child: Container(
-                            width: 48,
-                            height: 48,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF0F1A2E).withValues(alpha: 0.8),
-                              borderRadius: BorderRadius.circular(24),
-                              border: Border.all(
-                                color: const Color(0xFF29E0FF).withValues(alpha: 0.5),
-                                width: 1.5,
-                              ),
-                            ),
-                            child: const Icon(
-                              Icons.info_outline,
-                              color: Color(0xFF29E0FF),
-                              size: 24,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  void _showSaveRoomDialog(
-    BuildContext context,
-    QuantumResonanzController controller,
-  ) {
-    final textController = TextEditingController();
-    final formKey = GlobalKey<FormState>();
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF111427),
-        title: const Text(
-          'Energieraum archivieren',
-          style: TextStyle(color: Colors.white),
+          ],
         ),
-        content: Form(
-          key: formKey,
-          child: TextFormField(
-            controller: textController,
-            autofocus: true,
-            style: const TextStyle(color: Colors.white),
-            decoration: const InputDecoration(
-              labelText: 'Name des Energieraumes',
-              labelStyle: TextStyle(color: Color(0xFFB0B5D0)),
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFF29E0FF)),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFF29E0FF)),
-              ),
-            ),
-            validator: (value) {
-              if (value == null || value.trim().isEmpty) {
-                return 'Bitte gib diesem Energieraum einen Namen';
-              }
-              return null;
-            },
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Zurück', style: TextStyle(color: Color(0xFFB0B5D0))),
-          ),
-          TextButton(
-            onPressed: () async {
-              if (formKey.currentState!.validate()) {
-                final name = textController.text.trim();
-                final savedRoom = await controller.saveCurrentRoom(name);
-                if (context.mounted) {
-                  Navigator.of(context).pop();
-                  if (savedRoom != null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Energieraum "$name" wurde erfolgreich archiviert'),
-                        backgroundColor: const Color(0xFF29E0FF),
-                        duration: const Duration(seconds: 2),
-                      ),
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Die energetische Archivierung konnte nicht abgeschlossen werden'),
-                        backgroundColor: Colors.redAccent,
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                  }
-                }
-              }
-            },
-            child: const Text('Archivieren', style: TextStyle(color: Color(0xFF29E0FF))),
-          ),
-        ],
       ),
     );
   }
@@ -203,7 +50,7 @@ class QuantumResonanzScreen extends StatelessWidget {
       case QuantumState.recordingTooLoud:
         return _TooLoudPanel(controller: controller);
       case QuantumState.analyzing:
-        return const _AnalyzingPanel();
+        return _AnalyzingPanel(controller: controller);
       case QuantumState.showingSegments:
         return _SegmentsPanel(controller: controller);
       case QuantumState.synthesizing:
@@ -284,26 +131,44 @@ class _HeaderImage extends StatelessWidget {
                   ),
                   const SizedBox(width: 12),
                   // ignore: prefer_const_constructors
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'QuantumResonanz',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700,
+                  Builder(
+                    builder: (context) {
+                      final l10n = AppLocalizations.of(context)!;
+                      return Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l10n.appName,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              l10n.appSubtitle,
+                              style: const TextStyle(
+                                color: Color(0xFFB0B5D0),
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        'Energetische Raumharmonisierung',
-                        style: TextStyle(
-                          color: Color(0xFFB0B5D0),
-                          fontSize: 14,
+                      );
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.info_outline),
+                    color: const Color(0xFF29E0FF),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => SettingsScreen(),
                         ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ],
               ),
@@ -330,73 +195,93 @@ class _IdlePanel extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          Text(
-            'QuantumResonanz',
-            style: theme.textTheme.headlineMedium,
+          Builder(
+            builder: (context) {
+              final l10n = AppLocalizations.of(context)!;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.appName,
+                    style: theme.textTheme.headlineMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    l10n.appDescription,
+                    style: theme.textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    l10n.appDescriptionLong,
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    l10n.pathToHarmonization,
+                    style: theme.textTheme.titleMedium,
+                  ),
+                ],
+              );
+            },
           ),
           const SizedBox(height: 8),
-          Text(
-            'Erfasse die feinstofflichen Schwingungen deines Raumes und erschaffe dein persönliches energetisches Resonanzprofil für ganzheitliche Harmonisierung.',
-            style: theme.textTheme.titleMedium,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'QuantumResonanz lauscht 10 Sekunden in die energetische Essenz deines Raumes. '
-            'Durch tiefenmeditative Analyse der Raumenergien werden Störschwingungen identifiziert und in ein harmonisierendes Resonanzmuster transformiert. '
-            'Deine energetischen Daten bleiben vollständig geschützt und lokal auf deinem Gerät.',
-            style: theme.textTheme.bodyMedium,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'Der Weg zur energetischen Harmonisierung:',
-            style: theme.textTheme.titleMedium,
-          ),
-          const SizedBox(height: 8),
-          const _IdleBullet(
-            title: 'Energetische Raumaufnahme (10 Sekunden)',
-            body:
-                'Während dieser tiefen Stille erfassen wir die unsichtbaren Schwingungen deines Raumes. '
-                'Sprache oder laute Störungen unterbrechen die Verbindung zur feinstofflichen Ebene – bitte halte vollkommene Stille.',
-          ),
-          const SizedBox(height: 6),
-          const _IdleBullet(
-            title: 'Dekodierung der Energieschwingungen',
-            body:
-                'Jede Frequenz wird als einzigartige energetische Signatur erkannt und analysiert. '
-                'Blockaden und Disharmonien werden identifiziert und in ein kohärentes Resonanzfeld transformiert.',
-          ),
-          const SizedBox(height: 6),
-          const _IdleBullet(
-            title: 'Synthese & Counter-Signal',
-            body:
-                'Aus den Segmenten entsteht ein geglättetes Resonanzmuster. '
-                'Daraus wird ein „Counter Signal“ generiert, das dein Rauschprofil akustisch widerspiegelt.',
+          Builder(
+            builder: (context) {
+              final l10n = AppLocalizations.of(context)!;
+              return Column(
+                children: [
+                  _IdleBullet(
+                    title: l10n.roomCaptureTitle,
+                    body: l10n.roomCaptureBody,
+                  ),
+                  const SizedBox(height: 6),
+                  _IdleBullet(
+                    title: l10n.decodingTitle,
+                    body: l10n.decodingBody,
+                  ),
+                  const SizedBox(height: 6),
+                  _IdleBullet(
+                    title: l10n.synthesisTitle,
+                    body: l10n.synthesisBody,
+                  ),
+                ],
+              );
+            },
           ),
           const SizedBox(height: 32),
-          Center(
-              child: ElevatedButton(
-              onPressed: () => controller.startScan(),
-              child: const Text('Energetischen Scan beginnen'),
-            ),
-          ),
-          const SizedBox(height: 24),
-          Center(
-            child: OutlinedButton.icon(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const SavedRoomsScreen(),
+          Builder(
+            builder: (context) {
+              final l10n = AppLocalizations.of(context)!;
+              return Column(
+                children: [
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () => controller.startScan(),
+                      child: Text(l10n.startScan),
+                    ),
                   ),
-                );
-              },
-              icon: const Icon(Icons.folder_special),
-              label: const Text('Energetische Archive'),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: const Color(0xFF29E0FF),
-                side: const BorderSide(color: Color(0xFF29E0FF)),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              ),
-            ),
+                  const SizedBox(height: 24),
+                  Center(
+                    child: OutlinedButton.icon(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const SavedRoomsScreen(),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.folder_special),
+                      label: Text(l10n.savedRooms),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: const Color(0xFF29E0FF),
+                        side: const BorderSide(color: Color(0xFF29E0FF)),
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
           const SizedBox(height: 24),
         ],
@@ -469,14 +354,24 @@ class _RecordingPanel extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Energetische Erfassung läuft…',
-            style: theme.textTheme.headlineMedium,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Versenke dich in vollkommene Stille und öffne dich für die feinstofflichen Schwingungen deines Raumes.',
-            style: theme.textTheme.titleMedium,
+          Builder(
+            builder: (context) {
+              final l10n = AppLocalizations.of(context)!;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.recordingInProgress,
+                    style: theme.textTheme.headlineMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    l10n.recordingInstructions,
+                    style: theme.textTheme.titleMedium,
+                  ),
+                ],
+              );
+            },
           ),
           const SizedBox(height: 24),
           Center(
@@ -504,19 +399,29 @@ class _RecordingPanel extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
-          Text(
-            'Energetische Schwingungsintensität',
-            style: theme.textTheme.titleMedium,
+          Builder(
+            builder: (context) {
+              final l10n = AppLocalizations.of(context)!;
+              return Text(
+                l10n.vibrationIntensity,
+                style: theme.textTheme.titleMedium,
+              );
+            },
           ),
           const SizedBox(height: 8),
           _SymmetricLevelMeter(samples: controller.liveAmplitudes),
           const Spacer(),
-          const Text(
-            'Für optimale Verbindung: Platziere das Gerät ruhig und zentriere dich innerlich. Jede Bewegung stört die feine energetische Verbindung.',
-            style: TextStyle(
-              fontSize: 12,
-              color: Color(0xFF9AA1C5),
-            ),
+          Builder(
+            builder: (context) {
+              final l10n = AppLocalizations.of(context)!;
+              return Text(
+                l10n.optimalConnection,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Color(0xFF9AA1C5),
+                ),
+              );
+            },
           ),
           const SizedBox(height: 16),
         ],
@@ -642,15 +547,24 @@ class _CalibratingPanel extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Energetische Basis-Kalibrierung',
-            style: theme.textTheme.headlineMedium,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'In dieser Phase verbinden wir uns mit den Grundschwingungen deines Raumes. '
-            'Halte einen Moment inne, damit wir dein individuelles energetisches Feld optimal erfassen können.',
-            style: theme.textTheme.titleMedium,
+          Builder(
+            builder: (context) {
+              final l10n = AppLocalizations.of(context)!;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.calibrationTitle,
+                    style: theme.textTheme.headlineMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    l10n.calibrationBody,
+                    style: theme.textTheme.titleMedium,
+                  ),
+                ],
+              );
+            },
           ),
           const SizedBox(height: 24),
           ClipRRect(
@@ -665,9 +579,14 @@ class _CalibratingPanel extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Text(
-            'Energetische Grundschwingungen',
-            style: theme.textTheme.titleMedium,
+          Builder(
+            builder: (context) {
+              final l10n = AppLocalizations.of(context)!;
+              return Text(
+                l10n.baseVibrations,
+                style: theme.textTheme.titleMedium,
+              );
+            },
           ),
           const SizedBox(height: 8),
           QuantumWaveform(
@@ -678,13 +597,17 @@ class _CalibratingPanel extends StatelessWidget {
             isMini: false,
           ),
           const Spacer(),
-          const Text(
-            'Diese energetische Einstimmung erfolgt nur bei Bedarf. '
-            'Sie gewährleistet eine präzise Verbindung zu den einzigartigen Schwingungen deines persönlichen Raumes.',
-            style: TextStyle(
-              fontSize: 12,
-              color: Color(0xFF9AA1C5),
-            ),
+          Builder(
+            builder: (context) {
+              final l10n = AppLocalizations.of(context)!;
+              return Text(
+                l10n.calibrationNote,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Color(0xFF9AA1C5),
+                ),
+              );
+            },
           ),
           const SizedBox(height: 16),
         ],
@@ -716,28 +639,42 @@ class _TooLoudPanel extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Expanded(
-                child: Text(
-                  'Energetische Verbindung unterbrochen',
-                  style: theme.textTheme.headlineMedium?.copyWith(
-                    color: Colors.redAccent.shade200,
-                  ),
+                child: Builder(
+                  builder: (context) {
+                    final l10n = AppLocalizations.of(context)!;
+                    return Text(
+                      l10n.connectionInterrupted,
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                        color: Colors.redAccent.shade200,
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
           ),
           const SizedBox(height: 12),
-          Text(
-            'Die energetische Verbindung wurde durch disharmonische Schwingungen gestört. '
-            'Bitte versuche es erneut und erlaube dem Raum, in vollkommener meditativer Stille zu schwingen.',
-            style: theme.textTheme.bodyMedium,
+          Builder(
+            builder: (context) {
+              final l10n = AppLocalizations.of(context)!;
+              return Text(
+                l10n.connectionInterruptedBody,
+                style: theme.textTheme.bodyMedium,
+              );
+            },
           ),
           const SizedBox(height: 24),
-          const Text(
-            'Erkannte energetische Disharmonie:',
-            style: TextStyle(
-              fontSize: 14,
-              color: Color(0xFFB0B5D0),
-            ),
+          Builder(
+            builder: (context) {
+              final l10n = AppLocalizations.of(context)!;
+              return Text(
+                l10n.detectedDisharmony,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Color(0xFFB0B5D0),
+                ),
+              );
+            },
           ),
           const SizedBox(height: 8),
           const QuantumWaveform(
@@ -747,10 +684,15 @@ class _TooLoudPanel extends StatelessWidget {
           ),
           const Spacer(),
           Center(
-              child: ElevatedButton(
-              onPressed: () => controller.resetToIdle(),
-              child: const Text('Energetischen Neubeginn'),
-            ),
+              child: Builder(
+                builder: (context) {
+                  final l10n = AppLocalizations.of(context)!;
+                  return ElevatedButton(
+                    onPressed: () => controller.resetToIdle(),
+                    child: Text(l10n.energeticRestart),
+                  );
+                },
+              ),
           ),
           const SizedBox(height: 24),
         ],
@@ -760,7 +702,9 @@ class _TooLoudPanel extends StatelessWidget {
 }
 
 class _AnalyzingPanel extends StatelessWidget {
-  const _AnalyzingPanel();
+  const _AnalyzingPanel({required this.controller});
+
+  final QuantumResonanzController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -806,35 +750,50 @@ class _AnalyzingPanelBodyState extends State<_AnalyzingPanelBody> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Tiefenanalyse der Energieschwingungen…',
-            style: theme.textTheme.headlineMedium,
-          ),
-          const SizedBox(height: 12),
-          Text(
-            'Die feinstofflichen Frequenzen werden aus der energetischen Matrix extrahiert…',
-            style: theme.textTheme.titleMedium,
+          Builder(
+            builder: (context) {
+              final l10n = AppLocalizations.of(context)!;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.deepAnalysis,
+                    style: theme.textTheme.headlineMedium,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    l10n.frequencyExtraction,
+                    style: theme.textTheme.titleMedium,
+                  ),
+                ],
+              );
+            },
           ),
           const SizedBox(height: 24),
           const _AnimatedAnalysisLines(),
           const SizedBox(height: 24),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _StatusChip(
-                label: 'Energetische Basis kalibrieren',
-                isActive: _currentStep == 0,
-              ),
-              _StatusChip(
-                label: 'Resonanzfeld ausloten',
-                isActive: _currentStep == 1,
-              ),
-              _StatusChip(
-                label: 'Feinstoffliche Blockaden identifizieren',
-                isActive: _currentStep == 2,
-              ),
-            ],
+          Builder(
+            builder: (context) {
+              final l10n = AppLocalizations.of(context)!;
+              return Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  _StatusChip(
+                    label: l10n.calibrateBasis,
+                    isActive: _currentStep == 0,
+                  ),
+                  _StatusChip(
+                    label: l10n.exploreResonance,
+                    isActive: _currentStep == 1,
+                  ),
+                  _StatusChip(
+                    label: l10n.identifyBlockages,
+                    isActive: _currentStep == 2,
+                  ),
+                ],
+              );
+            },
           ),
           const Spacer(),
         ],
@@ -859,7 +818,7 @@ class _AnimatedAnalysisLinesState extends State<_AnimatedAnalysisLines>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1600),
+      duration: const Duration(seconds: 2),
     )..repeat();
   }
 
@@ -871,38 +830,34 @@ class _AnimatedAnalysisLinesState extends State<_AnimatedAnalysisLines>
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 80,
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (context, _) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: List.generate(8, (index) {
-              final phase = (index / 8.0) * 3.1415 * 2;
-              final value = (0.5 +
-                      0.5 *
-                          (math.sin(phase + _controller.value * 3.1415 * 2))) *
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, _) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: List.generate(12, (index) {
+            final phase = (index / 12) * 3.1415 * 2;
+            final value = (0.3 +
+                        (math.sin(phase + _controller.value * 3.1415 * 2))) *
                   60;
-              return Container(
-                width: 6,
-                height: value.clamp(8.0, 60.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  gradient: const LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [
-                      Color(0xFF29E0FF),
-                      Color(0xFFB968FF),
-                    ],
-                  ),
+            return Container(
+              width: 6,
+              height: value.clamp(8.0, 60.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                gradient: const LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Color(0xFF29E0FF),
+                    Color(0xFFB968FF),
+                  ],
                 ),
-              );
-            }),
-          );
-        },
-      ),
+              ),
+            );
+          }),
+        );
+      },
     );
   }
 }
@@ -915,44 +870,52 @@ class _StatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final borderColor = isActive
-        ? const Color(0xFF29E0FF).withValues(alpha: 0.9)
-        : const Color(0xFF29E0FF).withValues(alpha: 0.3);
-    final dotColor =
-        isActive ? const Color(0xFF29E0FF) : const Color(0xFF555A7A);
-    final textColor =
-        isActive ? const Color(0xFFEEF1FF) : const Color(0xFFCCD0EA);
-
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 250),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+    final textColor = isActive
+        ? const Color(0xFF29E0FF)
+        : const Color(0xFF9AA1C5);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: isActive ? const Color(0xFF141729) : const Color(0xFF0D1020),
+        color: isActive
+            ? const Color(0xFF29E0FF).withValues(alpha: 0.15)
+            : const Color(0xFF0D1020),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: borderColor,
+          color: textColor.withValues(alpha: 0.3),
+          width: 1,
         ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            width: 8,
-            height: 8,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: dotColor,
-              boxShadow: isActive
-                  ? [
-                      BoxShadow(
-                        color: dotColor.withValues(alpha: 0.8),
-                        blurRadius: 10,
-                        spreadRadius: 1,
-                      ),
-                    ]
-                  : null,
+          if (isActive)
+            Container(
+              width: 6,
+              height: 6,
+              margin: const EdgeInsets.only(right: 6),
+              decoration: BoxDecoration(
+                color: const Color(0xFF29E0FF),
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF29E0FF).withValues(alpha: 0.6),
+                    blurRadius: 4,
+                    spreadRadius: 1,
+                  ),
+                ],
+              ),
+            )
+          else
+            const SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  Color(0xFF9AA1C5),
+                ),
+              ),
             ),
-          ),
           const SizedBox(width: 6),
           Text(
             label,
@@ -968,15 +931,51 @@ class _StatusChip extends StatelessWidget {
   }
 }
 
-class _SegmentsPanel extends StatelessWidget {
+class _SegmentsPanel extends StatefulWidget {
   const _SegmentsPanel({required this.controller});
 
   final QuantumResonanzController controller;
 
   @override
+  State<_SegmentsPanel> createState() => _SegmentsPanelState();
+}
+
+class _SegmentsPanelState extends State<_SegmentsPanel> {
+  Locale? _lastLocale;
+  bool _storiesInitialized = false;
+
+  void _updateStoriesIfNeeded(BuildContext context) {
+    final currentLocale = Localizations.localeOf(context);
+    final localeChanged = _lastLocale != currentLocale;
+    
+    if (!_storiesInitialized || localeChanged) {
+      _lastLocale = currentLocale;
+      _storiesInitialized = true;
+      
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          final l10n = AppLocalizations.of(context);
+          if (l10n != null) {
+            widget.controller.updateSegmentStories(l10n);
+          }
+        }
+      });
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _updateStoriesIfNeeded(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final segments = controller.segments;
+    final segments = widget.controller.segments;
+    
+    // Ensure stories are updated when needed
+    _updateStoriesIfNeeded(context);
 
     return Padding(
       key: const ValueKey('segments'),
@@ -984,14 +983,24 @@ class _SegmentsPanel extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Erkannte Energiesignaturen',
-            style: theme.textTheme.headlineMedium,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Aus der meditativen Stille deines Raumes wurden ${segments.length} einzigartige energetische Resonanzmuster erkannt und decodiert.',
-            style: theme.textTheme.titleMedium,
+          Builder(
+            builder: (context) {
+              final l10n = AppLocalizations.of(context)!;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.detectedSignatures,
+                    style: theme.textTheme.headlineMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    l10n.signaturesDetected(segments.length),
+                    style: theme.textTheme.titleMedium,
+                  ),
+                ],
+              );
+            },
           ),
           const SizedBox(height: 16),
           Expanded(
@@ -999,13 +1008,10 @@ class _SegmentsPanel extends StatelessWidget {
               itemCount: segments.length,
               itemBuilder: (context, index) {
                 final seg = segments[index];
-                final energie = (seg.energy * 1.1).clamp(0.0, 1.0);
-                final freq = seg.frequencyMix;
-
+                final energie = seg.energy;
                 return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: const Color(0xFF111427),
                     borderRadius: BorderRadius.circular(16),
@@ -1019,7 +1025,7 @@ class _SegmentsPanel extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            'Energiesignatur ${index + 1}',
+                            AppLocalizations.of(context)!.energySignature(index + 1),
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -1028,7 +1034,7 @@ class _SegmentsPanel extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            'Schwingungsintensität: ${energie.toStringAsFixed(2)}',
+                            AppLocalizations.of(context)!.vibrationIntensityValue(energie.toStringAsFixed(2)),
                             style: const TextStyle(
                               fontSize: 12,
                               color: Color(0xFFB0B5D0),
@@ -1054,34 +1060,33 @@ class _SegmentsPanel extends StatelessWidget {
                       if (seg.story.isNotEmpty) const SizedBox(height: 8),
                       Row(
                         children: [
-                          const Text(
-                            'Harmonisierungsgrad',
-                            style: TextStyle(
+                          Text(
+                            AppLocalizations.of(context)!.harmonizationLevel,
+                            style: const TextStyle(
                               fontSize: 12,
                               color: Color(0xFF9AA1C5),
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(999),
-                              child: LinearProgressIndicator(
-                                value: freq,
-                                minHeight: 6,
-                                backgroundColor: Colors.white12,
-                                valueColor:
-                                    const AlwaysStoppedAnimation<Color>(
-                                  Color(0xFF29E0FF),
-                                ),
+                          const Spacer(),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF29E0FF).withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: const Color(0xFF29E0FF).withValues(alpha: 0.4),
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            '${(freq * 100).round()} %',
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Color(0xFFCCD0EA),
+                            child: Text(
+                              '${(energie * 100).toStringAsFixed(0)}%',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF29E0FF),
+                              ),
                             ),
                           ),
                         ],
@@ -1094,10 +1099,15 @@ class _SegmentsPanel extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Center(
-              child: ElevatedButton(
-              onPressed: () => controller.startSynthesis(),
-              child: const Text('Resonanzfrequenz generieren'),
-            ),
+              child: Builder(
+                builder: (context) {
+                  final l10n = AppLocalizations.of(context)!;
+                  return ElevatedButton(
+                    onPressed: () => widget.controller.startSynthesis(),
+                    child: Text(l10n.generateResonance),
+                  );
+                },
+              ),
           ),
           const SizedBox(height: 20),
         ],
@@ -1150,14 +1160,24 @@ class _SynthesizingPanelState extends State<_SynthesizingPanel>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Dein Resonanzprofil entsteht…',
-                    style: theme.textTheme.headlineMedium,
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    'Durch alchemistische Transformation werden alle Energiesignaturen zu einem harmonisierenden Resonanzmuster verschmolzen.',
-                    style: theme.textTheme.titleMedium,
+                  Builder(
+                    builder: (context) {
+                      final l10n = AppLocalizations.of(context)!;
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.resonanceProfileCreating,
+                            style: theme.textTheme.headlineMedium,
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            l10n.alchemicalTransformation,
+                            style: theme.textTheme.titleMedium,
+                          ),
+                        ],
+                      );
+                    },
                   ),
                   const SizedBox(height: 32),
                   const Center(child: CircularProgressIndicator()),
@@ -1191,14 +1211,24 @@ class _SynthesizingPanelState extends State<_SynthesizingPanel>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              Text(
-                'Dein Resonanzprofil entsteht…',
-                style: theme.textTheme.headlineMedium,
-              ),
-              const SizedBox(height: 12),
-              Text(
-                'Jede erkannte Energiesignatur wird in reine Resonanzfrequenzen transformiert und zu deinem einzigartigen Harmonisierungssignal verschmolzen.',
-                style: theme.textTheme.titleMedium,
+              Builder(
+                builder: (context) {
+                  final l10n = AppLocalizations.of(context)!;
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.resonanceProfileCreating,
+                        style: theme.textTheme.headlineMedium,
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        l10n.signatureTransformation,
+                        style: theme.textTheme.titleMedium,
+                      ),
+                    ],
+                  );
+                },
               ),
               const SizedBox(height: 24),
               // Oberes Panel: aktuelles Originalsegment mit Scan-Linie
@@ -1223,9 +1253,14 @@ class _SynthesizingPanelState extends State<_SynthesizingPanel>
                 ),
               ),
               const SizedBox(height: 16),
-              Text(
-                'Entstehendes Harmonisierungssignal',
-                style: theme.textTheme.titleMedium,
+              Builder(
+                builder: (context) {
+                  final l10n = AppLocalizations.of(context)!;
+                  return Text(
+                    l10n.emergingSignal,
+                    style: theme.textTheme.titleMedium,
+                  );
+                },
               ),
               const SizedBox(height: 8),
               if (combined.isNotEmpty)
@@ -1241,11 +1276,20 @@ class _SynthesizingPanelState extends State<_SynthesizingPanel>
                   ),
                 ),
               const SizedBox(height: 12),
-              const _ProcessLabel(text: 'Energetische Impulse decodieren…'),
-              const SizedBox(height: 4),
-              const _ProcessLabel(text: 'Schwingungen harmonisieren…'),
-              const SizedBox(height: 4),
-              const _ProcessLabel(text: 'Resonanzmanifestation…'),
+              Builder(
+                builder: (context) {
+                  final l10n = AppLocalizations.of(context)!;
+                  return Column(
+                    children: [
+                      _ProcessLabel(text: l10n.decodeImpulses),
+                      const SizedBox(height: 4),
+                      _ProcessLabel(text: l10n.harmonizeVibrations),
+                      const SizedBox(height: 4),
+                      _ProcessLabel(text: l10n.resonanceManifestation),
+                    ],
+                  );
+                },
+              ),
               const SizedBox(height: 16),
             ],
             ),
@@ -1293,7 +1337,7 @@ class _SegmentScanPainter extends CustomPainter {
 }
 
 class _ProcessLabel extends StatelessWidget {
-  const _ProcessLabel({required this.text});
+  _ProcessLabel({required this.text});
 
   final String text;
 
@@ -1340,38 +1384,48 @@ class _ResultPanel extends StatelessWidget {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xFF111427),
-        title: const Text(
-          'Energieraum archivieren',
-          style: TextStyle(color: Colors.white),
+        title: Builder(
+          builder: (context) {
+            final l10n = AppLocalizations.of(context)!;
+            return Text(
+              l10n.archiveRoom,
+              style: const TextStyle(color: Colors.white),
+            );
+          },
         ),
         content: Form(
           key: formKey,
-          child: TextFormField(
-            controller: textController,
-            autofocus: true,
-            style: const TextStyle(color: Colors.white),
-            decoration: const InputDecoration(
-              labelText: 'Name des Energieraumes',
-              labelStyle: TextStyle(color: Color(0xFFB0B5D0)),
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFF29E0FF)),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFF29E0FF)),
-              ),
-            ),
-            validator: (value) {
-              if (value == null || value.trim().isEmpty) {
-                return 'Bitte gib diesem Energieraum einen Namen';
-              }
-              return null;
+          child: Builder(
+            builder: (context) {
+              final l10n = AppLocalizations.of(context)!;
+              return TextFormField(
+                controller: textController,
+                autofocus: true,
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  labelText: l10n.roomNameLabel,
+                  labelStyle: const TextStyle(color: Color(0xFFB0B5D0)),
+                  enabledBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF29E0FF)),
+                  ),
+                  focusedBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF29E0FF)),
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return l10n.roomNameRequired;
+                  }
+                  return null;
+                },
+              );
             },
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Zurück', style: TextStyle(color: Color(0xFFB0B5D0))),
+            child: Text(AppLocalizations.of(context)!.back, style: const TextStyle(color: Color(0xFFB0B5D0))),
           ),
           TextButton(
             onPressed: () async {
@@ -1383,24 +1437,24 @@ class _ResultPanel extends StatelessWidget {
                   if (savedRoom != null) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Energieraum "$name" wurde erfolgreich archiviert'),
+                        content: Text(AppLocalizations.of(context)!.roomArchivedSuccess(name)),
                         backgroundColor: const Color(0xFF29E0FF),
                         duration: const Duration(seconds: 2),
                       ),
                     );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Die energetische Archivierung konnte nicht abgeschlossen werden'),
+                      SnackBar(
+                        content: Text(AppLocalizations.of(context)!.archiveFailed),
                         backgroundColor: Colors.redAccent,
-                        duration: Duration(seconds: 2),
+                        duration: const Duration(seconds: 2),
                       ),
                     );
                   }
                 }
               }
             },
-            child: const Text('Archivieren', style: TextStyle(color: Color(0xFF29E0FF))),
+            child: Text(AppLocalizations.of(context)!.archive, style: const TextStyle(color: Color(0xFF29E0FF))),
           ),
         ],
       ),
@@ -1419,14 +1473,24 @@ class _ResultPanel extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Dein Resonanzsignal',
-              style: theme.textTheme.headlineMedium,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Spiele dieses harmonisierende Signal ab, um disharmonische Energien zu transformieren, Blockaden zu lösen und deine Raumenergie in vollkommene Balance zu bringen.',
-              style: theme.textTheme.titleMedium,
+            Builder(
+              builder: (context) {
+                final l10n = AppLocalizations.of(context)!;
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.yourResonanceSignal,
+                      style: theme.textTheme.headlineMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      l10n.playSignalDescription,
+                      style: theme.textTheme.titleMedium,
+                    ),
+                  ],
+                );
+              },
             ),
             const SizedBox(height: 16),
             if (controller.segments.isNotEmpty)
@@ -1474,7 +1538,7 @@ class _ResultPanel extends StatelessWidget {
                 minHeight: 6,
                 backgroundColor: Colors.white12,
                 valueColor: const AlwaysStoppedAnimation<Color>(
-                  Color(0xFFB968FF),
+                  Color(0xFF29E0FF),
                 ),
               ),
             ),
@@ -1484,7 +1548,7 @@ class _ResultPanel extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () => _showSaveRoomDialog(context, controller),
                 icon: const Icon(Icons.save),
-                label: const Text('Energieraum archivieren'),
+                label: Text(AppLocalizations.of(context)!.archiveRoom),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF29E0FF),
                   foregroundColor: Colors.black,
@@ -1497,7 +1561,7 @@ class _ResultPanel extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () => controller.resetToIdle(),
-                child: const Text('Neue Harmonisierung'),
+                child: Text(AppLocalizations.of(context)!.newHarmonization),
               ),
             ),
             const SizedBox(height: 20),
@@ -1537,32 +1601,35 @@ class _CounterSignalButton extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF29E0FF).withValues(alpha: 0.5),
+              color: const Color(0xFF29E0FF).withValues(alpha: 0.4),
               blurRadius: 16,
               spreadRadius: 1,
             ),
           ],
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              isPlaying ? Icons.pause : Icons.science,
-              color: Colors.black,
-            ),
-            const SizedBox(width: 8),
-            const Text(
-              'Resonanzfrequenz aktivieren',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ],
+        child: Builder(
+          builder: (context) {
+            final l10n = AppLocalizations.of(context)!;
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  isPlaying ? Icons.pause : Icons.science,
+                  color: Colors.black,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  isPlaying ? l10n.pauseHarmonization : l10n.activateResonance,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
   }
 }
-
-
