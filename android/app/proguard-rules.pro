@@ -10,7 +10,7 @@
 -keep class io.flutter.embedding.** { *; }
 
 # Preserve application classes
--keep class com.example.quantumresonanz.** { *; }
+-keep class com.quantumresonanz.** { *; }
 
 # Preserve native methods
 -keepclasseswithmembernames class * {
@@ -67,6 +67,20 @@
 
 # Preserve shared preferences
 -keep class androidx.preference.** { *; }
+
+# Ignore missing Google Play Core classes (optional dependency)
+# These are generated automatically by R8 when missing classes are detected
+-dontwarn com.google.android.play.core.splitcompat.SplitCompatApplication
+-dontwarn com.google.android.play.core.splitinstall.SplitInstallException
+-dontwarn com.google.android.play.core.splitinstall.SplitInstallManager
+-dontwarn com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+-dontwarn com.google.android.play.core.splitinstall.SplitInstallRequest$Builder
+-dontwarn com.google.android.play.core.splitinstall.SplitInstallRequest
+-dontwarn com.google.android.play.core.splitinstall.SplitInstallSessionState
+-dontwarn com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
+-dontwarn com.google.android.play.core.tasks.OnFailureListener
+-dontwarn com.google.android.play.core.tasks.OnSuccessListener
+-dontwarn com.google.android.play.core.tasks.Task
 
 
 

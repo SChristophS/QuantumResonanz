@@ -1,4 +1,4 @@
-package com.example.quantumresonanz
+package com.quantumresonanz
 
 import io.flutter.embedding.android.FlutterActivity
 
