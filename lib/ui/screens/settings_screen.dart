@@ -6,6 +6,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../services/language_service.dart';
+import '../../services/onboarding_service.dart';
+import 'onboarding_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -17,6 +19,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   String _appVersion = '';
   String _buildNumber = '';
+  final OnboardingService _onboardingService = OnboardingService();
 
   @override
   void initState() {
@@ -101,6 +104,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  Future<void> _openOnboarding() async {
+    await _onboardingService.resetOnboarding();
+    if (!mounted) return;
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const OnboardingScreen(replayMode: true),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -141,6 +154,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ? l10n.loading 
                     : '$_appVersion+$_buildNumber',
                   Icons.info_outline,
+                ),
+                ListTile(
+                  leading: const Icon(Icons.school, color: Color(0xFF29E0FF)),
+                  title: Text(
+                    l10n.showOnboarding,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  subtitle: Text(
+                    l10n.showOnboardingDesc,
+                    style: const TextStyle(color: Color(0xFFB0B5D0)),
+                  ),
+                  trailing: const Icon(Icons.chevron_right, color: Color(0xFF29E0FF)),
+                  onTap: _openOnboarding,
                 ),
               ],
             ),

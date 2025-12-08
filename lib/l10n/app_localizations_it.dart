@@ -9,7 +9,7 @@ class AppLocalizationsIt extends AppLocalizations {
   AppLocalizationsIt([String locale = 'it']) : super(locale);
 
   @override
-  String get appName => 'QuantumResonanz';
+  String get appName => 'Bio Resonance Scanner';
 
   @override
   String get appSubtitle => 'Armonizzazione Energetica dello Spazio';
@@ -20,7 +20,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get appDescriptionLong =>
-      'QuantumResonanz ascolta per 10 secondi l\'essenza energetica del tuo spazio. Attraverso l\'analisi meditativa profonda delle energie dello spazio, le vibrazioni disturbanti vengono identificate e trasformate in un modello di risonanza armonizzante. I tuoi dati energetici rimangono completamente protetti e locali sul tuo dispositivo.';
+      'Bio Resonance Scanner ascolta per 10 secondi l\'essenza energetica del tuo spazio. Attraverso l\'analisi meditativa profonda delle energie dello spazio, le vibrazioni disturbanti vengono identificate e trasformate in un modello di risonanza armonizzante. I tuoi dati energetici rimangono completamente protetti e locali sul tuo dispositivo.';
 
   @override
   String get pathToHarmonization =>
@@ -200,6 +200,100 @@ class AppLocalizationsIt extends AppLocalizations {
   String get newHarmonization => 'Nuova Armonizzazione';
 
   @override
+  String get onboardingTitle => 'Introduzione';
+
+  @override
+  String get onboardingSkip => 'Salta';
+
+  @override
+  String get onboardingBack => 'Indietro';
+
+  @override
+  String get onboardingNext => 'Avanti';
+
+  @override
+  String get onboardingStart => 'Inizia';
+
+  @override
+  String get onboardingWelcomeTitle => 'Benvenuto in Bio Resonance Scanner';
+
+  @override
+  String get onboardingWelcomeDescription =>
+      'Cattura le sottili vibrazioni della tua stanza per creare un profilo personale di risonanza armonizzante.';
+
+  @override
+  String get onboardingHowToUseTitle => 'Come usare';
+
+  @override
+  String get onboardingHowToUseStep1 =>
+      'Trova un luogo tranquillo. Appoggia il telefono e respira profondamente.';
+
+  @override
+  String get onboardingHowToUseStep2 =>
+      'Avvia la scansione di 10 secondi e rimani in silenzio. Lascia che l\'app ascolti l\'energia della stanza.';
+
+  @override
+  String get onboardingHowToUseStep3 =>
+      'Dopo l\'analisi, riproduci la risonanza armonizzante e senti l\'equilibrio.';
+
+  @override
+  String get onboardingPermissionTitle => 'Accesso al microfono';
+
+  @override
+  String get onboardingPermissionDescription =>
+      'Per percepire le vibrazioni della stanza, l\'app ha bisogno dell\'accesso al microfono. Rimani in silenzio durante la scansione per il miglior risultato.';
+
+  @override
+  String get onboardingPermissionButton => 'Consenti microfono';
+
+  @override
+  String get onboardingPermissionGranted =>
+      'Microfono consentito. Pronto per la scansione.';
+
+  @override
+  String get onboardingPermissionDenied =>
+      'Microfono negato. Puoi consentirlo per attivare la scansione.';
+
+  @override
+  String get onboardingPermissionPermanentlyDenied =>
+      'Microfono negato permanentemente. Abilitalo nelle impostazioni di sistema per scansionare.';
+
+  @override
+  String get onboardingPermissionRestricted =>
+      'L\'accesso al microfono è limitato su questo dispositivo.';
+
+  @override
+  String get onboardingPermissionLimited =>
+      'L\'accesso al microfono è limitato. L\'accesso completo garantisce le migliori scansioni.';
+
+  @override
+  String get onboardingPermissionUnknown => 'Stato del microfono sconosciuto.';
+
+  @override
+  String get onboardingSavingTitle => 'Salva e riascolta';
+
+  @override
+  String get onboardingSavingDescription =>
+      'Archivia i risultati di risonanza come “Stanze di energia” e riproducili quando vuoi riequilibrare.';
+
+  @override
+  String get onboardingGetStartedTitle => 'Sei pronto';
+
+  @override
+  String get onboardingGetStartedDescription =>
+      'Inizia ora la tua prima scansione. Puoi sempre rivedere questa introduzione dalle Impostazioni.';
+
+  @override
+  String get onboardingReplayHint =>
+      'Suggerimento: puoi rivedere l\'introduzione in qualsiasi momento dalle Impostazioni.';
+
+  @override
+  String get showOnboarding => 'Mostra introduzione';
+
+  @override
+  String get showOnboardingDesc => 'Ripeti la guida e la richiesta di permessi';
+
+  @override
   String get settings => 'Impostazioni';
 
   @override
@@ -326,45 +420,47 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String energySignatureOf(int index, int count) {
-    return 'Energy Signature $index of $count';
+    return 'Firma Energetica $index di $count';
   }
 
   @override
   String get energyTextLow =>
-      'gentle fundamental vibration of room energy, harmoniously flowing';
+      'vibrazione fondamentale delicata dell\'energia dello spazio, che fluisce armoniosamente';
 
   @override
   String get energyTextMedium =>
-      'lively subtle impulses in the energetic resonance field';
+      'impulsi sottili e vivaci nel campo di risonanza energetica';
 
   @override
   String get energyTextHigh =>
-      'highly concentrated energy density with transformative power';
+      'densità energetica altamente concentrata con potere trasformativo';
 
   @override
   String get freqTextLow =>
-      'rooted in the grounding deep frequencies of the chakra system';
+      'radicato nelle frequenze profonde di radicamento del sistema dei chakra';
 
   @override
-  String get freqTextMedium => 'balanced vibration through all subtle levels';
+  String get freqTextMedium =>
+      'vibrazione equilibrata attraverso tutti i livelli sottili';
 
   @override
   String get freqTextHigh =>
-      'sublime high-frequency energies leading to spiritual opening';
+      'energie ad alta frequenza sublimi che portano all\'apertura spirituale';
 
   @override
-  String get movementTextLow => 'meditatively uniform, calming for the aura';
+  String get movementTextLow =>
+      'meditativamente uniforme, calmante per l\'aura';
 
   @override
   String get movementTextMedium =>
-      'gently pulsating, dissolving blockages with harmonic coherence';
+      'leggermente pulsante, che dissolve i blocchi con coerenza armonica';
 
   @override
   String get movementTextHigh =>
-      'dynamically transforming, intensive cleansing of energy structures';
+      'trasformazione dinamica, pulizia intensiva delle strutture energetiche';
 
   @override
   String resonanceFrequencyAt(int freqHz) {
-    return 'Resonance frequency at approximately $freqHz Hz';
+    return 'Frequenza di risonanza a circa $freqHz Hz';
   }
 }

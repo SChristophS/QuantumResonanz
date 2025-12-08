@@ -1,9 +1,9 @@
 {
   "@@locale": "ja",
-  "appName": "QuantumResonanz",
+  "appName": "Bio Resonance Scanner",
   "appSubtitle": "エネルギールーム調和",
   "appDescription": "お部屋の微細な振動を捉え、全体的な調和のための個人的なエネルギーの共鳴プロファイルを作成します。",
-  "appDescriptionLong": "QuantumResonanzは10秒間、お部屋のエネルギーの本質に耳を傾けます。ルームエネルギーの深い瞑想的分析を通じて、破壊的な振動が識別され、調和的な共鳴パターンに変換されます。お客様のエネルギーデータは完全に保護され、デバイス上にローカルに保存されます。",
+  "appDescriptionLong": "Bio Resonance Scannerは10秒間、お部屋のエネルギーの本質に耳を傾けます。ルームエネルギーの深い瞑想的分析を通じて、破壊的な振動が識別され、調和的な共鳴パターンに変換されます。お客様のエネルギーデータは完全に保護され、デバイス上にローカルに保存されます。",
   "pathToHarmonization": "エネルギーの調和への道：",
   "roomCaptureTitle": "エネルギールームキャプチャ（10秒）",
   "roomCaptureBody": "この深い静寂の中で、お部屋の見えない振動を捉えます。音声や大きな妨害は微細なレベルへの接続を中断します—完全な静寂を保ってください。",
@@ -83,6 +83,33 @@
   "activateResonance": "共鳴周波数をアクティブ化",
   "pauseHarmonization": "調和を一時停止",
   "newHarmonization": "新しい調和",
+  "onboardingTitle": "オンボーディング",
+  "onboardingSkip": "スキップ",
+  "onboardingBack": "戻る",
+  "onboardingNext": "次へ",
+  "onboardingStart": "開始",
+  "onboardingWelcomeTitle": "Bio Resonance Scanner へようこそ",
+  "onboardingWelcomeDescription": "部屋の微細な振動を捉え、あなた専用の調和レゾナンス・プロファイルを作成します。",
+  "onboardingHowToUseTitle": "使い方",
+  "onboardingHowToUseStep1": "静かな場所を選び、スマホを置いて深呼吸します。",
+  "onboardingHowToUseStep2": "10秒のスキャンを開始し、静かに保ちます。空間のエネルギーをアプリに聴かせましょう。",
+  "onboardingHowToUseStep3": "分析後、調和レゾナンスを再生してバランスを感じてください。",
+  "onboardingPermissionTitle": "マイクへのアクセス",
+  "onboardingPermissionDescription": "空間の振動を感じ取るため、マイクのアクセスが必要です。最良の結果のためスキャン中は静かにしてください。",
+  "onboardingPermissionButton": "マイクを許可",
+  "onboardingPermissionGranted": "マイクが許可されました。スキャンの準備完了です。",
+  "onboardingPermissionDenied": "マイクが拒否されました。スキャンを有効にするには許可してください。",
+  "onboardingPermissionPermanentlyDenied": "マイクが恒久的に拒否されています。スキャンにはシステム設定で有効にしてください。",
+  "onboardingPermissionRestricted": "このデバイスではマイクアクセスが制限されています。",
+  "onboardingPermissionLimited": "マイクアクセスが限定されています。完全なアクセスで最良のスキャンが可能です。",
+  "onboardingPermissionUnknown": "マイクの状態が不明です。",
+  "onboardingSavingTitle": "保存と再生",
+  "onboardingSavingDescription": "共鳴結果を「エネルギールーム」として保存し、いつでも再生して再調和できます。",
+  "onboardingGetStartedTitle": "準備完了",
+  "onboardingGetStartedDescription": "今すぐ最初のスキャンを開始しましょう。設定からいつでもこのオンボーディングを再生できます。",
+  "onboardingReplayHint": "ヒント: 設定からいつでもオンボーディングを再生できます。",
+  "showOnboarding": "オンボーディングを表示",
+  "showOnboardingDesc": "ガイドと許可リクエストを再表示",
   "settings": "設定",
   "appInfo": "アプリ情報",
   "version": "バージョン",
@@ -142,7 +169,35 @@
   "languagePortuguese": "Português (Brasil)",
   "languageKorean": "한국어",
   "languageItalian": "Italiano",
-  "languageRussian": "Русский"
+  "languageRussian": "Русский",
+  "energySignatureOf": "エネルギー署名 {index} / {count}",
+  "@energySignatureOf": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "energyTextLow": "空間エネルギーの優しい基本振動、調和して流れる",
+  "energyTextMedium": "エネルギーの共鳴フィールドにおける活気のある微細なインパルス",
+  "energyTextHigh": "変容の力を持つ高度に濃縮されたエネルギー密度",
+  "freqTextLow": "チャクラシステムのグラウンディング深周波数に根ざしている",
+  "freqTextMedium": "すべての微細なレベルを通じたバランスの取れた振動",
+  "freqTextHigh": "精神的開放へと導く崇高な高周波エネルギー",
+  "movementTextLow": "瞑想的に均一で、オーラを落ち着かせる",
+  "movementTextMedium": "優しく脈動し、調和的な一貫性でブロックを溶解する",
+  "movementTextHigh": "動的に変換し、エネルギー構造の集中的な浄化",
+  "resonanceFrequencyAt": "共鳴周波数は約 {freqHz} Hz",
+  "@resonanceFrequencyAt": {
+    "placeholders": {
+      "freqHz": {
+        "type": "int"
+      }
+    }
+  }
 }
 
 

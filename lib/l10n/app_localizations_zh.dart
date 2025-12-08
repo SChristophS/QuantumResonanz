@@ -9,7 +9,7 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
-  String get appName => 'QuantumResonanz';
+  String get appName => 'Bio Resonance Scanner';
 
   @override
   String get appSubtitle => '能量空间和谐化';
@@ -19,7 +19,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get appDescriptionLong =>
-      'QuantumResonanz 聆听您空间的能量本质10秒。通过深度冥想分析空间能量，识别干扰振动并将其转化为和谐共振模式。您的能量数据完全受保护并仅存储在您的设备上。';
+      'Bio Resonance Scanner 聆听您空间的能量本质10秒。通过深度冥想分析空间能量，识别干扰振动并将其转化为和谐共振模式。您的能量数据完全受保护并仅存储在您的设备上。';
 
   @override
   String get pathToHarmonization => '能量和谐化之路：';
@@ -182,6 +182,89 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get newHarmonization => '新和谐化';
+
+  @override
+  String get onboardingTitle => '引导';
+
+  @override
+  String get onboardingSkip => '跳过';
+
+  @override
+  String get onboardingBack => '返回';
+
+  @override
+  String get onboardingNext => '下一步';
+
+  @override
+  String get onboardingStart => '开始';
+
+  @override
+  String get onboardingWelcomeTitle => '欢迎使用 Bio Resonance Scanner';
+
+  @override
+  String get onboardingWelcomeDescription => '捕捉房间的细微振动，创建个人和谐的共振档案。';
+
+  @override
+  String get onboardingHowToUseTitle => '如何使用';
+
+  @override
+  String get onboardingHowToUseStep1 => '找到安静的位置。放好手机并深呼吸。';
+
+  @override
+  String get onboardingHowToUseStep2 => '开始10秒扫描并保持安静。让应用倾听空间能量。';
+
+  @override
+  String get onboardingHowToUseStep3 => '分析后播放和谐共振，感受平衡。';
+
+  @override
+  String get onboardingPermissionTitle => '麦克风访问';
+
+  @override
+  String get onboardingPermissionDescription =>
+      '为感知空间振动，应用需要麦克风权限。扫描时保持安静以获得最佳结果。';
+
+  @override
+  String get onboardingPermissionButton => '允许麦克风';
+
+  @override
+  String get onboardingPermissionGranted => '麦克风已允许。可以开始扫描。';
+
+  @override
+  String get onboardingPermissionDenied => '麦克风被拒绝。允许后即可启用扫描。';
+
+  @override
+  String get onboardingPermissionPermanentlyDenied =>
+      '麦克风被永久拒绝。请在系统设置中启用以进行扫描。';
+
+  @override
+  String get onboardingPermissionRestricted => '此设备的麦克风访问受限。';
+
+  @override
+  String get onboardingPermissionLimited => '麦克风访问受限。完整权限可确保最佳扫描效果。';
+
+  @override
+  String get onboardingPermissionUnknown => '麦克风状态未知。';
+
+  @override
+  String get onboardingSavingTitle => '保存与重播';
+
+  @override
+  String get onboardingSavingDescription => '将共振结果存为“能量空间”，随时重播以重新和谐。';
+
+  @override
+  String get onboardingGetStartedTitle => '一切就绪';
+
+  @override
+  String get onboardingGetStartedDescription => '现在开始首次扫描。可在设置中随时重看引导。';
+
+  @override
+  String get onboardingReplayHint => '提示：可在设置中随时重播引导。';
+
+  @override
+  String get showOnboarding => '显示引导';
+
+  @override
+  String get showOnboardingDesc => '重新查看引导和权限请求';
 
   @override
   String get settings => '设置';
@@ -308,46 +391,39 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String energySignatureOf(int index, int count) {
-    return 'Energy Signature $index of $count';
+    return '能量特征 $index / $count';
   }
 
   @override
-  String get energyTextLow =>
-      'gentle fundamental vibration of room energy, harmoniously flowing';
+  String get energyTextLow => '空间能量的温和基本振动，和谐流动';
 
   @override
-  String get energyTextMedium =>
-      'lively subtle impulses in the energetic resonance field';
+  String get energyTextMedium => '能量共振场中活跃的微妙脉冲';
 
   @override
-  String get energyTextHigh =>
-      'highly concentrated energy density with transformative power';
+  String get energyTextHigh => '高度集中的能量密度，具有转化力量';
 
   @override
-  String get freqTextLow =>
-      'rooted in the grounding deep frequencies of the chakra system';
+  String get freqTextLow => '根植于脉轮系统的接地深频率';
 
   @override
-  String get freqTextMedium => 'balanced vibration through all subtle levels';
+  String get freqTextMedium => '通过所有微妙层面的平衡振动';
 
   @override
-  String get freqTextHigh =>
-      'sublime high-frequency energies leading to spiritual opening';
+  String get freqTextHigh => '导致精神开放的高频能量';
 
   @override
-  String get movementTextLow => 'meditatively uniform, calming for the aura';
+  String get movementTextLow => '冥想般均匀，对气场有镇静作用';
 
   @override
-  String get movementTextMedium =>
-      'gently pulsating, dissolving blockages with harmonic coherence';
+  String get movementTextMedium => '轻柔脉动，以和谐一致性溶解阻塞';
 
   @override
-  String get movementTextHigh =>
-      'dynamically transforming, intensive cleansing of energy structures';
+  String get movementTextHigh => '动态转化，对能量结构进行深度净化';
 
   @override
   String resonanceFrequencyAt(int freqHz) {
-    return 'Resonance frequency at approximately $freqHz Hz';
+    return '共振频率约 $freqHz Hz';
   }
 }
 
@@ -356,7 +432,7 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   AppLocalizationsZhCn() : super('zh_CN');
 
   @override
-  String get appName => 'QuantumResonanz';
+  String get appName => 'Bio Resonance Scanner';
 
   @override
   String get appSubtitle => '能量空间和谐化';
@@ -366,7 +442,7 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get appDescriptionLong =>
-      'QuantumResonanz 聆听您空间的能量本质10秒。通过深度冥想分析空间能量，识别干扰振动并将其转化为和谐共振模式。您的能量数据完全受保护并仅存储在您的设备上。';
+      'Bio Resonance Scanner 聆听您空间的能量本质10秒。通过深度冥想分析空间能量，识别干扰振动并将其转化为和谐共振模式。您的能量数据完全受保护并仅存储在您的设备上。';
 
   @override
   String get pathToHarmonization => '能量和谐化之路：';
@@ -529,6 +605,89 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get newHarmonization => '新和谐化';
+
+  @override
+  String get onboardingTitle => '引导';
+
+  @override
+  String get onboardingSkip => '跳过';
+
+  @override
+  String get onboardingBack => '返回';
+
+  @override
+  String get onboardingNext => '下一步';
+
+  @override
+  String get onboardingStart => '开始';
+
+  @override
+  String get onboardingWelcomeTitle => '欢迎使用 Bio Resonance Scanner';
+
+  @override
+  String get onboardingWelcomeDescription => '捕捉房间的细微振动，创建个人和谐的共振档案。';
+
+  @override
+  String get onboardingHowToUseTitle => '如何使用';
+
+  @override
+  String get onboardingHowToUseStep1 => '找到安静的位置。放好手机并深呼吸。';
+
+  @override
+  String get onboardingHowToUseStep2 => '开始10秒扫描并保持安静。让应用倾听空间能量。';
+
+  @override
+  String get onboardingHowToUseStep3 => '分析后播放和谐共振，感受平衡。';
+
+  @override
+  String get onboardingPermissionTitle => '麦克风访问';
+
+  @override
+  String get onboardingPermissionDescription =>
+      '为感知空间振动，应用需要麦克风权限。扫描时保持安静以获得最佳结果。';
+
+  @override
+  String get onboardingPermissionButton => '允许麦克风';
+
+  @override
+  String get onboardingPermissionGranted => '麦克风已允许。可以开始扫描。';
+
+  @override
+  String get onboardingPermissionDenied => '麦克风被拒绝。允许后即可启用扫描。';
+
+  @override
+  String get onboardingPermissionPermanentlyDenied =>
+      '麦克风被永久拒绝。请在系统设置中启用以进行扫描。';
+
+  @override
+  String get onboardingPermissionRestricted => '此设备的麦克风访问受限。';
+
+  @override
+  String get onboardingPermissionLimited => '麦克风访问受限。完整权限可确保最佳扫描效果。';
+
+  @override
+  String get onboardingPermissionUnknown => '麦克风状态未知。';
+
+  @override
+  String get onboardingSavingTitle => '保存与重播';
+
+  @override
+  String get onboardingSavingDescription => '将共振结果存为“能量空间”，随时重播以重新和谐。';
+
+  @override
+  String get onboardingGetStartedTitle => '一切就绪';
+
+  @override
+  String get onboardingGetStartedDescription => '现在开始首次扫描。可在设置中随时重看引导。';
+
+  @override
+  String get onboardingReplayHint => '提示：可在设置中随时重播引导。';
+
+  @override
+  String get showOnboarding => '显示引导';
+
+  @override
+  String get showOnboardingDesc => '重新查看引导和权限请求';
 
   @override
   String get settings => '设置';

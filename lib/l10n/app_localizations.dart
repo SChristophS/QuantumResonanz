@@ -119,7 +119,7 @@ abstract class AppLocalizations {
   /// No description provided for @appName.
   ///
   /// In en, this message translates to:
-  /// **'QuantumResonanz'**
+  /// **'Bio Resonance Scanner'**
   String get appName;
 
   /// No description provided for @appSubtitle.
@@ -137,7 +137,7 @@ abstract class AppLocalizations {
   /// No description provided for @appDescriptionLong.
   ///
   /// In en, this message translates to:
-  /// **'QuantumResonanz listens for 10 seconds into the energetic essence of your room. Through deep meditative analysis of room energies, disruptive vibrations are identified and transformed into a harmonizing resonance pattern. Your energetic data remains fully protected and local on your device.'**
+  /// **'Bio Resonance Scanner listens for 10 seconds into the energetic essence of your room. Through deep meditative analysis of room energies, disruptive vibrations are identified and transformed into a harmonizing resonance pattern. Your energetic data remains fully protected and local on your device.'**
   String get appDescriptionLong;
 
   /// No description provided for @pathToHarmonization.
@@ -445,6 +445,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New Harmonization'**
   String get newHarmonization;
+
+  /// No description provided for @onboardingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Onboarding'**
+  String get onboardingTitle;
+
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
+
+  /// No description provided for @onboardingBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get onboardingBack;
+
+  /// No description provided for @onboardingNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboardingNext;
+
+  /// No description provided for @onboardingStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get onboardingStart;
+
+  /// No description provided for @onboardingWelcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Bio Resonance Scanner'**
+  String get onboardingWelcomeTitle;
+
+  /// No description provided for @onboardingWelcomeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture the subtle vibrations of your room to create a personal harmonizing resonance profile.'**
+  String get onboardingWelcomeDescription;
+
+  /// No description provided for @onboardingHowToUseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How to use'**
+  String get onboardingHowToUseTitle;
+
+  /// No description provided for @onboardingHowToUseStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a quiet spot. Place your phone still and take a deep breath.'**
+  String get onboardingHowToUseStep1;
+
+  /// No description provided for @onboardingHowToUseStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the 10-second scan and stay silent. Let the app listen to your room’s energy.'**
+  String get onboardingHowToUseStep2;
+
+  /// No description provided for @onboardingHowToUseStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'After analysis, play the harmonizing resonance and feel the balance.'**
+  String get onboardingHowToUseStep3;
+
+  /// No description provided for @onboardingPermissionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone access'**
+  String get onboardingPermissionTitle;
+
+  /// No description provided for @onboardingPermissionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'To sense the room’s vibrations, the app needs microphone access. Stay silent during the scan for the clearest result.'**
+  String get onboardingPermissionDescription;
+
+  /// No description provided for @onboardingPermissionButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow microphone'**
+  String get onboardingPermissionButton;
+
+  /// No description provided for @onboardingPermissionGranted.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone granted. You’re ready to scan.'**
+  String get onboardingPermissionGranted;
+
+  /// No description provided for @onboardingPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone denied. You can allow it to enable scanning.'**
+  String get onboardingPermissionDenied;
+
+  /// No description provided for @onboardingPermissionPermanentlyDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone denied permanently. Please enable it in system settings to scan.'**
+  String get onboardingPermissionPermanentlyDenied;
+
+  /// No description provided for @onboardingPermissionRestricted.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone access is restricted on this device.'**
+  String get onboardingPermissionRestricted;
+
+  /// No description provided for @onboardingPermissionLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone access is limited. Full access ensures best scans.'**
+  String get onboardingPermissionLimited;
+
+  /// No description provided for @onboardingPermissionUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone status unknown.'**
+  String get onboardingPermissionUnknown;
+
+  /// No description provided for @onboardingSavingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save and revisit'**
+  String get onboardingSavingTitle;
+
+  /// No description provided for @onboardingSavingDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive your resonance results as “Energy Rooms” and replay them whenever you want to re-harmonize.'**
+  String get onboardingSavingDescription;
+
+  /// No description provided for @onboardingGetStartedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You’re ready'**
+  String get onboardingGetStartedTitle;
+
+  /// No description provided for @onboardingGetStartedDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Begin your first scan now. You can always replay this onboarding from Settings.'**
+  String get onboardingGetStartedDescription;
+
+  /// No description provided for @onboardingReplayHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: You can replay the onboarding anytime via Settings.'**
+  String get onboardingReplayHint;
+
+  /// No description provided for @showOnboarding.
+  ///
+  /// In en, this message translates to:
+  /// **'Show onboarding'**
+  String get showOnboarding;
+
+  /// No description provided for @showOnboardingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay the guided introduction and permission request'**
+  String get showOnboardingDesc;
 
   /// No description provided for @settings.
   ///

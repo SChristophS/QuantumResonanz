@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appName => 'QuantumResonanz';
+  String get appName => 'Bio Resonance Scanner';
 
   @override
   String get appSubtitle => 'Energetic Room Harmonization';
@@ -20,7 +20,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get appDescriptionLong =>
-      'QuantumResonanz listens for 10 seconds into the energetic essence of your room. Through deep meditative analysis of room energies, disruptive vibrations are identified and transformed into a harmonizing resonance pattern. Your energetic data remains fully protected and local on your device.';
+      'Bio Resonance Scanner listens for 10 seconds into the energetic essence of your room. Through deep meditative analysis of room energies, disruptive vibrations are identified and transformed into a harmonizing resonance pattern. Your energetic data remains fully protected and local on your device.';
 
   @override
   String get pathToHarmonization => 'The path to energetic harmonization:';
@@ -195,6 +195,101 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get newHarmonization => 'New Harmonization';
+
+  @override
+  String get onboardingTitle => 'Onboarding';
+
+  @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingBack => 'Back';
+
+  @override
+  String get onboardingNext => 'Next';
+
+  @override
+  String get onboardingStart => 'Start';
+
+  @override
+  String get onboardingWelcomeTitle => 'Welcome to Bio Resonance Scanner';
+
+  @override
+  String get onboardingWelcomeDescription =>
+      'Capture the subtle vibrations of your room to create a personal harmonizing resonance profile.';
+
+  @override
+  String get onboardingHowToUseTitle => 'How to use';
+
+  @override
+  String get onboardingHowToUseStep1 =>
+      'Find a quiet spot. Place your phone still and take a deep breath.';
+
+  @override
+  String get onboardingHowToUseStep2 =>
+      'Start the 10-second scan and stay silent. Let the app listen to your room’s energy.';
+
+  @override
+  String get onboardingHowToUseStep3 =>
+      'After analysis, play the harmonizing resonance and feel the balance.';
+
+  @override
+  String get onboardingPermissionTitle => 'Microphone access';
+
+  @override
+  String get onboardingPermissionDescription =>
+      'To sense the room’s vibrations, the app needs microphone access. Stay silent during the scan for the clearest result.';
+
+  @override
+  String get onboardingPermissionButton => 'Allow microphone';
+
+  @override
+  String get onboardingPermissionGranted =>
+      'Microphone granted. You’re ready to scan.';
+
+  @override
+  String get onboardingPermissionDenied =>
+      'Microphone denied. You can allow it to enable scanning.';
+
+  @override
+  String get onboardingPermissionPermanentlyDenied =>
+      'Microphone denied permanently. Please enable it in system settings to scan.';
+
+  @override
+  String get onboardingPermissionRestricted =>
+      'Microphone access is restricted on this device.';
+
+  @override
+  String get onboardingPermissionLimited =>
+      'Microphone access is limited. Full access ensures best scans.';
+
+  @override
+  String get onboardingPermissionUnknown => 'Microphone status unknown.';
+
+  @override
+  String get onboardingSavingTitle => 'Save and revisit';
+
+  @override
+  String get onboardingSavingDescription =>
+      'Archive your resonance results as “Energy Rooms” and replay them whenever you want to re-harmonize.';
+
+  @override
+  String get onboardingGetStartedTitle => 'You’re ready';
+
+  @override
+  String get onboardingGetStartedDescription =>
+      'Begin your first scan now. You can always replay this onboarding from Settings.';
+
+  @override
+  String get onboardingReplayHint =>
+      'Tip: You can replay the onboarding anytime via Settings.';
+
+  @override
+  String get showOnboarding => 'Show onboarding';
+
+  @override
+  String get showOnboardingDesc =>
+      'Replay the guided introduction and permission request';
 
   @override
   String get settings => 'Settings';

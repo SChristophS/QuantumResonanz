@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 
 import 'l10n/app_localizations.dart';
 import 'services/language_service.dart';
+import 'services/onboarding_service.dart';
 import 'state/app_state.dart';
+import 'ui/screens/onboarding_screen.dart';
 import 'ui/screens/quantum_resonanz_screen.dart';
 
 void main() {
@@ -46,7 +48,7 @@ class QuantumResonanzApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            home: const QuantumResonanzScreen(),
+            home: const _AppRoot(),
           );
         },
       ),
@@ -101,6 +103,46 @@ class QuantumResonanzApp extends StatelessWidget {
           shadowColor: primaryColor.withValues(alpha: 0.6),
         ),
       ),
+    );
+  }
+}
+
+class _AppRoot extends StatefulWidget {
+  const _AppRoot();
+
+  @override
+  State<_AppRoot> createState() => _AppRootState();
+}
+
+class _AppRootState extends State<_AppRoot> {
+  late Future<bool> _onboardingFuture;
+  final OnboardingService _onboardingService = OnboardingService();
+
+  @override
+  void initState() {
+    super.initState();
+    _onboardingFuture = _onboardingService.hasCompletedOnboarding();
+  }
+
+  void _completeOnboarding() {
+    setState(() {
+      _onboardingFuture = Future.value(true);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<bool>(
+      future: _onboardingFuture,
+      builder: (context, snapshot) {
+        final completed = snapshot.data ?? false;
+        if (!completed) {
+          return OnboardingScreen(
+            onFinished: _completeOnboarding,
+          );
+        }
+        return const QuantumResonanzScreen();
+      },
     );
   }
 }

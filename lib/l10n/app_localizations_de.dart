@@ -9,7 +9,7 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
-  String get appName => 'QuantumResonanz';
+  String get appName => 'Bio Resonance Scanner';
 
   @override
   String get appSubtitle => 'Energetische Raumharmonisierung';
@@ -20,7 +20,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get appDescriptionLong =>
-      'QuantumResonanz lauscht 10 Sekunden lang in die energetische Essenz Ihres Raumes. Durch tiefenmeditative Analyse der Raumenergien werden störende Schwingungen identifiziert und in ein harmonisierendes Resonanzmuster transformiert. Ihre energetischen Daten bleiben vollständig geschützt und lokal auf Ihrem Gerät.';
+      'Bio Resonance Scanner lauscht 10 Sekunden lang in die energetische Essenz Ihres Raumes. Durch tiefenmeditative Analyse der Raumenergien werden störende Schwingungen identifiziert und in ein harmonisierendes Resonanzmuster transformiert. Ihre energetischen Daten bleiben vollständig geschützt und lokal auf Ihrem Gerät.';
 
   @override
   String get pathToHarmonization => 'Der Weg zur energetischen Harmonisierung:';
@@ -196,6 +196,101 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get newHarmonization => 'Neue Harmonisierung';
+
+  @override
+  String get onboardingTitle => 'Onboarding';
+
+  @override
+  String get onboardingSkip => 'Überspringen';
+
+  @override
+  String get onboardingBack => 'Zurück';
+
+  @override
+  String get onboardingNext => 'Weiter';
+
+  @override
+  String get onboardingStart => 'Start';
+
+  @override
+  String get onboardingWelcomeTitle => 'Willkommen beim Bio Resonance Scanner';
+
+  @override
+  String get onboardingWelcomeDescription =>
+      'Erfassen Sie die feinstofflichen Schwingungen Ihres Raumes, um ein persönliches harmonisierendes Resonanzprofil zu erstellen.';
+
+  @override
+  String get onboardingHowToUseTitle => 'So funktioniert es';
+
+  @override
+  String get onboardingHowToUseStep1 =>
+      'Finden Sie einen ruhigen Ort. Legen Sie das Handy ruhig ab und atmen Sie tief durch.';
+
+  @override
+  String get onboardingHowToUseStep2 =>
+      'Starten Sie den 10-Sekunden-Scan und bleiben Sie still. Lassen Sie die App die Raumenergie hören.';
+
+  @override
+  String get onboardingHowToUseStep3 =>
+      'Nach der Analyse spielen Sie das harmonisierende Resonanzsignal ab und spüren die Balance.';
+
+  @override
+  String get onboardingPermissionTitle => 'Mikrofonzugriff';
+
+  @override
+  String get onboardingPermissionDescription =>
+      'Um die Schwingungen des Raumes zu erfassen, benötigt die App Zugriff auf das Mikrofon. Bleiben Sie beim Scan still für das klarste Ergebnis.';
+
+  @override
+  String get onboardingPermissionButton => 'Mikrofon erlauben';
+
+  @override
+  String get onboardingPermissionGranted =>
+      'Mikrofon freigegeben. Sie sind bereit zum Scannen.';
+
+  @override
+  String get onboardingPermissionDenied =>
+      'Mikrofon verweigert. Sie können es erlauben, um den Scan zu aktivieren.';
+
+  @override
+  String get onboardingPermissionPermanentlyDenied =>
+      'Mikrofon dauerhaft verweigert. Bitte in den Systemeinstellungen aktivieren, um zu scannen.';
+
+  @override
+  String get onboardingPermissionRestricted =>
+      'Mikrofonzugriff ist auf diesem Gerät eingeschränkt.';
+
+  @override
+  String get onboardingPermissionLimited =>
+      'Mikrofonzugriff ist begrenzt. Vollzugriff sorgt für beste Scans.';
+
+  @override
+  String get onboardingPermissionUnknown => 'Mikrofonstatus unbekannt.';
+
+  @override
+  String get onboardingSavingTitle => 'Speichern und wiederholen';
+
+  @override
+  String get onboardingSavingDescription =>
+      'Archivieren Sie Ihre Resonanz-Ergebnisse als „Energieräume“ und spielen Sie sie jederzeit zur Reharmonisierung ab.';
+
+  @override
+  String get onboardingGetStartedTitle => 'Sie sind bereit';
+
+  @override
+  String get onboardingGetStartedDescription =>
+      'Starten Sie jetzt Ihren ersten Scan. Sie können dieses Onboarding jederzeit über Einstellungen erneut ansehen.';
+
+  @override
+  String get onboardingReplayHint =>
+      'Tipp: Sie können das Onboarding jederzeit über Einstellungen erneut abspielen.';
+
+  @override
+  String get showOnboarding => 'Onboarding anzeigen';
+
+  @override
+  String get showOnboardingDesc =>
+      'Geführte Einführung und Berechtigungen erneut anzeigen';
 
   @override
   String get settings => 'Einstellungen';

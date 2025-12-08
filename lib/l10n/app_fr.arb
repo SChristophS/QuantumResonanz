@@ -1,9 +1,9 @@
 {
   "@@locale": "fr",
-  "appName": "QuantumResonanz",
+  "appName": "Bio Resonance Scanner",
   "appSubtitle": "Harmonisation Énergétique de l'Espace",
   "appDescription": "Capturez les vibrations subtiles de votre espace et créez votre profil de résonance énergétique personnel pour une harmonisation holistique.",
-  "appDescriptionLong": "QuantumResonanz écoute pendant 10 secondes l'essence énergétique de votre espace. Grâce à une analyse méditative approfondie des énergies de l'espace, les vibrations perturbatrices sont identifiées et transformées en un motif de résonance harmonisant. Vos données énergétiques restent entièrement protégées et locales sur votre appareil.",
+  "appDescriptionLong": "Bio Resonance Scanner écoute pendant 10 secondes l'essence énergétique de votre espace. Grâce à une analyse méditative approfondie des énergies de l'espace, les vibrations perturbatrices sont identifiées et transformées en un motif de résonance harmonisant. Vos données énergétiques restent entièrement protégées et locales sur votre appareil.",
   "pathToHarmonization": "Le chemin vers l'harmonisation énergétique :",
   "roomCaptureTitle": "Capture Énergétique de l'Espace (10 secondes)",
   "roomCaptureBody": "Pendant ce silence profond, nous capturons les vibrations invisibles de votre espace. La parole ou les perturbations bruyantes interrompent la connexion au niveau subtil – veuillez maintenir un silence complet.",
@@ -83,6 +83,33 @@
   "activateResonance": "Activer la Fréquence de Résonance",
   "pauseHarmonization": "Mettre en Pause l'Harmonisation",
   "newHarmonization": "Nouvelle Harmonisation",
+  "onboardingTitle": "Guide",
+  "onboardingSkip": "Passer",
+  "onboardingBack": "Précédent",
+  "onboardingNext": "Suivant",
+  "onboardingStart": "Commencer",
+  "onboardingWelcomeTitle": "Bienvenue dans Bio Resonance Scanner",
+  "onboardingWelcomeDescription": "Capturez les vibrations subtiles de votre pièce pour créer un profil personnel de résonance harmonisante.",
+  "onboardingHowToUseTitle": "Comment utiliser",
+  "onboardingHowToUseStep1": "Trouvez un endroit calme. Posez le téléphone et respirez profondément.",
+  "onboardingHowToUseStep2": "Lancez le scan de 10 secondes et restez silencieux. Laissez l'app écouter l'énergie du lieu.",
+  "onboardingHowToUseStep3": "Après l'analyse, jouez la résonance harmonisante et ressentez l'équilibre.",
+  "onboardingPermissionTitle": "Accès au micro",
+  "onboardingPermissionDescription": "Pour percevoir les vibrations de la pièce, l'app a besoin de l'accès au micro. Restez silencieux pendant le scan pour un résultat clair.",
+  "onboardingPermissionButton": "Autoriser le micro",
+  "onboardingPermissionGranted": "Micro autorisé. Vous êtes prêt à scanner.",
+  "onboardingPermissionDenied": "Micro refusé. Vous pouvez l'autoriser pour activer le scan.",
+  "onboardingPermissionPermanentlyDenied": "Micro refusé de façon permanente. Activez-le dans les réglages système pour scanner.",
+  "onboardingPermissionRestricted": "L'accès au micro est restreint sur cet appareil.",
+  "onboardingPermissionLimited": "L'accès au micro est limité. Un accès complet garantit les meilleurs scans.",
+  "onboardingPermissionUnknown": "Statut du micro inconnu.",
+  "onboardingSavingTitle": "Sauvegarder et revisiter",
+  "onboardingSavingDescription": "Archivez vos résultats de résonance en « Espaces énergétiques » et rejouez-les quand vous voulez réharmoniser.",
+  "onboardingGetStartedTitle": "Vous êtes prêt",
+  "onboardingGetStartedDescription": "Commencez votre premier scan maintenant. Vous pouvez toujours revoir ce guide depuis les Paramètres.",
+  "onboardingReplayHint": "Astuce : Vous pouvez rejouer le guide à tout moment via les Paramètres.",
+  "showOnboarding": "Afficher le guide",
+  "showOnboardingDesc": "Rejouer l'introduction guidée et la demande d'autorisation",
   "settings": "Paramètres",
   "appInfo": "Informations sur l'App",
   "version": "Version",
@@ -142,7 +169,35 @@
   "languagePortuguese": "Português (Brasil)",
   "languageKorean": "한국어",
   "languageItalian": "Italiano",
-  "languageRussian": "Русский"
+  "languageRussian": "Русский",
+  "energySignatureOf": "Signature Énergétique {index} sur {count}",
+  "@energySignatureOf": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "energyTextLow": "vibration fondamentale douce de l'énergie de l'espace, coulant harmonieusement",
+  "energyTextMedium": "impulsions subtiles et vives dans le champ de résonance énergétique",
+  "energyTextHigh": "densité d'énergie hautement concentrée avec pouvoir transformateur",
+  "freqTextLow": "enraciné dans les fréquences profondes de mise à la terre du système des chakras",
+  "freqTextMedium": "vibration équilibrée à travers tous les niveaux subtils",
+  "freqTextHigh": "énergies de haute fréquence sublimes menant à l'ouverture spirituelle",
+  "movementTextLow": "méditativement uniforme, apaisant pour l'aura",
+  "movementTextMedium": "pulsant doucement, dissolvant les blocages avec cohérence harmonique",
+  "movementTextHigh": "se transformant dynamiquement, nettoyage intensif des structures énergétiques",
+  "resonanceFrequencyAt": "Fréquence de résonance à environ {freqHz} Hz",
+  "@resonanceFrequencyAt": {
+    "placeholders": {
+      "freqHz": {
+        "type": "int"
+      }
+    }
+  }
 }
 
 

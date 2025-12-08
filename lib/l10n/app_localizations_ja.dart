@@ -9,7 +9,7 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
-  String get appName => 'QuantumResonanz';
+  String get appName => 'Bio Resonance Scanner';
 
   @override
   String get appSubtitle => 'エネルギールーム調和';
@@ -20,7 +20,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get appDescriptionLong =>
-      'QuantumResonanzは10秒間、お部屋のエネルギーの本質に耳を傾けます。ルームエネルギーの深い瞑想的分析を通じて、破壊的な振動が識別され、調和的な共鳴パターンに変換されます。お客様のエネルギーデータは完全に保護され、デバイス上にローカルに保存されます。';
+      'Bio Resonance Scannerは10秒間、お部屋のエネルギーの本質に耳を傾けます。ルームエネルギーの深い瞑想的分析を通じて、破壊的な振動が識別され、調和的な共鳴パターンに変換されます。お客様のエネルギーデータは完全に保護され、デバイス上にローカルに保存されます。';
 
   @override
   String get pathToHarmonization => 'エネルギーの調和への道：';
@@ -194,6 +194,94 @@ class AppLocalizationsJa extends AppLocalizations {
   String get newHarmonization => '新しい調和';
 
   @override
+  String get onboardingTitle => 'オンボーディング';
+
+  @override
+  String get onboardingSkip => 'スキップ';
+
+  @override
+  String get onboardingBack => '戻る';
+
+  @override
+  String get onboardingNext => '次へ';
+
+  @override
+  String get onboardingStart => '開始';
+
+  @override
+  String get onboardingWelcomeTitle => 'Bio Resonance Scanner へようこそ';
+
+  @override
+  String get onboardingWelcomeDescription =>
+      '部屋の微細な振動を捉え、あなた専用の調和レゾナンス・プロファイルを作成します。';
+
+  @override
+  String get onboardingHowToUseTitle => '使い方';
+
+  @override
+  String get onboardingHowToUseStep1 => '静かな場所を選び、スマホを置いて深呼吸します。';
+
+  @override
+  String get onboardingHowToUseStep2 =>
+      '10秒のスキャンを開始し、静かに保ちます。空間のエネルギーをアプリに聴かせましょう。';
+
+  @override
+  String get onboardingHowToUseStep3 => '分析後、調和レゾナンスを再生してバランスを感じてください。';
+
+  @override
+  String get onboardingPermissionTitle => 'マイクへのアクセス';
+
+  @override
+  String get onboardingPermissionDescription =>
+      '空間の振動を感じ取るため、マイクのアクセスが必要です。最良の結果のためスキャン中は静かにしてください。';
+
+  @override
+  String get onboardingPermissionButton => 'マイクを許可';
+
+  @override
+  String get onboardingPermissionGranted => 'マイクが許可されました。スキャンの準備完了です。';
+
+  @override
+  String get onboardingPermissionDenied => 'マイクが拒否されました。スキャンを有効にするには許可してください。';
+
+  @override
+  String get onboardingPermissionPermanentlyDenied =>
+      'マイクが恒久的に拒否されています。スキャンにはシステム設定で有効にしてください。';
+
+  @override
+  String get onboardingPermissionRestricted => 'このデバイスではマイクアクセスが制限されています。';
+
+  @override
+  String get onboardingPermissionLimited =>
+      'マイクアクセスが限定されています。完全なアクセスで最良のスキャンが可能です。';
+
+  @override
+  String get onboardingPermissionUnknown => 'マイクの状態が不明です。';
+
+  @override
+  String get onboardingSavingTitle => '保存と再生';
+
+  @override
+  String get onboardingSavingDescription =>
+      '共鳴結果を「エネルギールーム」として保存し、いつでも再生して再調和できます。';
+
+  @override
+  String get onboardingGetStartedTitle => '準備完了';
+
+  @override
+  String get onboardingGetStartedDescription =>
+      '今すぐ最初のスキャンを開始しましょう。設定からいつでもこのオンボーディングを再生できます。';
+
+  @override
+  String get onboardingReplayHint => 'ヒント: 設定からいつでもオンボーディングを再生できます。';
+
+  @override
+  String get showOnboarding => 'オンボーディングを表示';
+
+  @override
+  String get showOnboardingDesc => 'ガイドと許可リクエストを再表示';
+
+  @override
   String get settings => '設定';
 
   @override
@@ -319,45 +407,38 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String energySignatureOf(int index, int count) {
-    return 'Energy Signature $index of $count';
+    return 'エネルギー署名 $index / $count';
   }
 
   @override
-  String get energyTextLow =>
-      'gentle fundamental vibration of room energy, harmoniously flowing';
+  String get energyTextLow => '空間エネルギーの優しい基本振動、調和して流れる';
 
   @override
-  String get energyTextMedium =>
-      'lively subtle impulses in the energetic resonance field';
+  String get energyTextMedium => 'エネルギーの共鳴フィールドにおける活気のある微細なインパルス';
 
   @override
-  String get energyTextHigh =>
-      'highly concentrated energy density with transformative power';
+  String get energyTextHigh => '変容の力を持つ高度に濃縮されたエネルギー密度';
 
   @override
-  String get freqTextLow =>
-      'rooted in the grounding deep frequencies of the chakra system';
+  String get freqTextLow => 'チャクラシステムのグラウンディング深周波数に根ざしている';
 
   @override
-  String get freqTextMedium => 'balanced vibration through all subtle levels';
+  String get freqTextMedium => 'すべての微細なレベルを通じたバランスの取れた振動';
 
   @override
-  String get freqTextHigh =>
-      'sublime high-frequency energies leading to spiritual opening';
+  String get freqTextHigh => '精神的開放へと導く崇高な高周波エネルギー';
 
   @override
-  String get movementTextLow => 'meditatively uniform, calming for the aura';
+  String get movementTextLow => '瞑想的に均一で、オーラを落ち着かせる';
 
   @override
-  String get movementTextMedium =>
-      'gently pulsating, dissolving blockages with harmonic coherence';
+  String get movementTextMedium => '優しく脈動し、調和的な一貫性でブロックを溶解する';
 
   @override
-  String get movementTextHigh =>
-      'dynamically transforming, intensive cleansing of energy structures';
+  String get movementTextHigh => '動的に変換し、エネルギー構造の集中的な浄化';
 
   @override
   String resonanceFrequencyAt(int freqHz) {
-    return 'Resonance frequency at approximately $freqHz Hz';
+    return '共鳴周波数は約 $freqHz Hz';
   }
 }
