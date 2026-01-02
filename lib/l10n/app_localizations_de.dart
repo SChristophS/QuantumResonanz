@@ -195,6 +195,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get pauseHarmonization => 'Harmonisierung pausieren';
 
   @override
+  String get stopHarmonization => 'Harmonisierung stoppen';
+
+  @override
   String get newHarmonization => 'Neue Harmonisierung';
 
   @override

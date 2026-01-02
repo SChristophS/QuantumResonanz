@@ -196,6 +196,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get pauseHarmonization => 'Pausar Harmonização';
 
   @override
+  String get stopHarmonization => 'Parar Harmonização';
+
+  @override
   String get newHarmonization => 'Nova Harmonização';
 
   @override
@@ -655,6 +658,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get pauseHarmonization => 'Pausar Harmonização';
+
+  @override
+  String get stopHarmonization => 'Parar Harmonização';
 
   @override
   String get newHarmonization => 'Nova Harmonização';

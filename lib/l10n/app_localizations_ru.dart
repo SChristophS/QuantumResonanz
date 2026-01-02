@@ -196,6 +196,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get pauseHarmonization => 'Приостановить Гармонизацию';
 
   @override
+  String get stopHarmonization => 'Остановить Гармонизацию';
+
+  @override
   String get newHarmonization => 'Новая Гармонизация';
 
   @override

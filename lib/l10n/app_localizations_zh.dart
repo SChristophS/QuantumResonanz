@@ -181,6 +181,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get pauseHarmonization => '暂停和谐化';
 
   @override
+  String get stopHarmonization => '停止和谐化';
+
+  @override
   String get newHarmonization => '新和谐化';
 
   @override
@@ -602,6 +605,9 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
 
   @override
   String get pauseHarmonization => '暂停和谐化';
+
+  @override
+  String get stopHarmonization => '停止和谐化';
 
   @override
   String get newHarmonization => '新和谐化';

@@ -440,6 +440,12 @@ abstract class AppLocalizations {
   /// **'Pause Harmonization'**
   String get pauseHarmonization;
 
+  /// No description provided for @stopHarmonization.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop Harmonization'**
+  String get stopHarmonization;
+
   /// No description provided for @newHarmonization.
   ///
   /// In en, this message translates to:

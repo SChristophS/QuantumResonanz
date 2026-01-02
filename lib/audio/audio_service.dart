@@ -64,6 +64,8 @@ class AudioService {
   Duration _totalDuration = Duration.zero;
   void Function(double progress)? _onPlaybackProgress;
   VoidCallback? _onPlaybackCompleted;
+  String? _currentWaveformPath;
+  List<double>? _currentWaveform;
 
   final Random _random = Random();
 
@@ -523,8 +525,8 @@ class AudioService {
   }) {
     if (original.length < 2) {
       return {
-        'baseFrequency': 440.0, // A4 - angenehmer Referenzton
-        'modulationFrequency': 2.5,
+        'baseFrequency': 60.0, // Meditation frequency (Theta range)
+        'modulationFrequency': 0.5, // Slow, meditative modulation
         'movementIndex': 0.3,
         'durationSeconds': 1.0,
       };
@@ -544,18 +546,20 @@ class AudioService {
     final zeroCrossRate = zeroCrossings / original.length;
     final avgAbsDiff = sumAbsDiff / (original.length - 1);
 
-    // Grundfrequenz: 200–2000 Hz (angenehmer Hörbereich), gekoppelt an Zero-Crossings
+    // Grundfrequenz: 40–200 Hz (Meditationsbereich - Theta/Alpha Frequenzen)
+    // Meditation frequencies: Theta (4-8 Hz), Alpha (8-13 Hz) für Binaural Beats
+    // Hier verwenden wir hörbare Frequenzen im unteren Bereich für harmonische Töne
     final baseFrequency =
-        (200.0 + zeroCrossRate * 1800.0 * (0.5 + freqMix * 0.5))
-            .clamp(200.0, 2000.0);
+        (40.0 + zeroCrossRate * 160.0 * (0.5 + freqMix * 0.5))
+            .clamp(40.0, 200.0);
 
     // Bewegung / Dynamik: 0–1, aus mittlerer Differenz
     final movementIndex =
         (avgAbsDiff * 20.0).clamp(0.0, 1.0); // 20 ist reine Heuristik
 
-    // Modulationsfrequenz (Vibrato): 1.5–5 Hz (sanfter für angenehmes Hören)
+    // Modulationsfrequenz: 0.3–2 Hz (langsam, meditativ - im Theta/Alpha Bereich)
     final modulationFrequency =
-        (1.5 + movementIndex * 3.5).clamp(1.5, 5.0);
+        (0.3 + movementIndex * 1.7).clamp(0.3, 2.0);
 
     // Dauer: aus Segmentlänge, aber begrenzt auf 0,8–2,0 Sekunden
     final durationSeconds =
@@ -687,7 +691,11 @@ class AudioService {
       normalized.add((s * normFactor).clamp(-1.0, 1.0));
     }
 
-    return normalized;
+    // 5. Nahtlose Loop-Übergang: Crossfade am Ende, um zum Anfang zu passen
+    // Dies verhindert Klickgeräusche beim Looping
+    final seamlessLoop = _createSeamlessLoop(normalized);
+    
+    return seamlessLoop;
   }
 
   /// Erzeugt eine synthetische Schwingung für ein einzelnes Segment auf Basis
@@ -700,31 +708,39 @@ class AudioService {
             .toDouble();
 
     final totalSamples = max(1, (durationSeconds * _sampleRate).round());
-    // Standard-Frequenz im angenehmen Bereich (A4 = 440 Hz)
-    final baseFreq = (segment.baseFrequency <= 0 ? 440.0 : segment.baseFrequency)
-        .clamp(200.0, 2000.0);
+    // Meditation-Frequenz im Theta/Alpha Bereich (40-200 Hz)
+    final baseFreq = (segment.baseFrequency <= 0 ? 60.0 : segment.baseFrequency)
+        .clamp(40.0, 200.0);
     final modFreq = segment.modulationFrequency <= 0
-        ? 3.0
+        ? 0.5
         : segment.modulationFrequency;
     final movement = segment.movementIndex.clamp(0.0, 1.0);
     final targetEnergy = segment.energy.clamp(0.5, 1.0);
 
     final samples = List<double>.filled(totalSamples, 0.0);
 
+    // Stabile Phase-Akkumulation für klaren, zitterfreien Ton
+    // Keine Frequenzmodulation - konstanter, reiner Ton
+    final phaseIncrement = 2 * pi * baseFreq / _sampleRate;
+    var phase = 0.0;
+
     for (var n = 0; n < totalSamples; n++) {
-      final t = n / _sampleRate;
       final pos = n / (totalSamples - 1).clamp(1, totalSamples);
 
-      // Sanfter Pitch-Sweep um die Grundfrequenz herum (reduziert für angenehmeren Klang)
-      final sweep = 1.0 + 0.08 * movement * sin(2 * pi * modFreq * t);
-      final f0 = (baseFreq * sweep).clamp(200.0, 2000.0);
+      // Stabile Phase-Akkumulation ohne Modulation für klaren Ton
+      phase += phaseIncrement;
+      // Phase wrappen um numerische Instabilität zu vermeiden
+      if (phase > 2 * pi) phase -= 2 * pi;
 
-      final phase = 2 * pi * f0 * t;
-      // Sanftere Obertöne für angenehmeren Klang
-      final s1 = sin(phase);
-      final s2 = 0.25 * sin(2 * phase); // Reduziert von 0.35
-      final s3 = 0.12 * sin(3 * phase + 0.3); // Reduziert von 0.2
-      var value = s1 + s2 + s3;
+      // Harmonische Obertöne mit perfekten Intervallen für meditativen Klang
+      // Verwendung von Oktaven und Quinten für natürliche Harmonie
+      final s1 = sin(phase); // Grundton
+      final s2 = 0.2 * sin(2 * phase); // Oktave (1:2 Verhältnis)
+      final s3 = 0.15 * sin(3 * phase); // Quinte (1:3 Verhältnis)
+      final s4 = 0.1 * sin(4 * phase); // Doppelte Oktave (1:4 Verhältnis)
+      // Sanfte Quinte (3:2 Verhältnis) für zusätzliche Harmonie
+      final s5 = 0.08 * sin(phase * 1.5);
+      var value = s1 + s2 + s3 + s4 + s5;
 
       // Einfache ADSR-Hüllkurve
       double env;
@@ -736,14 +752,11 @@ class AudioService {
         env = 1.0;
       }
 
-      // Sanftere Pulsation über movementIndex
-      final pulse =
-          1.0 + 0.05 * movement * sin(2 * pi * (0.25 + movement) * t);
-
-      value *= env * pulse * targetEnergy;
+      // Keine Pulsation - konstanter, klarer Ton ohne Zittern
+      value *= env * targetEnergy;
       
-      // Tiefpassfilter: Dämpfe sehr hohe Frequenzen für angenehmeren Klang
-      // (Einfacher Moving-Average-Filter)
+      // Sanfter Tiefpassfilter für warmen, meditativen Klang
+      // (Einfacher Moving-Average-Filter mit mehr Glättung)
       if (n > 0) {
         value = value * 0.7 + samples[n - 1] * 0.3;
       }
@@ -758,9 +771,10 @@ class AudioService {
     if (input.isEmpty) return input;
     final output = List<double>.from(input);
 
-    // Sanftere Echo-Linien für angenehmeren Raumklang
-    final delaysMs = <double>[40, 80, 120];
-    final decays = <double>[0.25, 0.15, 0.1]; // Reduziert für sanfteren Klang
+    // Sehr sanfte Echo-Linien für meditativen Raumklang
+    // Längere Delays für tieferen, entspannteren Klang
+    final delaysMs = <double>[200, 400, 600];
+    final decays = <double>[0.15, 0.08, 0.05]; // Sehr sanft für meditativen Klang
 
     for (var d = 0; d < delaysMs.length; d++) {
       final delaySamples =
@@ -773,14 +787,8 @@ class AudioService {
       }
     }
 
-    // Sehr langsame Gesamt-Amplitudenmodulation für ein „Atmen“ der Welle
-    final lfoFreq = 0.25 + _random.nextDouble() * 0.15; // ~0.25–0.4 Hz
-    for (var n = 0; n < output.length; n++) {
-      final t = n / _sampleRate;
-      // Sanftere Modulation für angenehmeren Klang
-      final lfo = 1.0 + 0.04 * sin(2 * pi * lfoFreq * t);
-      output[n] = (output[n] * lfo).clamp(-1.0, 1.0);
-    }
+    // Keine Amplitudenmodulation - konstanter, klarer Ton ohne Zittern
+    // Die Echo-Effekte sorgen bereits für genug Variation
 
     return output;
   }
@@ -832,16 +840,14 @@ class AudioService {
         windowedGrain.add(grain[i] * windowValue);
       }
       
-      // Add subtle pitch variation for more organic sound (very gentle)
-      final pitchVariation = 1.0 + 0.01 * sin(2 * pi * 0.1 * (outputPos / _sampleRate) + randomPhase);
+      // Keine Pitch-Variation für stabilen, klaren Ton ohne Zittern
       
       // Place grain in output with crossfade
       for (var i = 0; i < windowedGrain.length && outputPos + i < targetSamples; i++) {
         final outputIndex = outputPos + i;
         if (outputIndex >= 0 && outputIndex < output.length) {
-          // Apply gentle pitch variation through slight time-stretching of grain
-          final sourceIndex = (i / pitchVariation).round().clamp(0, windowedGrain.length - 1);
-          final value = windowedGrain[sourceIndex];
+          // Direkte Übertragung ohne Pitch-Variation für klaren Ton
+          final value = windowedGrain[i];
           
           // Crossfade with existing content
           final crossfadeStart = min(hopSizeSamples, output.length - outputIndex);
@@ -915,8 +921,28 @@ class AudioService {
     return window;
   }
 
+  /// Erstellt einen nahtlosen Loop-Übergang durch Entfernen der letzten 300ms.
+  /// Dies verhindert Klickgeräusche beim Looping, indem problematische End-Samples entfernt werden.
+  List<double> _createSeamlessLoop(List<double> input) {
+    if (input.isEmpty) return input;
+    
+    // Entferne die letzten 300ms, um Klickgeräusche zu vermeiden
+    final samplesToRemove = (_sampleRate * 0.3).round();
+    
+    if (input.length <= samplesToRemove) {
+      // Wenn die Wellenform zu kurz ist, gib sie unverändert zurück
+      return input;
+    }
+    
+    // Entferne die letzten 300ms
+    final output = input.sublist(0, input.length - samplesToRemove);
+    
+    return output;
+  }
+
   /// Spielt eine finale Wellenform ab, indem sie temporär als WAV-Datei
   /// gespeichert und anschließend mit just_audio abgespielt wird.
+  /// Die Wiedergabe wird in einer Schleife wiederholt.
   Future<void> playWaveform(
     List<double> samples, {
     required void Function(double progress) onProgress,
@@ -927,14 +953,39 @@ class AudioService {
     _onPlaybackProgress = onProgress;
     _onPlaybackCompleted = onCompleted;
 
-    final path = await _writeWaveFile(samples);
-    _totalDuration = (await _player.setFilePath(path)) ?? Duration.zero;
+    // Prüfen, ob die gleiche Wellenform bereits geladen ist
+    final isSameWaveform = _currentWaveform != null && 
+        _currentWaveform!.length == samples.length &&
+        _currentWaveformPath != null;
+
+    // Nur neue Datei erstellen, wenn Wellenform sich geändert hat
+    if (!isSameWaveform) {
+      _currentWaveform = List<double>.from(samples);
+      final path = await _writeWaveFile(samples);
+      _currentWaveformPath = path;
+      _totalDuration = (await _player.setFilePath(path)) ?? Duration.zero;
+      
+      // Loop-Modus aktivieren für kontinuierliche Wiedergabe
+      await _player.setLoopMode(LoopMode.one);
+    }
 
     await _player.play();
   }
 
   Future<void> pausePlayback() async {
     await _player.pause();
+  }
+
+  /// Stoppt die Wiedergabe und setzt sie zurück.
+  Future<void> stopPlayback() async {
+    await _player.stop();
+    // Progress auf 0 zurücksetzen
+    if (_onPlaybackProgress != null) {
+      _onPlaybackProgress!(0.0);
+    }
+    // Wellenform-Referenz zurücksetzen, damit beim nächsten Play neu geladen wird
+    _currentWaveform = null;
+    _currentWaveformPath = null;
   }
 
   /// Stoppt Aufnahme und Wiedergabe und räumt Ressourcen auf.

@@ -257,9 +257,10 @@ class QuantumResonanzController extends ChangeNotifier {
     _setState(QuantumState.result);
   }
 
-  /// Spielt das finale Resonanzmuster ab.
+  /// Spielt das finale Resonanzmuster ab (in einer Schleife).
   Future<void> play() async {
     if (_finalWaveform.isEmpty) return;
+    
     _isPlaying = true;
     notifyListeners();
 
@@ -270,23 +271,25 @@ class QuantumResonanzController extends ChangeNotifier {
         notifyListeners();
       },
       onCompleted: () {
-        _isPlaying = false;
-        _playbackProgress = 1.0;
-        notifyListeners();
+        // Bei Loop-Modus wird onCompleted nicht aufgerufen,
+        // aber falls doch, einfach weiterspielen lassen
+        // _isPlaying bleibt true für kontinuierliche Wiedergabe
       },
     );
   }
 
-  /// Pausiert die Wiedergabe.
-  Future<void> pause() async {
-    await _audioService.pausePlayback();
+  /// Stoppt die Wiedergabe vollständig.
+  Future<void> stop() async {
+    await _audioService.stopPlayback();
     _isPlaying = false;
+    _playbackProgress = 0.0;
     notifyListeners();
   }
 
   /// Setzt die App zurück in den Idle-Status, um einen neuen Scan zu starten.
   Future<void> resetToIdle() async {
     await _audioService.stopAll();
+    await _audioService.stopPlayback();
     _analyzingTimer?.cancel();
 
     _rawSamples = [];

@@ -1584,7 +1584,7 @@ class _CounterSignalButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (isPlaying) {
-          controller.pause();
+          controller.stop();
         } else {
           controller.play();
         }
@@ -1614,12 +1614,12 @@ class _CounterSignalButton extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
-                  isPlaying ? Icons.pause : Icons.science,
+                  isPlaying ? Icons.stop : Icons.play_arrow,
                   color: Colors.black,
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  isPlaying ? l10n.pauseHarmonization : l10n.activateResonance,
+                  isPlaying ? l10n.stopHarmonization : l10n.activateResonance,
                   style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w700,

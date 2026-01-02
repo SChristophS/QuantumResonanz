@@ -191,6 +191,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get pauseHarmonization => '조화 일시 중지';
 
   @override
+  String get stopHarmonization => '조화 중지';
+
+  @override
   String get newHarmonization => '새로운 조화';
 
   @override

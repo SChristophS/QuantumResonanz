@@ -191,6 +191,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get pauseHarmonization => '調和を一時停止';
 
   @override
+  String get stopHarmonization => '調和を停止';
+
+  @override
   String get newHarmonization => '新しい調和';
 
   @override

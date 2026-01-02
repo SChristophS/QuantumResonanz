@@ -82,6 +82,7 @@
   "playSignalDescription": "この調和シグナルを再生して、不調和なエネルギーを変換し、ブロックを解放し、お部屋のエネルギーを完璧なバランスに導きます。",
   "activateResonance": "共鳴周波数をアクティブ化",
   "pauseHarmonization": "調和を一時停止",
+  "stopHarmonization": "調和を停止",
   "newHarmonization": "新しい調和",
   "onboardingTitle": "オンボーディング",
   "onboardingSkip": "スキップ",
